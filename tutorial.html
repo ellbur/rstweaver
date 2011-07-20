@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tutorial &mdash; rstweaver v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="rstweaver v0.1 documentation" href="index.html" />
+    <link rel="next" title="Directives Reference" href="reference.html" />
+    <link rel="prev" title="rstweaver" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="reference.html" title="Directives Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="rstweaver"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">rstweaver v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="some-examples">
+<h2>Some examples<a class="headerlink" href="#some-examples" title="Permalink to this headline">¶</a></h2>
+<p>The examples here are produced with... <tt class="docutils literal"><span class="pre">rstweaver</span></tt>! It&#8217;s literate literate
+programming! That means you&#8217;ll see a block of raw reST code, followed by the
+rendered HTML it should produce. That block of course has embedded blocks of
+code in it, which I have tried to distinguish using thinner lines. Hope you
+can follow.</p>
+<p>Let&#8217;s introduce a block of Haskell code:</p>
+
+                <p class="file-header">-- test1.rst  --</p>
+                <div class="code code-weaver">.. haskell:: Main.hs
+
+    main = do
+        putStrLn "Hello... world."</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Main.hs  --</p>
+                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-definition'>main</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>do</span>
+<span class="hs-lineno">  2</span>      <span class='hs-varid'>putStrLn</span> <span class='hs-str'>"Hello... world."</span></div></p></div><p>That fed some content to the file but it didn&#8217;t execute it or even compile it.
+Had we wanted to execute it we could have written:</p>
+
+                <p class="file-header">-- test2.rst  --</p>
+                <div class="code code-weaver">.. haskell:: Main.hs exec
+
+    main = do
+        putStrLn "Hello... world."</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Main.hs  --</p>
+                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-definition'>main</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>do</span>
+<span class="hs-lineno">  2</span>      <span class='hs-varid'>putStrLn</span> <span class='hs-str'>"Hello... world."</span></div><div class="run-output run-output-haskell"><p>Hello... world.</p></div></p></div><p>A file can be build in multiple stages:</p>
+
+                <p class="file-header">-- test3.rst  --</p>
+                <div class="code code-weaver">.. haskell:: Stages.hs
+
+    import Control.Monad
+
+.. haskell:: Stages.hs
+
+    genNumbers :: [Int]
+    genNumbers = do
+        a &lt;- [0, 1]
+        b &lt;- [0, 1]
+        return $ a + b
+
+.. haskell:: Stages.hs exec
+
+    main = do
+        print genNumbers</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Stages.hs  --</p>
+                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Monad</span></div>
+                <p class="file-header">-- Stages.hs (cont) --</p>
+                <div class="code code-haskell"><span class="hs-lineno">  3</span>  <span class='hs-definition'>genNumbers</span> <span class='hs-keyglyph'>::</span> <span class='hs-keyglyph'>[</span><span class='hs-conid'>Int</span><span class='hs-keyglyph'>]</span>
+<span class="hs-lineno">  4</span>  <span class='hs-definition'>genNumbers</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>do</span>
+<span class="hs-lineno">  5</span>      <span class='hs-varid'>a</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-keyglyph'>[</span><span class='hs-num'>0</span><span class='hs-layout'>,</span> <span class='hs-num'>1</span><span class='hs-keyglyph'>]</span>
+<span class="hs-lineno">  6</span>      <span class='hs-varid'>b</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-keyglyph'>[</span><span class='hs-num'>0</span><span class='hs-layout'>,</span> <span class='hs-num'>1</span><span class='hs-keyglyph'>]</span>
+<span class="hs-lineno">  7</span>      <span class='hs-varid'>return</span> <span class='hs-varop'>$</span> <span class='hs-varid'>a</span> <span class='hs-varop'>+</span> <span class='hs-varid'>b</span></div>
+                <p class="file-header">-- Stages.hs (cont) --</p>
+                <div class="code code-haskell"><span class="hs-lineno">  9</span>  <span class='hs-definition'>main</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>do</span>
+<span class="hs-lineno"> 10</span>      <span class='hs-varid'>print</span> <span class='hs-varid'>genNumbers</span></div><div class="run-output run-output-haskell"><p>[0,1,1,2]</p></div></p></div><p>The last stage included &#8220;<tt class="docutils literal"><span class="pre">exec</span></tt>&#8220;, so the file was executed.</p>
+<p>You can name the stages:</p>
+
+                <p class="file-header">-- test4.rst  --</p>
+                <div class="code code-weaver">.. haskell:: Named.hs
+    :name: imports
+
+    import Control.Monad</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Named.hs  --</p>
+                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Monad</span></div></p></div><p>And then go back and edit them:</p>
+
+                <p class="file-header">-- test4.rst (cont) --</p>
+                <div class="code code-weaver">.. haskell:: Named.hs redo
+    :name: imports
+
+    import Control.Monad
+    import Control.Applicative</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Named.hs (cont) --</p>
+                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Monad</span>
+<span class="hs-lineno">  2</span>  <span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Applicative</span></div></p></div><p>Or insert a stage after a named stage:</p>
+
+                <p class="file-header">-- test4.rst (cont) --</p>
+                <div class="code code-weaver">.. haskell:: Named.hs
+    :after: imports
+
+    x = 5</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Named.hs (cont) --</p>
+                <div class="code code-haskell"><span class="hs-lineno">  4</span>  <span class='hs-definition'>x</span> <span class='hs-keyglyph'>=</span> <span class='hs-num'>5</span></div></p></div><p>Or at the beginning:</p>
+
+                <p class="file-header">-- test4.rst (cont) --</p>
+                <div class="code code-weaver">.. haskell:: Named.hs
+    :after: start
+
+    {-# LANGUAGE DeriveDataTypeable #-}</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Named.hs (cont) --</p>
+                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-comment'>{-# LANGUAGE DeriveDataTypeable #-}</span></div></p></div><p>You can restart a whole file:</p>
+
+                <p class="file-header">-- test5.rst  --</p>
+                <div class="code code-weaver">.. haskell:: Main.hs restart
+
+    main = do
+        putStrLn "Hello... world?"</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Main.hs  --</p>
+                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-definition'>main</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>do</span>
+<span class="hs-lineno">  2</span>      <span class='hs-varid'>putStrLn</span> <span class='hs-str'>"Hello... world?"</span></div></p></div><p>You can test compiling without executing (this has no effect on later
+commands):</p>
+
+                <p class="file-header">-- test5.rst (cont) --</p>
+                <div class="code code-weaver">.. haskell: Main.hs done</div><div class="run-output run-output-weaver"><p><!-- haskell: Main.hs done --></p></div><p>You can run interactive commands that reference your file:</p>
+
+                <p class="file-header">-- test5.rst (cont) --</p>
+                <div class="code code-weaver">.. ghci:: Main.hs
+
+    :t main</div><div class="run-output run-output-weaver"><p><div class="interactive-session"><div class="interactive-input">ghci&gt; <span class='hs-conop'>:</span><span class='hs-varid'>t</span> <span class='hs-varid'>main</span></div><div class="interactive-output">main :: IO ()
+</div></div></p></div><p>You can add some code silently:</p>
+
+                <p class="file-header">-- test6.rst  --</p>
+                <div class="code code-weaver">.. haskell:: Main.hs noecho
+
+    -- You can't see this comment ;)</div><div class="run-output run-output-weaver"><p></p></div><p>You can print some code but not add it to any file:</p>
+
+                <p class="file-header">-- test7.rst  --</p>
+                <div class="code code-weaver">.. haskell:: noeval
+
+    maine =
+        a state</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- main  --</p>
+                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-definition'>maine</span> <span class='hs-keyglyph'>=</span>
+<span class="hs-lineno">  2</span>      <span class='hs-varid'>a</span> <span class='hs-varid'>state</span></div></p></div><p>Error messages do not interrupt the execution: they will show up as error
+messages in the resulting HTML. I like this because it lets you show what error
+messages look like. You may or may not approve.</p>
+</div>
+<div class="section" id="other-languages">
+<h2>Other languages<a class="headerlink" href="#other-languages" title="Permalink to this headline">¶</a></h2>
+<p>As of the moment I write this, <tt class="docutils literal"><span class="pre">rstweaver</span></tt> does not support any languages
+other than Haskell and itself. Adding languages, however, is simple. See below.</p>
+</div>
+<div class="section" id="adding-languages">
+<h2>Adding languages<a class="headerlink" href="#adding-languages" title="Permalink to this headline">¶</a></h2>
+<p>See below for how to define a language. Once you have defined a language, you
+will need to register its directives. This is a matter of calling</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rstweaver</span><span class="o">.</span><span class="n">register_weaver_language</span><span class="p">(</span><span class="n">MyLanguage</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>sometime before you process your document.</p>
+<p>Of course, if you&#8217;re using the <tt class="docutils literal"><span class="pre">rstweave</span></tt> program that won&#8217;t do you much
+good. My best advice in this case is:</p>
+<ol class="arabic simple">
+<li>Add the code for you language in <tt class="docutils literal"><span class="pre">rstweaver/languages/</span></tt></li>
+<li>Import it from <tt class="docutils literal"><span class="pre">rstweaver/languages/__init__.py</span></tt> and add it to the
+obvious list.</li>
+</ol>
+<p>Now <tt class="docutils literal"><span class="pre">rstweave</span></tt> will recognize it. Yes this is a terrible system. I just
+haven&#8217;t gotten around to making a better one.</p>
+</div>
+<div class="section" id="defining-languages">
+<h2>Defining languages<a class="headerlink" href="#defining-languages" title="Permalink to this headline">¶</a></h2>
+<p>To add a language you will want to extend <tt class="docutils literal"><span class="pre">rstweaver.WeaverLanguage</span></tt>, and
+override some methods.</p>
+<p><tt class="docutils literal"><span class="pre">WeaverLanguage</span></tt> has many methods, but there are only a few that you have do
+deal with to get something working.</p>
+<div class="section" id="non-interactive-directives">
+<h3>Non-interactive directives<a class="headerlink" href="#non-interactive-directives" title="Permalink to this headline">¶</a></h3>
+<p>This is what the <tt class="docutils literal"><span class="pre">haskell</span></tt> directive is in the examples above: whole blocks
+of code are added to a file, then the file is executed in one go.</p>
+<p>Here&#8217;s a terribly terribly minimal implementation for Haskell:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">rstweaver</span> <span class="kn">import</span> <span class="n">WeaverLanguage</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">PIPE</span>
+<span class="kn">from</span> <span class="nn">xml.sax.saxutils</span> <span class="kn">import</span> <span class="n">escape</span>
+
+<span class="k">class</span> <span class="nc">MinimalHaskell</span><span class="p">(</span><span class="n">WeaverLanguage</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">WeaverLanguage</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">{</span>
+            <span class="n">WeaverLanguage</span><span class="o">.</span><span class="n">noninteractive</span><span class="p">:</span> <span class="s">&#39;minhaskell&#39;</span>
+        <span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">test_compile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">wd</span><span class="p">):</span>
+        <span class="n">ghc</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span>
+            <span class="p">[</span><span class="s">&#39;ghc&#39;</span><span class="p">,</span> <span class="s">&#39;-c&#39;</span><span class="p">,</span> <span class="s">&#39;-o&#39;</span><span class="p">,</span> <span class="s">&#39;/dev/null&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">],</span>
+            <span class="n">stdout</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
+            <span class="n">stderr</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
+            <span class="n">cwd</span> <span class="o">=</span> <span class="n">wd</span>
+        <span class="p">)</span>
+        <span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">ghc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">err</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">wd</span><span class="p">):</span>
+        <span class="n">runghc</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span>
+            <span class="p">[</span><span class="s">&#39;runghc&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">],</span>
+            <span class="n">stdout</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
+            <span class="n">stderr</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
+            <span class="n">cwd</span> <span class="o">=</span> <span class="n">wd</span>
+        <span class="p">)</span>
+
+        <span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">runghc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">err</span> <span class="o">+</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">highlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">escape</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+
+<span class="c"># Singleton</span>
+<span class="n">MinimalHaskell</span> <span class="o">=</span> <span class="n">MinimalHaskell</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Which could be used like</p>
+
+                <p class="file-header">-- test8.rst  --</p>
+                <div class="code code-weaver">.. minhaskell:: Main.hs exec
+
+    main = do
+        putStrLn "Yo"</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Main.hs  --</p>
+                <div class="code code-minhaskell"><span class="hs-lineno">  1</span>  main = do
+<span class="hs-lineno">  2</span>      putStrLn "Yo"</div><div class="run-output run-output-minhaskell"><p>Yo</p></div></p></div><p>The important parts are:</p>
+<ol class="arabic simple">
+<li>Telling <tt class="docutils literal"><span class="pre">WeaverLanguage</span></tt> you want a non-interactive directive,
+by adding an entry to the dictionary passed to __init__.</li>
+<li>Implementing <tt class="docutils literal"><span class="pre">test_compile</span></tt>, <tt class="docutils literal"><span class="pre">run</span></tt>, and <tt class="docutils literal"><span class="pre">highlight</span></tt>.</li>
+</ol>
+</div>
+</div>
+<div class="section" id="interactive-directives">
+<h2>Interactive directives<a class="headerlink" href="#interactive-directives" title="Permalink to this headline">¶</a></h2>
+<p>Here&#8217;s a similarly minimal implementation for interactive Haskell:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">rstweaver</span> <span class="kn">import</span> <span class="n">WeaverLanguage</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">PIPE</span>
+<span class="kn">from</span> <span class="nn">xml.sax.saxutils</span> <span class="kn">import</span> <span class="n">escape</span>
+
+<span class="k">class</span> <span class="nc">MinimalGHCI</span><span class="p">(</span><span class="n">WeaverLanguage</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">WeaverLanguage</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">{</span>
+            <span class="n">WeaverLanguage</span><span class="o">.</span><span class="n">interactive</span><span class="p">:</span>    <span class="s">&#39;minghci&#39;</span>
+        <span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">run_interactive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">imports</span><span class="p">,</span> <span class="n">wd</span><span class="p">):</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;ghc&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">imports</span> <span class="o">+</span> <span class="p">[</span><span class="s">&#39;-e&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">]</span>
+
+        <span class="n">ghci</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span>
+            <span class="n">command</span><span class="p">,</span>
+            <span class="n">stdout</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
+            <span class="n">stderr</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
+            <span class="n">cwd</span> <span class="o">=</span> <span class="n">wd</span>
+        <span class="p">)</span>
+
+        <span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">ghci</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">err</span> <span class="o">+</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">highlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">escape</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+
+<span class="c"># Singleton</span>
+<span class="n">MinimalGHCI</span> <span class="o">=</span> <span class="n">MinimalGHCI</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Which can be used like</p>
+
+                <p class="file-header">-- test9.rst  --</p>
+                <div class="code code-weaver">.. minghci::
+
+    :t (:)</div><div class="run-output run-output-weaver"><p><div class="interactive-session"><div class="interactive-input">ghci&gt; :t (:)</div><div class="interactive-output">(:) :: a -&gt; [a] -&gt; [a]
+</div></div></p></div><p>The steps are:</p>
+<ol class="arabic simple">
+<li>Telling WeaverLanguage to register an interactive directive.</li>
+<li>Defining <tt class="docutils literal"><span class="pre">run_interactive</span></tt> and <tt class="docutils literal"><span class="pre">highlight</span></tt></li>
+</ol>
+<p>You might notice that this implementation has no &#8220;memory&#8221;: one line of
+interactive input has no effect on the next. That could be improved.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tutorial</a><ul>
+<li><a class="reference internal" href="#some-examples">Some examples</a></li>
+<li><a class="reference internal" href="#other-languages">Other languages</a></li>
+<li><a class="reference internal" href="#adding-languages">Adding languages</a></li>
+<li><a class="reference internal" href="#defining-languages">Defining languages</a><ul>
+<li><a class="reference internal" href="#non-interactive-directives">Non-interactive directives</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#interactive-directives">Interactive directives</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">rstweaver</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="reference.html"
+                        title="next chapter">Directives Reference</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/tutorial.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="reference.html" title="Directives Reference"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="rstweaver"
+             >previous</a> |</li>
+        <li><a href="index.html">rstweaver v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Owen.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

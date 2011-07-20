@@ -253,3 +253,128 @@ div.viewcode-block:target {
     border-top: 1px solid #ac9;
     border-bottom: 1px solid #ac9;
 }
+.file-header {
+    color: #999;
+    font-size: 12;
+    margin: 1.5em 0em 1em 1.0em;
+}
+.run-output {
+    white-space: pre;
+    font-family: monospace;
+    background-color: #fff;
+    border: 1px solid #eee;
+    margin:  10px 0px 0px 0px;
+    padding:  5px 10px 5px 10px;
+}
+.code {
+    white-space: pre;
+    font-family: monospace;
+    background-color: #fff;
+    border: 1px solid #eee;
+    padding: 10px 10px 5px 3px;
+    margin:  5px 0px 0px 0px;
+}
+.code p {
+    padding: 0px 0px 0px 0px;
+    margin:  0px 0px 0px 0px;
+}
+.run-output p {
+    padding: 0px 0px 0px 0px;
+    margin:  0px 0px 0px 0px;
+}
+.interactive-input {
+    white-space: pre;
+    font-family: monospace;
+    padding: 5px 5px 1px 5px;
+}
+.interactive-output {
+    white-space: pre;
+    font-family: monospace;
+    padding: 0px 5px 5px 5px;
+}
+.interactive-session {
+    background-color: #fff;
+    border: 1px solid #eee;
+    margin:  10px 0px 0px 0px;
+    padding: 0px 0px 0px 5px;
+}
+
+.hs-keyglyph {
+    color: #911;
+}
+
+.hs-layout {
+    color: #911;
+}
+
+.hs-comment {
+    color: #ccc;
+    font-style: italic;
+}
+
+.hs-comment a {
+    color: #ccc;
+    font-style: italic;
+}
+
+.hs-str {
+    color: teal;
+    font-style: italic;
+}
+
+.hs-chr {
+    color: teal;
+}
+
+.hs-keyword {
+    color: #000;
+    font-weight: bold;
+}
+
+.hs-conid {
+    color: #039;
+}
+
+.hs-varid {
+    color: #000;
+}
+
+.hs-conop {
+    color: #900;
+}
+
+.hs-varop {
+    color: #900;
+}
+
+.hs-num {
+    color: #0aa;
+}
+
+.hs-cpp {
+    color: #900;
+}
+
+.hs-sel {
+    color: #900;
+}
+
+.hs-definition {
+    color: teal;
+}
+
+.hs-lineno {
+    color: #aaa;
+}
+
+.run-output-weaver {
+    white-space: normal;
+    font-family: ;
+    background-color: ;
+    border: 3px solid #eee;
+    margin: 10px 0px 0px 0px;
+    padding: 5px 10px 5px 10px;
+}
+.code-weaver {
+    border: 3px solid #efe;
+}
