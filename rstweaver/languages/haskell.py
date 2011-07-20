@@ -34,7 +34,7 @@ class Haskell(WeaverLanguage):
         return err + out
     
     def run_interactive(self, line, imports, wd):
-        command = ['ghc'] + imports + ['-e', line]
+        command = ['ghc'] + imports + ['-ignore-dot-ghci', '-e', line]
 
         ghci = Popen(
             command,
