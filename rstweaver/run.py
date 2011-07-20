@@ -88,5 +88,5 @@ def weaver_css():
     return structure_css + language_css
 
 def style_tags(text):
-    return '<sytle type="text/css">{0}</style>'.format(text)
+    return '<style type="text/css">{0}</style>'.format(text)
 
