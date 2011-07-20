@@ -1,0 +1,8 @@
+
+::
+
+	sudo python setup.py install
+
+This will install a package called ``rstweaver`` and an executable script called
+``rstweave``.
+

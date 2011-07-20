@@ -1,0 +1,42 @@
+
+rstweaver
+~~~~~~~~~
+
+``rstweaver`` is a set of reST directives aimed at producing an effect similar
+to `Sweave <http://www.stat.uni-muenchen.de/~leisch/Sweave/>`_.
+
+``rstweaver`` differs from ``Sweave`` in one significant way: in order to get
+an effect similar to "interactive" sessions for manifestly non-interactive
+languages (my particular motivation was Haskell), ``rstweaver`` supports
+incremental building, modifying and executing of multiple named files.
+
+Right now, unfortunately, ouput is fairly HTML specific, because that's all
+I've needed. It shouldn't be too hard to make it use more general ``docutils``
+elements, but I know very little about ``docutils``.
+
+Installation
+~~~~~~~~~~~~
+
+::
+	
+	sudo python setup.py install
+
+Or see INSTALL.
+
+Documentation
+~~~~~~~~~~~~~
+
+Supported Languages
+~~~~~~~~~~~~~~~~~~~
+
+Currently:
+
+* Haskell
+
+But adding languages is easy.
+
+Todo
+~~~~
+
+See TODO.
+
