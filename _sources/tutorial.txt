@@ -2,6 +2,8 @@
 Tutorial
 ========
 
+.. contents::
+
 Some examples
 ~~~~~~~~~~~~~
 
@@ -135,6 +137,38 @@ Error messages do not interrupt the execution: they will show up as error
 messages in the resulting HTML. I like this because it lets you show what error
 messages look like. You may or may not approve.
 
+Registering the directives
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To register all languages included with ``rstweaver``, call
+
+::
+    
+    rstweaver.register_all_languages()
+
+And to register your own languages
+
+::
+    
+    rstweaver.register_weaver_language(MyLanguage)
+
+Sphinx
+------
+
+Add to your ``conf.py``:
+
+::
+
+    import rstweaver
+    rstweaver.register_all_languages()
+
+To get the necessary CSS, run::
+
+    rstweave --print-css
+
+And add it somewhere that Sphinx will include (such as at the end of
+``default.css``)
+
 Other languages
 ~~~~~~~~~~~~~~~
 
@@ -154,7 +188,11 @@ will need to register its directives. This is a matter of calling
 sometime before you process your document.
 
 Of course, if you're using the ``rstweave`` program that won't do you much
-good. My best advice in this case is:
+good. For ``rstweave`` to see the language, you need to add it to the
+``rstweaver`` distribution.
+
+Adding a language to ``rstweaver`` proper
+-----------------------------------------
 
 1. Add the code for you language in ``rstweaver/languages/``
 2. Import it from ``rstweaver/languages/__init__.py`` and add it to the
