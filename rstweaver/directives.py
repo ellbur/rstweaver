@@ -6,9 +6,10 @@ import re
 
 class NoninteractiveDirective(Directive):
     
-    def __init__(self, context, *stuff, **more_stuff):
+    def __init__(self, context, name, *stuff, **more_stuff):
         Directive.__init__(self, *stuff, **more_stuff)
         self.context = context
+        self.directive_name = name
         
     def run(self):
         cx = self.context
@@ -30,9 +31,9 @@ class NoninteractiveDirective(Directive):
  
         def cmd(s):
             return directives.choice(s, [
-                'hold', 'exec', 'done',
+                'exec', 'done',
                 'restart', 'noeval', 'redo',
-                'join', 'noecho'
+                'join', 'noecho', 'block'
             ])
         
         commands = map(cmd, command_like_args)
@@ -62,41 +63,58 @@ class NoninteractiveDirective(Directive):
         
         text = u'\n'.join(self.content)
         
-        source_html = cx.language.highlight(
-            text,
-            numbering = True,
-            numbering_start = cx.file(source_name).start_line(
-                block_name, after_name, 'redo' in commands
+        source_html = cx.language.highlight(text)
+        if cx.language.number_lines():
+            source_html = add_line_numbers(source_html,
+                cx.file(source_name).start_line(
+                        block_name, after_name, 'redo' in commands
+                )
             )
+        source_html = '<div class="code code-{1}">{0}</div>'.format(
+            source_html, self.directive_name
         )
-        source_html = '<div class="code">{0}</div>'.format(source_html)
 
         node_source = nodes.raw('', source_html, format='html')
         
         lines = map(str, self.content)
         lines += ['']
         
+        if 'block' in commands:
+            blockid = unique_block_id()
+            alt_content = '\n'.join(lines)
+            alt_content = cx.language.annotate_block(alt_content, blockid)
+        else:
+            alt_content = None
+        
         if 'redo' in commands:
-            cx.file(source_name).redo(lines, block_name)
+            cx.file(source_name).redo(lines, block_name, alt=alt_content)
         elif not ('noeval' in commands):
-            cx.file(source_name).feed(lines, block_name, after_name)
+            cx.file(source_name).feed(lines, block_name, after_name, alt=alt_content)
         
         result = [ ]
 
         if 'done' in commands:
             output = strip_blank_lines(cx.file(source_name).compile())
             if len(re.sub('\\s', '', output)) > 0:
-                output_html = ('<div class="run-output"><p>{0}</p></div>'
-                    .format(escape(output)))
+                output_html = ('<div class="run-output run-output-{1}"><p>{0}</p></div>'
+                    .format(escape(output), self.directive_name))
             else:
                 output_html = ''
             node_output = nodes.raw('', output_html, format='html')
             result = [node_header, node_source, node_output]
 
         elif 'exec' in commands:
-            output = strip_blank_lines(cx.file(source_name).run())
-            output_html = ('<div class="run-output"><p>{0}</p></div>'
-                .format(escape(output)))
+            if 'block' in commands:
+                output = cx.file(source_name).run_get_block(blockid)
+            else:
+                output = cx.file(source_name).run()
+ 
+            output = strip_blank_lines(output)
+            if cx.language.output_format() != 'html':
+                output_html = escape(output)
+            output_html = ('<div class="run-output run-output-{1}"><p>{0}</p></div>'
+                .format(output, self.directive_name)
+            )
             node_output = nodes.raw('', output_html, format='html')
             result = [node_header, node_source, node_output]
 
@@ -110,9 +128,10 @@ class NoninteractiveDirective(Directive):
 
 class InteractiveDirective(Directive):
 
-    def __init__(self, context, *stuff, **more_stuff):
+    def __init__(self, context, name, *stuff, **more_stuff):
         Directive.__init__(self, *stuff, **more_stuff)
         self.context = context
+        self.directive_name = name
     
     def run(self):
         cx = self.context
@@ -124,7 +143,7 @@ class InteractiveDirective(Directive):
         all_html = ''
         
         for line in lines:
-            input_html = cx.language.highlight(line, numbering=False)
+            input_html = cx.language.highlight(line)
             output_text = cx.run_interactive(file_like_args, line)
             
             input_html = '<div class="interactive-input">ghci&gt; {0}</div>'.format(
@@ -147,4 +166,19 @@ def strip_blank_lines(text):
     text = re.sub(r'^\s*\n', '', text)
     text = re.sub(r'\n\s*$', '', text)
     return text
+
+def add_line_numbers(html, start):
+    lines = html.split('\n')
+    for i in range(len(lines)):
+        lines[i] = (
+              '<span class="hs-lineno">%3d</span>  ' % (i+start)
+            + lines[i]
+        )
+    return '\n'.join(lines)
+
+block_counter = 0
+def unique_block_id():
+    global block_counter
+    block_counter += 1
+    return block_counter
 

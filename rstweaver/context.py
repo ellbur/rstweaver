@@ -20,18 +20,17 @@ class WeaverContext(object):
         
         if WeaverLanguage.noninteractive in self.language.directives:
             dir = self.noninteractive_directive()
-            dir.name = self.language.directives[WeaverLanguage.noninteractive]
             directives.append(dir)
         
         if WeaverLanguage.interactive in self.language.directives:
             dir = self.interactive_directive()
-            dir.name = self.language.directives[WeaverLanguage.interactive]
             directives.append(dir)
         
         return directives
     
     def noninteractive_directive(self):
         context = self
+        name = self.language.directives[WeaverLanguage.noninteractive]
 
         class Factory(Directive):
             def __init__(self):
@@ -41,14 +40,16 @@ class WeaverContext(object):
                     'name':  directives.unchanged,
                     'after': directives.unchanged
                 }
+                self.name = name
 
             def __call__(self, *a, **b):
-                return NoninteractiveDirective(context, *a, **b)
+                return NoninteractiveDirective(context, name, *a, **b)
 
         return Factory()
     
     def interactive_directive(self):
         context = self
+        name = self.language.directives[WeaverLanguage.interactive]
 
         class Factory(Directive):
             def __init__(self):
@@ -56,9 +57,10 @@ class WeaverContext(object):
                 self.has_content = True
                 self.option_spec = {
                 }
+                self.name = name
 
             def __call__(self, *a, **b):
-                return InteractiveDirective(context, *a, **b)
+                return InteractiveDirective(context, name, *a, **b)
 
         return Factory()
     
@@ -84,8 +86,8 @@ class WeaverFile:
         self.version = 1
         self.blocks  = [ ]
         
-    def feed(self, lines, name=None, after=None):
-        new_block = Block(lines, name)
+    def feed(self, lines, name=None, after=None, alt=None):
+        new_block = Block(lines, name, alt)
 
         if after == 'start':
             self.blocks.insert(0, new_block)
@@ -102,10 +104,11 @@ class WeaverFile:
 
         self.empty = False
     
-    def redo(self, lines, name):
+    def redo(self, lines, name, alt=None):
         for block in self.blocks:
             if block.name == name:
                 block.lines = lines
+                block.alt   = alt
                 break
         else:
             raise NameNotFound(name)
@@ -128,7 +131,7 @@ class WeaverFile:
     def text(self):
         lines = [ ]
         for block in self.blocks:
-            lines += block.lines
+            lines += block.output_lines()
         
         return '\n'.join(lines)
     
@@ -179,6 +182,16 @@ class WeaverFile:
             self.context.wd
         )
     
+    def run_get_block(self, blockid):
+        self.write()
+        
+        return self.context.language.run_get_block(
+            self.name,
+            self.context.wd,
+            blockid
+        )
+ 
+    
     def path(self):
         return self.context.wd + '/' + self.name
     
@@ -195,9 +208,16 @@ class WeaverFile:
 
 class Block:
     
-    def __init__(self, lines, name):
+    def __init__(self, lines, name, alt=None):
         self.lines = lines
         self.name  = name
+        self.alt   = alt
+        
+    def output_lines(self):
+        if self.alt == None:
+            return self.lines
+        else:
+            return self.alt.split('\n')
 
 class NameNotFound(Exception):
     

@@ -85,14 +85,12 @@ class WeaverLanguage(object):
         '''
         raise NotImplementedError
 
-    def highlight(self, code, numbering=False, numbering_start=1):
+    def highlight(self, code):
         '''
         This should return an HTML/CSS highlighted version of the code.
         
         Parameters:
             code            -- Code to highlight
-            numbering       -- Number lines?
-            numbering_start -- Number of first line.
         
         Don't encase returned code in a <div>, it might need to be inlined.
         
@@ -123,4 +121,16 @@ class WeaverLanguage(object):
             Prompt string for interactive sessions.
         '''
         return '> '
+    
+    def output_format(self):
+        return 'text'
+    
+    def run_get_block(self, path, wd, blockid):
+        raise NotImplementedError
+    
+    def annotate_block(self, code, blockid):
+        return code
+    
+    def number_lines(self):
+        return True
 

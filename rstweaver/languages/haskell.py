@@ -47,7 +47,7 @@ class Haskell(WeaverLanguage):
 
         return err + out
     
-    def highlight(self, code, numbering=False, numbering_start=1):
+    def highlight(self, code):
         proc = Popen([
                 'hscolour',
                 '-css',
@@ -58,17 +58,6 @@ class Haskell(WeaverLanguage):
             stdout = PIPE
         )
         out, err = proc.communicate(code)
-        
-        lines = out.split('\n')
-
-        if numbering:
-            for i in range(len(lines)):
-                lines[i] = (
-                      '<span class="hs-lineno">%3d</span>  ' % (i+numbering_start)
-                    + lines[i]
-                )
-        
-        out = '\n'.join(lines)
         
         return out
     

@@ -25,7 +25,7 @@ def register_weaver_language(language):
     
     weaver_languages.append(language)
 
-def rst_to_html(source):
+def rst_to_html(source, css=True, full=False):
     '''
     Convert the reST input source to an HTML fragment, ie no
     <html>, <body> etc.
@@ -34,6 +34,8 @@ def rst_to_html(source):
     
     Parameters:
         source -- reST input
+        css    -- Include <style> tags
+        full   -- Include <html>, <body> etc
     
     Returns:
         HTML as a string
@@ -51,13 +53,25 @@ def rst_to_html(source):
     for lang in weaver_languages:
         language_prefix += lang.html_prefix()
 
-    fulltext = (
-          docutils_css
-        + structure_css
-        + language_prefix
-        + parts['fragment']
-    )
+    fulltext = parts['fragment']
+
+    if css:
+        fulltext = (
+              docutils_css
+            + structure_css
+            + language_prefix
+            + fulltext
+        )
     
+    if full:
+        fulltext = (
+              parts['head_prefix']
+            + parts['head']
+            + parts['body_prefix']
+            + fulltext
+            + parts['body_suffix']
+        )
+ 
     return fulltext
 
 

@@ -9,26 +9,56 @@ import sys
 import re
 
 parser = ArgumentParser(
-    description = 'Transform reST literate Haskell to HTML'
+    description = 'Transform reST literate code to HTML'
 )
 
-parser.add_argument('source', metavar='SOURCE',
-    type=str, nargs='*', help='reST source files')
+parser.add_argument('source', metavar='SOURCE', type=str, nargs='*',
+    help='reST source files')
+parser.add_argument('--css', dest='css', action='store_true', default=True,
+    help='Include <style> tags in the document')
+parser.add_argument('--no-css', dest='css', action='store_false',
+    help='Don\'t include <style> tags in the document')
+parser.add_argument('-o', dest='outpath', type=str, default='',
+    help='Specify output HTML file')
+parser.add_argument('-f', '--fragment', dest='fragment', action='store_true', default=True,
+    help='Don\'t include <html>, <body> etc (the default)')
+parser.add_argument('-u', '--full', dest='fragment', action='store_false',
+    help='Do include <html>, <body> etc (not the default)')
 
 args = parser.parse_args()
 
+def run(source):
+    return rst_to_html(
+        source, css=args.css,
+        full = not args.fragment
+    )
+
+def open_output(path):
+    if path == '-':
+        return sys.stdout
+    return open(path, 'w')
+
 if len(args.source) == 0:
     source = sys.stdin.read()
-    print(hask_rst.rst_to_html(source))
+    html = run(source)
+    
+    if args.outpath == '':
+        print(html)
+    else:
+        with open_output(args.outpath) as hl:
+            hl.write(html)
 
 for inpath in args.source:
-    outpath = re.sub(r'\.[^.]*', '.html', inpath)
+    if args.outpath == '':
+        outpath = re.sub(r'\.[^.]*', '.html', inpath)
+    else:
+        outpath = args.outpath
 
     with open(inpath, 'r') as infile:
         source = infile.read()
 
-    html = rst_to_html(source)
+    html = run(source)
     
-    with open(outpath, 'w') as outfile:
+    with open_output(outpath) as outfile:
         outfile.write(html)
 
