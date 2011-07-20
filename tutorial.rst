@@ -1,0 +1,294 @@
+
+``rstweaver`` Tutorial
+======================
+
+Some examples
+~~~~~~~~~~~~~
+
+The examples here are produced with... ``rstweaver``! It's literate literate
+programming! That means you'll see a block of raw reST code, followed by the
+rendered HTML it should produce. That block of course has embedded blocks of
+code in it, which I have tried to distinguish using thinner lines. Hope you
+can follow.
+
+Let's introduce a block of Haskell code:
+
+.. weaver:: test1.rst exec block
+
+    .. haskell:: Main.hs
+        
+        main = do
+            putStrLn "Hello... world."
+
+That fed some content to the file but it didn't execute it or even compile it.
+Had we wanted to execute it we could have written:
+
+.. weaver:: test2.rst exec block
+
+    .. haskell:: Main.hs exec
+    
+        main = do
+            putStrLn "Hello... world."
+
+A file can be build in multiple stages:
+
+.. weaver:: test3.rst exec block
+
+    .. haskell:: Stages.hs
+    
+        import Control.Monad
+    
+    .. haskell:: Stages.hs
+    
+        genNumbers :: [Int]
+        genNumbers = do
+            a <- [0, 1]
+            b <- [0, 1]
+            return $ a + b
+    
+    .. haskell:: Stages.hs exec
+    
+        main = do
+            print genNumbers
+
+The last stage included "``exec``", so the file was executed.
+
+You can name the stages:
+
+.. weaver:: test4.rst exec block
+
+    .. haskell:: Named.hs
+        :name: imports
+        
+        import Control.Monad
+
+And then go back and edit them:
+
+.. weaver:: test4.rst exec block
+
+    .. haskell:: Named.hs redo
+        :name: imports
+        
+        import Control.Monad
+        import Control.Applicative
+
+Or insert a stage after a named stage:
+
+.. weaver:: test4.rst exec block
+
+    .. haskell:: Named.hs
+        :after: imports
+        
+        x = 5
+
+Or at the beginning:
+
+.. weaver:: test4.rst exec block
+
+    .. haskell:: Named.hs
+        :after: start
+        
+        {-# LANGUAGE DeriveDataTypeable #-}
+
+You can restart a whole file:
+
+.. weaver:: test5.rst exec block
+
+    .. haskell:: Main.hs restart
+        
+        main = do
+            putStrLn "Hello... world?"
+
+You can test compiling without executing (this has no effect on later
+commands):
+
+.. weaver:: test5.rst exec block
+
+    .. haskell: Main.hs done
+
+You can run interactive commands that reference your file:
+
+.. weaver:: test5.rst exec block
+
+    .. ghci:: Main.hs
+        
+        :t main
+ 
+You can add some code silently:
+
+.. weaver:: test6.rst exec block
+
+    .. haskell:: Main.hs noecho
+        
+        -- You can't see this comment ;)
+
+You can print some code but not add it to any file:
+
+.. weaver:: test7.rst exec block
+
+    .. haskell:: noeval
+    
+        maine =
+            a state
+
+Error messages do not interrupt the execution: they will show up as error
+messages in the resulting HTML. I like this because it lets you show what error
+messages look like. You may or may not approve.
+
+Other languages
+~~~~~~~~~~~~~~~
+
+As of the moment I write this, ``rstweaver`` does not support any languages
+other than Haskell and itself. Adding languages, however, is simple. See below.
+
+Adding languages
+~~~~~~~~~~~~~~~~
+
+See below for how to define a language. Once you have defined a language, you
+will need to register its directives. This is a matter of calling
+
+::
+    
+    rstweaver.register_weaver_language(MyLanguage)
+
+sometime before you process your document.
+
+Of course, if you're using the ``rstweave`` program that won't do you much
+good. My best advice in this case is:
+
+1. Add the code for you language in ``rstweaver/languages/``
+2. Import it from ``rstweaver/languages/__init__.py`` and add it to the
+   obvious list.
+
+Now ``rstweave`` will recognize it. Yes this is a terrible system. I just
+haven't gotten around to making a better one.
+
+Defining languages
+~~~~~~~~~~~~~~~~~~
+
+To add a language you will want to override ``rstweaver.WeaverLanguage``, and
+override some methods.
+
+``WeaverLanguage`` has many methods, but there are only a few that you have do
+deal with to get something working.
+
+Non-interactive directives
+--------------------------
+
+This is what the ``haskell`` directive is in the examples above: whole blocks
+of code are added to a file, then the file is executed in one go.
+
+Here's a terribly terribly minimal implementation for Haskell:
+
+::
+
+    from rstweaver import WeaverLanguage
+    from subprocess import Popen, PIPE
+    from xml.sax.saxutils import escape
+
+    class MinimalHaskell(WeaverLanguage):
+        
+        def __init__(self):
+            WeaverLanguage.__init__(self, {
+                WeaverLanguage.noninteractive: 'minhaskell'
+            })
+        
+        def test_compile(self, path, wd):
+            ghc = Popen(
+                ['ghc', '-c', '-o', '/dev/null', path],
+                stdout = PIPE,
+                stderr = PIPE,
+                cwd = wd
+            )
+            out, err = ghc.communicate()
+            
+            return err
+        
+        def run(self, path, wd):
+            runghc = Popen(
+                ['runghc', path],
+                stdout = PIPE,
+                stderr = PIPE,
+                cwd = wd
+            )
+            
+            out, err = runghc.communicate()
+            
+            return err + out
+        
+        def highlight(self, code):
+            return escape(code)
+
+    # Singleton
+    MinimalHaskell = MinimalHaskell()
+
+Which could be used like
+
+.. weaver:: test8.rst exec block
+
+    .. minhaskell:: Main.hs exec
+    
+        main = do
+            putStrLn "Yo"
+            
+
+The important parts are:
+
+1. Telling ``WeaverLanguage`` you want a non-interactive directive,
+   by adding an entry to the dictionary passed to __init__.
+2. Implementing ``test_compile``, ``run``, and ``highlight``.
+
+Interactive directives
+~~~~~~~~~~~~~~~~~~~~~~
+
+Here's a similarly minimal implementation for interactive Haskell:
+
+::
+
+    from rstweaver import WeaverLanguage
+    from subprocess import Popen, PIPE
+    from xml.sax.saxutils import escape
+
+    class MinimalGHCI(WeaverLanguage):
+        
+        def __init__(self):
+            WeaverLanguage.__init__(self, {
+                WeaverLanguage.interactive:    'minghci'
+            })
+        
+        def run_interactive(self, line, imports, wd):
+            command = ['ghc'] + imports + ['-e', line]
+
+            ghci = Popen(
+                command,
+                stdout = PIPE,
+                stderr = PIPE,
+                cwd = wd
+            )
+            
+            out, err = ghci.communicate()
+
+            return err + out
+        
+        def highlight(self, code):
+            return escape(code)
+
+    # Singleton
+    MinimalGHCI = MinimalGHCI()
+
+Which can be used like
+
+.. weaver:: test9.rst exec block
+
+    .. minghci::
+        
+        :t (:)
+
+The steps are:
+
+1. Telling WeaverLanguage to register an interactive directive.
+2. Defining ``run_interactive`` and ``highlight``
+   
+You might notice that this implementation has no "memory": one line of
+interactive input has no effect on the next. That could be improved.
+

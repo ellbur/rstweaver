@@ -4,10 +4,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.7: http://docutils.sourceforge.net/" />
-<title>rstweaver</title>
+<title>rstweaver Directives Reference</title>
 </head>
 <body>
-<div class="document" id="rstweaver">
+<div class="document" id="rstweaver-directives-reference">
 <style type="text/css">
 
 /*
@@ -443,13 +443,61 @@ ul.auto-toc {
     border: 3px solid #efe;
 }
 </style>
-<div class="section" id="sources-of-documentation">
-<h1>Sources of documentation</h1>
-<ul class="simple">
-<li><a class="reference external" href="tutorial.html">Tutorial</a></li>
-<li><a class="reference external" href="reference.html">Directive reference</a></li>
-<li><a class="reference external" href="https://github.com/ellbur/rstweaver">README</a></li>
-</ul>
+<p>This reference is about using the directives: options and arguments that they
+accept. For the API documentation, see... somewhere.</p>
+<div class="section" id="non-interactive-directive">
+<h1>Non-interactive directive</h1>
+<div class="section" id="arguments">
+<h2>Arguments</h2>
+<p>Commands and optionally a file name, in any order. See below for details.</p>
+</div>
+<div class="section" id="options">
+<h2>Options</h2>
+<dl class="docutils">
+<dt>name</dt>
+<dd>A name for this code block.</dd>
+<dt>after</dt>
+<dd>Place this block after the named block. Use <tt class="docutils literal">start</tt> to make this the
+first block in the file. If omitted, block will be added at the end.</dd>
+</dl>
+</div>
+<div class="section" id="commands">
+<h2>Commands</h2>
+<p>Commands are distinguished from the file name by the absence of a '.' in their
+name. I realize this is not the best system.</p>
+<dl class="docutils">
+<dt>exec</dt>
+<dd>After appending the block, run this file.</dd>
+<dt>done</dt>
+<dd>After appending the block, compile and test for errors/warnings.</dd>
+<dt>restart</dt>
+<dd>Before appending the block, erase the file and start again.</dd>
+<dt>noeval</dt>
+<dd>Don't add this block to the file.</dd>
+<dt>redo</dt>
+<dd>Replace a named block with new content.</dd>
+<dt>join</dt>
+<dd>Try to get this block as visually close to the preceding content as
+possible</dd>
+<dt>noecho</dt>
+<dd>Don't print the code.</dd>
+<dt>block</dt>
+<dd>When execing, only include ouput from this one block. The language might
+not support this (it probably doesn't).</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="interactive-directive">
+<h1>Interactive directive</h1>
+</div>
+<div class="section" id="id1">
+<h1>Arguments</h1>
+<p>File names to be &quot;imported&quot; before starting the interactive session. These
+refer to files written in previous non-interactive blocks.</p>
+</div>
+<div class="section" id="id2">
+<h1>Options</h1>
+<p>None.</p>
 </div>
 </div>
 </body>
