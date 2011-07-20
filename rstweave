@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+
+from __future__ import print_function
+
+from rstweaver import rst_to_html
+
+from argparse import ArgumentParser
+import sys
+import re
+
+parser = ArgumentParser(
+    description = 'Transform reST literate Haskell to HTML'
+)
+
+parser.add_argument('source', metavar='SOURCE',
+    type=str, nargs='*', help='reST source files')
+
+args = parser.parse_args()
+
+if len(args.source) == 0:
+    source = sys.stdin.read()
+    print(hask_rst.rst_to_html(source))
+
+for inpath in args.source:
+    outpath = re.sub(r'\.[^.]*', '.html', inpath)
+
+    with open(inpath, 'r') as infile:
+        source = infile.read()
+
+    html = rst_to_html(source)
+    
+    with open(outpath, 'w') as outfile:
+        outfile.write(html)
+
