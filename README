@@ -23,6 +23,15 @@ Installation
 
 Or see INSTALL.
 
+Contents
+~~~~~~~~
+
+This distribution contains two things:
+
+1. A library for writing reST directives to support literate programming.
+2. A terribly minimal program ``rstweave`` for converting reST documents to
+   HTML using these directives.
+
 Documentation
 ~~~~~~~~~~~~~
 
@@ -37,8 +46,22 @@ Currently:
 
 But adding languages is easy.
 
+Hacking
+~~~~~~~
+
+The code is an utter mess. The parts necessary to write new directives should
+be decently documented. I welcome any changes -- you can't possible make it
+worse.
+
+License
+~~~~~~~
+
+Whatevs.
+
 Todo
 ~~~~
 
 See TODO.
+
+.. vim: ft=rst
 
