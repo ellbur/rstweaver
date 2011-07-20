@@ -1,6 +1,5 @@
 
 structure_css = '''
-<style type="text/css">
 .file-header {
     color: #999;
     font-size: 12;
@@ -46,6 +45,5 @@ structure_css = '''
     margin:  10px 0px 0px 0px;
     padding: 0px 0px 0px 5px;
 }
-</style>
 '''
 

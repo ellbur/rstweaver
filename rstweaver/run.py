@@ -24,6 +24,15 @@ def register_weaver_language(language):
         directives.register_directive(directive.name, directive)
     
     weaver_languages.append(language)
+    
+def register_all_languages():
+    '''
+    Registers all languages included in the rstweaver distribution.
+    
+    They will then take effect when doing reST processing.
+    '''
+    for lang in all_languages:
+        register_weaver_language(lang)
 
 def rst_to_html(source, css=True, full=False):
     '''
@@ -40,26 +49,20 @@ def rst_to_html(source, css=True, full=False):
     Returns:
         HTML as a string
     '''
-    for lang in all_languages:
-        register_weaver_language(lang)
+    register_all_languages()
  
     parts = publish_parts(
         source,
         writer_name = 'html'
     )
     docutils_css = parts['stylesheet']
-    
-    language_prefix = ''
-    for lang in weaver_languages:
-        language_prefix += lang.html_prefix()
 
     fulltext = parts['fragment']
 
     if css:
         fulltext = (
               docutils_css
-            + structure_css
-            + language_prefix
+            + style_tags(weaver_css())
             + fulltext
         )
     
@@ -74,4 +77,16 @@ def rst_to_html(source, css=True, full=False):
  
     return fulltext
 
+def weaver_css():
+    '''
+    Return a string containing raw CSS related to weaver pages.
+    '''
+    language_css = ''
+    for lang in all_languages:
+        language_css += lang.css()
+ 
+    return structure_css + language_css
+
+def style_tags(text):
+    return '<sytle type="text/css">{0}</style>'.format(text)
 

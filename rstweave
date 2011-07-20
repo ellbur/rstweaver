@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 
-from rstweaver import rst_to_html
+from rstweaver import rst_to_html, weaver_css
 
 from argparse import ArgumentParser
 import sys
@@ -24,6 +24,8 @@ parser.add_argument('-f', '--fragment', dest='fragment', action='store_true', de
     help='Don\'t include <html>, <body> etc (the default)')
 parser.add_argument('-u', '--full', dest='fragment', action='store_false',
     help='Do include <html>, <body> etc (not the default)')
+parser.add_argument('--print-css', dest='printcss', action='store_true', default=False,
+    help='Print CSS and exit')
 
 args = parser.parse_args()
 
@@ -38,27 +40,36 @@ def open_output(path):
         return sys.stdout
     return open(path, 'w')
 
+def print_to_outpath(inpath, content):
+    if inpath == None:
+        if args.outpath == '':
+            sys.stdout.write(content)
+        else:
+            with open_output(args.outpath) as hl:
+                hl.write(content)
+    else:
+        if args.outpath == '':
+            outpath = re.sub(r'\.[^.]*', '.html', inpath)
+        else:
+            outpath = args.outpath
+        
+        with open_output(outpath) as hl:
+            hl.write(content)
+ 
+if args.printcss:
+    print_to_outpath(None, weaver_css())
+    sys.exit(0)
+
 if len(args.source) == 0:
     source = sys.stdin.read()
     html = run(source)
     
-    if args.outpath == '':
-        print(html)
-    else:
-        with open_output(args.outpath) as hl:
-            hl.write(html)
+    print_to_outpath(None, html)
 
 for inpath in args.source:
-    if args.outpath == '':
-        outpath = re.sub(r'\.[^.]*', '.html', inpath)
-    else:
-        outpath = args.outpath
-
     with open(inpath, 'r') as infile:
         source = infile.read()
 
     html = run(source)
-    
-    with open_output(outpath) as outfile:
-        outfile.write(html)
+    print_to_outpath(inpath, html)
 

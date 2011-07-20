@@ -99,10 +99,9 @@ class WeaverLanguage(object):
         '''
         raise NotImplementedError
     
-    def html_prefix(self):
+    def css(self):
         '''
-        Pieces of HTML (usually CSS) to include before the rest of
-        the document.
+        CSS related to this language.
         
         This will be included after all default CSS, so you should be
         able to override all styles.

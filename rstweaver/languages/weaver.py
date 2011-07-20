@@ -57,7 +57,7 @@ class RstWeaverLanguage(WeaverLanguage):
     def highlight(self, code):
         return escape(code)
     
-    def html_prefix(self):
+    def css(self):
         return css
     
     def output_format(self):
@@ -70,7 +70,6 @@ class RstWeaverLanguage(WeaverLanguage):
 RstWeaverLanguage = RstWeaverLanguage()
 
 css = '''
-<style type="text/css">
 .run-output-weaver {
     white-space: normal;
     font-family: ;
@@ -82,6 +81,5 @@ css = '''
 .code-weaver {
     border: 3px solid #efe;
 }
-</style>
 '''
 

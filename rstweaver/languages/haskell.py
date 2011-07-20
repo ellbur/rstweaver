@@ -61,7 +61,7 @@ class Haskell(WeaverLanguage):
         
         return out
     
-    def html_prefix(self):
+    def css(self):
         return haskell_css
     
     def interactive_prompt(self):
@@ -71,7 +71,6 @@ class Haskell(WeaverLanguage):
 Haskell = Haskell()
 
 haskell_css = '''
-<style type="text/css">
 .hs-keyglyph {
     color: #911;
 }
@@ -139,7 +138,6 @@ haskell_css = '''
 .hs-lineno {
     color: #aaa;
 }
-</style>
 '''
 
 

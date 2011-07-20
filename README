@@ -50,7 +50,7 @@ Hacking
 ~~~~~~~
 
 The code is an utter mess. The parts necessary to write new directives should
-be decently documented. I welcome any changes -- you can't possible make it
+be decently documented. I welcome any changes -- you can't possibly make it
 worse.
 
 License
