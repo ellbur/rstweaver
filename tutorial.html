@@ -147,19 +147,19 @@ Had we wanted to execute it we could have written:</p>
 <pre class="code code-haskell literal-block">
 <span class="file-header">     Stages.hs (cont)
 
-</span><span class="lineno">  1  </span><span class="nf">genNumbers</span><span class=""> </span><span class="ow">::</span><span class=""> </span><span class="p">[</span><span class="kt">Int</span><span class="p">]</span><span class=""></span><span>
-</span><span class="lineno">  2  </span><span class=""></span><span class="nf">genNumbers</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="kr">do</span><span class=""></span><span>
-</span><span class="lineno">  3  </span><span class="">    </span><span class="n">a</span><span class=""> </span><span class="ow">&lt;-</span><span class=""> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class=""> </span><span class="mi">1</span><span class="p">]</span><span class=""></span><span>
-</span><span class="lineno">  4  </span><span class="">    </span><span class="n">b</span><span class=""> </span><span class="ow">&lt;-</span><span class=""> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class=""> </span><span class="mi">1</span><span class="p">]</span><span class=""></span><span>
-</span><span class="lineno">  5  </span><span class="">    </span><span class="n">return</span><span class=""> </span><span class="o">$</span><span class=""> </span><span class="n">a</span><span class=""> </span><span class="o">+</span><span class=""> </span><span class="n">b</span><span class=""></span><span>
-</span><span class="lineno">  6  </span><span class=""></span>
+</span><span class="lineno">  3  </span><span class="nf">genNumbers</span><span class=""> </span><span class="ow">::</span><span class=""> </span><span class="p">[</span><span class="kt">Int</span><span class="p">]</span><span class=""></span><span>
+</span><span class="lineno">  4  </span><span class=""></span><span class="nf">genNumbers</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="kr">do</span><span class=""></span><span>
+</span><span class="lineno">  5  </span><span class="">    </span><span class="n">a</span><span class=""> </span><span class="ow">&lt;-</span><span class=""> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class=""> </span><span class="mi">1</span><span class="p">]</span><span class=""></span><span>
+</span><span class="lineno">  6  </span><span class="">    </span><span class="n">b</span><span class=""> </span><span class="ow">&lt;-</span><span class=""> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class=""> </span><span class="mi">1</span><span class="p">]</span><span class=""></span><span>
+</span><span class="lineno">  7  </span><span class="">    </span><span class="n">return</span><span class=""> </span><span class="o">$</span><span class=""> </span><span class="n">a</span><span class=""> </span><span class="o">+</span><span class=""> </span><span class="n">b</span><span class=""></span><span>
+</span><span class="lineno">  8  </span><span class=""></span>
 </pre>
 <pre class="code code-haskell literal-block">
 <span class="file-header">     Stages.hs (cont)
 
-</span><span class="lineno">  1  </span><span class="nf">main</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="kr">do</span><span class=""></span><span>
-</span><span class="lineno">  2  </span><span class="">    </span><span class="n">print</span><span class=""> </span><span class="n">genNumbers</span><span class=""></span><span>
-</span><span class="lineno">  3  </span><span class=""></span>
+</span><span class="lineno">  9  </span><span class="nf">main</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="kr">do</span><span class=""></span><span>
+</span><span class="lineno"> 10  </span><span class="">    </span><span class="n">print</span><span class=""> </span><span class="n">genNumbers</span><span class=""></span><span>
+</span><span class="lineno"> 11  </span><span class=""></span>
 </pre>
 <div class="run-output run-output-haskell highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
@@ -212,8 +212,8 @@ Had we wanted to execute it we could have written:</p>
 <span></span><pre class="code code-haskell literal-block">
 <span class="file-header">     Named.hs (cont)
 
-</span><span class="lineno">  1  </span><span class="nf">x</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="mi">5</span><span class=""></span><span>
-</span><span class="lineno">  2  </span><span class=""></span>
+</span><span class="lineno">  4  </span><span class="nf">x</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="mi">5</span><span class=""></span><span>
+</span><span class="lineno">  5  </span><span class=""></span>
 </pre>
 </blockquote>
 <p>Or at the beginning:</p>
