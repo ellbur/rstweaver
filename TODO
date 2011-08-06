@@ -1,6 +1,0 @@
-
-1. Less specific to HTML.
-2. "Semi-interactive" environment, more similar to Sweave.
-3. Something akin to ``tangle`` where the underlying code can be extracted
-   independent of the formatting.
-

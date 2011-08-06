@@ -10,10 +10,6 @@ an effect similar to "interactive" sessions for manifestly non-interactive
 languages (my particular motivation was Haskell), ``rstweaver`` supports
 incremental building, modifying and executing of multiple named files.
 
-Right now, unfortunately, ouput is fairly HTML specific, because that's all
-I've needed. It shouldn't be too hard to make it use more general ``docutils``
-elements, but I know very little about ``docutils``.
-
 Installation
 ~~~~~~~~~~~~
 
@@ -43,6 +39,9 @@ Supported Languages
 Currently:
 
 * Haskell
+* C++
+* Python
+* reST
 
 But adding languages is easy.
 
@@ -61,7 +60,7 @@ Whatevs.
 Todo
 ~~~~
 
-See TODO.
+* Plots
 
 .. vim: ft=rst
 
