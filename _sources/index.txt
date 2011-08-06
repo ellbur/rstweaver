@@ -15,8 +15,8 @@ Nice features:
   and reST itself.
 - Rather than the typical "document is a source file" model, in ``rstweaver`` a
   document *manages* source files -- several of them, in possibly multiple
-  languages. They can be build, executed, changed, reexecuted. This has both
-  advantages and disadvantages, but it is nearly essentially for very static
+  languages. They can be built, executed, changed, reexecuted. This has both
+  advantages and disadvantages, but it is nearly essential for very static
   compiled languages to be nice in literate code.
 - Because it is pure docutils, it should be possible to produce output in any
   format that docutils supports.
