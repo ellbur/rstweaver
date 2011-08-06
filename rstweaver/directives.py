@@ -187,8 +187,8 @@ def add_line_numbers(toks, start):
         return nodes.inline('', '%3d  ' % n, classes=['lineno'])
     
     def gen():
-        yield ln(1)
-        line = 2
+        yield ln(start)
+        line = start + 1
         for node in toks:
             text = node.rawsource
             parts = text.split('\n')
