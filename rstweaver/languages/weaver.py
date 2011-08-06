@@ -1,7 +1,8 @@
 
 from rstweaver import WeaverLanguage
+import docutils.core
+from docutils import nodes
 from subprocess import Popen, PIPE
-from xml.sax.saxutils import escape
 import re
 
 class RstWeaverLanguage(WeaverLanguage):
@@ -22,46 +23,33 @@ class RstWeaverLanguage(WeaverLanguage):
         
         return err
     
+    def run_tokens(self, path, wd):
+        with open(wd + '/' + path, 'r') as hl:
+            content = hl.read()
+        tree = docutils.core.publish_doctree(content)
+        return tree.children
+    
+    def format_tokens(self, tokens):
+        root = nodes.block_quote(
+            classes=['run-output', 'run-output-weaver'],
+            ids=['weaver']
+        )
+        root += nodes.inline('', '')
+        for c in tokens:
+            root += c
+        return root
+    
     def run(self, path, wd):
-        command = ['rstweave', '--no-css', '-o', '-', path]
-        run = Popen(
-            command,
-            stdout = PIPE,
-            stderr = PIPE,
-            cwd = wd
-        )
-        out, err = run.communicate()
-        
-        return err + out
- 
-    def run_get_block(self, path, wd, blockid):
-        out = self.run(path, wd)
-        
-        start_code = 'START {0}'.format(blockid)
-        stop_code = 'STOP {0}'.format(blockid)
-        
-        out = re.sub(r'.*{0}[^\>]*\>'.format(start_code), '', out,
-            flags = re.MULTILINE | re.DOTALL)
-        out = re.sub(r'\<[^\<]*{0}.*'.format(stop_code), '', out,
-            flags = re.MULTILINE | re.DOTALL) 
-        
-        return out
+        return self.format_tokens(self.run_tokens(path, wd))
     
-    def annotate_block(self, code, blockid):
-        anot_code = '\n\n.. START {0}\n\n{1}\n\n.. STOP {0}\n\n'.format(
-            blockid, code
-        )
- 
-        return anot_code
+    def highlight_lang(self):
+        return 'rst'
     
-    def highlight(self, code):
-        return escape(code)
+    def extension(self):
+        return '.rst'
     
     def css(self):
         return css
-    
-    def output_format(self):
-        return 'html'
     
     def number_lines(self):
         return False
@@ -72,7 +60,7 @@ RstWeaverLanguage = RstWeaverLanguage()
 css = '''
 .run-output-weaver {
     white-space: normal;
-    font-family: ;
+    font-family: default;
     background-color: ;
     border: 3px solid #eee;
     margin: 10px 0px 0px 0px;

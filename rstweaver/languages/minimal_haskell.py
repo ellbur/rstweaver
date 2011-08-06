@@ -1,7 +1,6 @@
 
 from rstweaver import WeaverLanguage
 from subprocess import Popen, PIPE
-from xml.sax.saxutils import escape
 
 class MinimalHaskell(WeaverLanguage):
     
@@ -33,8 +32,8 @@ class MinimalHaskell(WeaverLanguage):
         
         return err + out
     
-    def highlight(self, code):
-        return escape(code)
+    def highlight_lang(self):
+        return 'haskell'
 
 # Singleton
 MinimalHaskell = MinimalHaskell()

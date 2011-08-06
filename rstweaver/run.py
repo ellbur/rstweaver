@@ -34,7 +34,7 @@ def register_all_languages():
     for lang in all_languages:
         register_weaver_language(lang)
 
-def rst_to_html(source, css=True, full=False):
+def rst_to_doc(source, css=True, full=False, output_format='html'):
     '''
     Convert the reST input source to an HTML fragment, ie no
     <html>, <body> etc.
@@ -53,27 +53,33 @@ def rst_to_html(source, css=True, full=False):
  
     parts = publish_parts(
         source,
-        writer_name = 'html'
+        writer_name = output_format
     )
     docutils_css = parts['stylesheet']
-
-    fulltext = parts['fragment']
-
-    if css:
-        fulltext = (
-              docutils_css
-            + style_tags(weaver_css())
-            + fulltext
-        )
     
-    if full:
-        fulltext = (
-              parts['head_prefix']
-            + parts['head']
-            + parts['body_prefix']
-            + fulltext
-            + parts['body_suffix']
-        )
+    if output_format == 'html':
+        fulltext = parts['fragment']
+
+        if css:
+            fulltext = (
+                  docutils_css
+                + style_tags(weaver_css())
+                + fulltext
+            )
+        
+        if full:
+            fulltext = (
+                  parts['head_prefix']
+                + parts['head']
+                + parts['body_prefix']
+                + fulltext
+                + parts['body_suffix']
+            )
+    else:
+        if full:
+            fulltext = parts['whole']
+        else:
+            fulltext = parts['body']
  
     return fulltext
 

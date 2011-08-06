@@ -4,17 +4,42 @@ from docutils import nodes
 from xml.sax.saxutils import escape
 import re
 
-class NoninteractiveDirective(Directive):
+class WeaverDirective(Directive):
     
-    def __init__(self, context, name, *stuff, **more_stuff):
-        Directive.__init__(self, *stuff, **more_stuff)
-        self.context = context
+    def __init__(self, context, name, *a, **b):
+        Directive.__init__(self, *a, **b)
+        self.context        = context
         self.directive_name = name
-        
+    
     def run(self):
+        args    = self.arguments
+        options = self.options
+        content = self.content
+        
+        key = (
+            self.directive_name,
+            tuple(args),
+            tuple(options.items()),
+            tuple(content)
+        )
+        
+        output = self.context.run_cache(
+            key,
+            lambda: self.handle(args, options, content)
+        )
+        return output
+    
+    def handle(self, args, options, content):
+        raise NotImplementedError
+
+class NoninteractiveDirective(WeaverDirective):
+    
+    def __init__(self, context, name, *a, **b):
+        WeaverDirective.__init__(self, context, name, *a, **b)
+        
+    def handle(self, args, options, content):
         cx = self.context
  
-        args = self.arguments
         file_like_args = [
             arg for arg in args
             if arg.find('.') != -1
@@ -24,25 +49,27 @@ class NoninteractiveDirective(Directive):
             if arg.find('.') == -1
         ]
         
-        if len(file_like_args) > 0:
-            source_name = file_like_args[0]
-        else:
-            source_name = 'main'
- 
         def cmd(s):
             return directives.choice(s, [
                 'exec', 'done',
                 'restart', 'noeval', 'redo',
-                'join', 'noecho', 'block'
+                'join', 'noecho', 'new'
             ])
         
         commands = map(cmd, command_like_args)
 
+        if len(file_like_args) > 0:
+            source_name = file_like_args[0]
+        elif 'new' in commands:
+            source_name = 'main' + str(unique_block_id()) + cx.language.extension()
+        else:
+            source_name = 'main' + cx.language.extension()
+ 
         block_name = (self.options['name']
             if 'name' in self.options
             else None
         )
-        after_name = (self.options['after']
+        after_name = (options['after']
             if 'after' in self.options
             else None
         )
@@ -51,130 +78,134 @@ class NoninteractiveDirective(Directive):
             cx.file(source_name).restart()
 
         if 'join' in commands:
-            header_html = ''
+            header_node = nodes.inline()
         else:
-            header_html = '''
-                <p class="file-header">-- {0} {1} --</p>
-                '''.format(
-                    escape(source_name),
-                    '(cont)' if not cx.file(source_name).empty else ''
-                )
-        node_header = nodes.raw('', header_html, format='html')
+            cont = '(cont)' if not cx.file(source_name).empty else ''
+            header_text = '     %s %s\n\n' % (source_name, cont)
+            header_node = nodes.inline(
+                header_text, header_text, classes=['file-header']
+            )
         
-        text = u'\n'.join(self.content)
+        text = u'\n'.join(content)
         
-        source_html = cx.language.highlight(text)
+        source_nodes = cx.language.highlight(text)
         if cx.language.number_lines():
-            source_html = add_line_numbers(source_html,
+            source_nodes = add_line_numbers(source_nodes,
                 cx.file(source_name).start_line(
                         block_name, after_name, 'redo' in commands
                 )
             )
-        source_html = '<div class="code code-{1}">{0}</div>'.format(
-            source_html, self.directive_name
-        )
+        source_node = nodes.literal_block(
+            classes=['code', 'code-' + self.directive_name])
+        source_node += header_node
+        for n in source_nodes:
+            source_node += n
 
-        node_source = nodes.raw('', source_html, format='html')
-        
         lines = map(str, self.content)
         lines += ['']
         
-        if 'block' in commands:
-            blockid = unique_block_id()
-            alt_content = '\n'.join(lines)
-            alt_content = cx.language.annotate_block(alt_content, blockid)
-        else:
-            alt_content = None
-        
         if 'redo' in commands:
-            cx.file(source_name).redo(lines, block_name, alt=alt_content)
+            cx.file(source_name).redo(lines, block_name)
         elif not ('noeval' in commands):
-            cx.file(source_name).feed(lines, block_name, after_name, alt=alt_content)
+            cx.file(source_name).feed(lines, block_name, after_name)
         
         result = [ ]
 
         if 'done' in commands:
             output = strip_blank_lines(cx.file(source_name).compile())
-            if len(re.sub('\\s', '', output)) > 0:
-                output_html = ('<div class="run-output run-output-{1}"><p>{0}</p></div>'
-                    .format(escape(output), self.directive_name))
-            else:
-                output_html = ''
-            node_output = nodes.raw('', output_html, format='html')
-            result = [node_header, node_source, node_output]
+            output_node = nodes.literal_block(output, output,
+                classes=['run-output', 'run-output-' + self.directive_name]
+            )
+            
+            result = [source_node, output_node]
 
         elif 'exec' in commands:
-            if 'block' in commands:
-                output = cx.file(source_name).run_get_block(blockid)
-            else:
-                output = cx.file(source_name).run()
+            output = cx.file(source_name).run()
  
-            output = strip_blank_lines(output)
-            if cx.language.output_format() != 'html':
-                output_html = escape(output)
-            output_html = ('<div class="run-output run-output-{1}"><p>{0}</p></div>'
-                .format(output, self.directive_name)
-            )
-            node_output = nodes.raw('', output_html, format='html')
-            result = [node_header, node_source, node_output]
+            if isinstance(output, str):
+                output = strip_blank_lines(output)
+                output_node = nodes.literal_block(output, output,
+                    classes=['run-output', 'run-output-' + self.directive_name]
+                )
+            else:
+                output_node = output
+            
+            result = [source_node, output_node]
 
         else:
-            result = [node_header, node_source]
+            result = [source_node]
         
         if 'noecho' in commands:
             return [ ]
         else:
             return result
 
-class InteractiveDirective(Directive):
+class InteractiveDirective(WeaverDirective):
 
-    def __init__(self, context, name, *stuff, **more_stuff):
-        Directive.__init__(self, *stuff, **more_stuff)
-        self.context = context
-        self.directive_name = name
+    def __init__(self, context, name, *a, **b):
+        WeaverDirective.__init__(self, context, name, *a, **b)
     
-    def run(self):
+    def handle(self, args, options, content):
         cx = self.context
 
-        file_like_args = self.arguments
+        file_like_args = args
+        lines = map(str, content)
         
-        lines = map(str, self.content)
+        output_lines = cx.run_interactive(file_like_args, lines)
+        if len(output_lines) < len(lines):
+            output_lines = output_lines + ([''] * (len(lines) - len(output_lines)))
         
-        all_html = ''
-        
-        for line in lines:
-            input_html = cx.language.highlight(line)
-            output_text = cx.run_interactive(file_like_args, line)
+        sess_nodes = []
             
-            input_html = '<div class="interactive-input">ghci&gt; {0}</div>'.format(
-                input_html
-            )
-            output_html = '<div class="interactive-output">{0}</div>'.format(
-                escape(output_text)
-            )
+        for k in range(len(lines)):
+            input_node = nodes.inline(classes = ['interactive-input'])
+            input_node += nodes.inline('', cx.language.interactive_prompt())
+            for n in cx.language.highlight(lines[k].rstrip().lstrip()):
+                input_node += n
             
-            all_html += input_html
-            all_html += output_html
+            output_line = output_lines[k]
+            output_node = nodes.inline('', output_line,
+                classes = ['interactive-output'])
+            
+            sess_nodes += [input_node, output_node]
+            if k < len(lines)-1:
+                sess_nodes += [nodes.inline('\n\n','\n\n')]
         
-        all_html = '<div class="interactive-session">{0}</div>'.format(
-            all_html
-        )
-        
-        return [nodes.raw('', all_html, format='html')]
+        all_node = nodes.literal_block(classes=['interactive-session'])
+        for n in sess_nodes:
+            all_node += n
+            
+        return [all_node]
 
 def strip_blank_lines(text):
     text = re.sub(r'^\s*\n', '', text)
     text = re.sub(r'\n\s*$', '', text)
     return text
 
-def add_line_numbers(html, start):
-    lines = html.split('\n')
-    for i in range(len(lines)):
-        lines[i] = (
-              '<span class="hs-lineno">%3d</span>  ' % (i+start)
-            + lines[i]
-        )
-    return '\n'.join(lines)
+def add_line_numbers(toks, start):
+    def ln(n):
+        return nodes.inline('', '%3d  ' % n, classes=['lineno'])
+    
+    def gen():
+        yield ln(1)
+        line = 2
+        for node in toks:
+            text = node.rawsource
+            parts = text.split('\n')
+            
+            if len(parts) == 1:
+                yield node
+            else:
+                classes = node.attributes['classes']
+                
+                for k in range(len(parts)):
+                    yield nodes.inline('', parts[k], classes=classes)
+                    if k < len(parts)-1:
+                        yield nodes.inline('\n', '\n')
+                        yield ln(line)
+                        line += 1
+        
+    return list(gen())
 
 block_counter = 0
 def unique_block_id():

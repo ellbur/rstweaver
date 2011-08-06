@@ -1,7 +1,6 @@
 
 from rstweaver import WeaverLanguage
 from subprocess import Popen, PIPE
-from xml.sax.saxutils import escape
 
 class MinimalGHCI(WeaverLanguage):
     
@@ -10,22 +9,25 @@ class MinimalGHCI(WeaverLanguage):
             WeaverLanguage.interactive:    'minghci'
         })
     
-    def run_interactive(self, line, imports, wd):
-        command = ['ghc'] + imports + ['-e', line]
+    def run_interactive(self, lines, imports, wd):
+        def do_line(line):
+            command = ['ghc'] + imports + ['-e', line]
+            
+            ghci = Popen(
+                command,
+                stdout = PIPE,
+                stderr = PIPE,
+                cwd = wd
+            )
+            
+            out, err = ghci.communicate()
 
-        ghci = Popen(
-            command,
-            stdout = PIPE,
-            stderr = PIPE,
-            cwd = wd
-        )
+            return err + out
         
-        out, err = ghci.communicate()
-
-        return err + out
+        return [do_line(line) for line in lines]
     
-    def highlight(self, code):
-        return escape(code)
+    def highlight_lang(self):
+        return 'haskell'
 
 # Singleton
 MinimalGHCI = MinimalGHCI()

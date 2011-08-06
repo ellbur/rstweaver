@@ -1,60 +1,63 @@
 
-from rstweaver import WeaverLanguage
+from rstweaver  import WeaverLanguage
 from subprocess import Popen, PIPE, STDOUT
+import re
 from uuid import uuid4
 import operator
 
-class Haskell(WeaverLanguage):
+class Python(WeaverLanguage):
     
     def __init__(self):
         WeaverLanguage.__init__(self, {
-            WeaverLanguage.noninteractive: 'haskell',
-            WeaverLanguage.interactive:    'ghci'
+            WeaverLanguage.noninteractive: 'python',
+            WeaverLanguage.interactive:    'ipython'
         })
     
     def test_compile(self, path, wd):
-        ghc = Popen(
-            ['ghc', '-c', '-o', '/dev/null', path],
+        proc = Popen(
+            ['python', path],
             stdout = PIPE,
             stderr = PIPE,
             cwd = wd
         )
-        out, err = ghc.communicate()
+        
+        out, err = proc.communicate()
         
         return err
     
     def run(self, path, wd):
-        runghc = Popen(
-            ['runghc', path],
+        proc = Popen(
+            ['python', path],
             stdout = PIPE,
             stderr = PIPE,
             cwd = wd
         )
         
-        out, err = runghc.communicate()
+        out, err = proc.communicate()
         
         return err + out
     
     def run_interactive(self, lines, imports, wd):
         return self.chopped_interactive(
             lines,
-            lambda id: 'putStrLn "%s"\n' % id,
-            lambda id: id,
-              ':set prompt ""\n'
-            + reduce(operator.add, [
-                ':load %s\n' % im for im in imports
+            lambda id: "'%s'\n" % id,
+            lambda id: "'%s'" % id,
+            reduce(operator.add, [
+                '%%run -i %s\n' % im for im in imports
             ], ''),
             lambda line: line,
-            ['ghci', '-ignore-dot-ghci'],
+            ['ipython', '-quick', '-prompt_in1', '\n', '-prompt_out', '\n'],
             wd
         )
     
     def highlight_lang(self):
-        return 'haskell'
+        return 'python'
+    
+    def extension(self):
+        return '.py'
     
     def interactive_prompt(self):
-        return 'ghci> '
+        return 'py> '
 
-# Singleton
-Haskell = Haskell()
+Python = Python()
 

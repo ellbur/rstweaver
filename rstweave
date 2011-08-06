@@ -2,14 +2,14 @@
 
 from __future__ import print_function
 
-from rstweaver import rst_to_html, weaver_css
+from rstweaver import rst_to_doc, weaver_css
 
 from argparse import ArgumentParser
 import sys
 import re
 
 parser = ArgumentParser(
-    description = 'Transform reST literate code to HTML'
+    description = 'Transform reST literate code to formatted document'
 )
 
 parser.add_argument('source', metavar='SOURCE', type=str, nargs='*',
@@ -19,7 +19,9 @@ parser.add_argument('--css', dest='css', action='store_true', default=True,
 parser.add_argument('--no-css', dest='css', action='store_false',
     help='Don\'t include <style> tags in the document')
 parser.add_argument('-o', dest='outpath', type=str, default='',
-    help='Specify output HTML file')
+    help='Specify output file')
+parser.add_argument('-t', '--output-format', dest='output_format', default='html',
+    help='Specify output format. It should be one that docutils can produce.')
 parser.add_argument('-f', '--fragment', dest='fragment', action='store_true', default=True,
     help='Don\'t include <html>, <body> etc (the default)')
 parser.add_argument('-u', '--full', dest='fragment', action='store_false',
@@ -29,10 +31,17 @@ parser.add_argument('--print-css', dest='printcss', action='store_true', default
 
 args = parser.parse_args()
 
+extensions = {
+    'latex': 'tex',
+    'odf_odt': 'odt'
+}
+
 def run(source):
-    return rst_to_html(
-        source, css=args.css,
-        full = not args.fragment
+    return rst_to_doc(
+        source,
+        css           = args.css,
+        full          = not args.fragment,
+        output_format = args.output_format
     )
 
 def open_output(path):
@@ -49,7 +58,8 @@ def print_to_outpath(inpath, content):
                 hl.write(content)
     else:
         if args.outpath == '':
-            outpath = re.sub(r'\.[^.]*', '.html', inpath)
+            ext = extensions.get(args.output_format, args.output_format)
+            outpath = re.sub(r'\.[^.]*', '.' + ext, inpath)
         else:
             outpath = args.outpath
         
@@ -62,14 +72,14 @@ if args.printcss:
 
 if len(args.source) == 0:
     source = sys.stdin.read()
-    html = run(source)
+    body = run(source)
     
-    print_to_outpath(None, html)
+    print_to_outpath(None, body)
 
 for inpath in args.source:
     with open(inpath, 'r') as infile:
         source = infile.read()
 
-    html = run(source)
-    print_to_outpath(inpath, html)
+    body = run(source)
+    print_to_outpath(inpath, body)
 

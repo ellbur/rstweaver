@@ -48,14 +48,13 @@ redo
 
 join
     Try to get this block as visually close to the preceding content as
-    possible
+    possible.
 
 noecho
     Don't print the code.
 
-block
-    When execing, only include ouput from this one block. The language might
-    not support this (it probably doesn't).
+new
+    Invent a unique file name.
 
 Interactive directive
 ~~~~~~~~~~~~~~~~~~~~~

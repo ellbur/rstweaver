@@ -10,12 +10,12 @@ Some examples
 The examples here are produced with... ``rstweaver``! It's literate literate
 programming! That means you'll see a block of raw reST code, followed by the
 rendered HTML it should produce. That block of course has embedded blocks of
-code in it, which I have tried to distinguish using thinner lines. Hope you
-can follow.
+code in it, which I have tried to distinguish using thinner lines. Hope you can
+follow.
 
 Let's introduce a block of Haskell code:
 
-.. weaver:: test1.rst exec block
+.. weaver:: new exec join
 
     .. haskell:: Main.hs
         
@@ -25,16 +25,16 @@ Let's introduce a block of Haskell code:
 That fed some content to the file but it didn't execute it or even compile it.
 Had we wanted to execute it we could have written:
 
-.. weaver:: test2.rst exec block
+.. weaver:: new exec join
 
-    .. haskell:: Main.hs exec
+    .. haskell:: Main-2.hs exec
     
         main = do
             putStrLn "Hello... world."
 
 A file can be built in multiple stages:
 
-.. weaver:: test3.rst exec block
+.. weaver:: new exec join
 
     .. haskell:: Stages.hs
     
@@ -57,7 +57,7 @@ The last stage included "``exec``", so the file was executed.
 
 You can name the stages:
 
-.. weaver:: test4.rst exec block
+.. weaver:: new exec join
 
     .. haskell:: Named.hs
         :name: imports
@@ -66,7 +66,7 @@ You can name the stages:
 
 And then go back and edit them:
 
-.. weaver:: test4.rst exec block
+.. weaver:: new exec join
 
     .. haskell:: Named.hs redo
         :name: imports
@@ -76,7 +76,7 @@ And then go back and edit them:
 
 Or insert a stage after a named stage:
 
-.. weaver:: test4.rst exec block
+.. weaver:: new exec join
 
     .. haskell:: Named.hs
         :after: imports
@@ -85,7 +85,7 @@ Or insert a stage after a named stage:
 
 Or at the beginning:
 
-.. weaver:: test4.rst exec block
+.. weaver:: new exec join
 
     .. haskell:: Named.hs
         :after: start
@@ -94,7 +94,7 @@ Or at the beginning:
 
 You can restart a whole file:
 
-.. weaver:: test5.rst exec block
+.. weaver:: new exec join
 
     .. haskell:: Main.hs restart
         
@@ -104,13 +104,13 @@ You can restart a whole file:
 You can test compiling without executing (this has no effect on later
 commands):
 
-.. weaver:: test5.rst exec block
+.. weaver:: new exec join
 
     .. haskell: Main.hs done
 
 You can run interactive commands that reference your file:
 
-.. weaver:: test5.rst exec block
+.. weaver:: new exec join
 
     .. ghci:: Main.hs
         
@@ -118,7 +118,7 @@ You can run interactive commands that reference your file:
  
 You can add some code silently:
 
-.. weaver:: test6.rst exec block
+.. weaver:: new exec join
 
     .. haskell:: Main.hs noecho
         
@@ -126,7 +126,7 @@ You can add some code silently:
 
 You can print some code but not add it to any file:
 
-.. weaver:: test7.rst exec block
+.. weaver:: new exec join
 
     .. haskell:: noeval
     
@@ -172,8 +172,9 @@ And add it somewhere that Sphinx will include (such as at the end of
 Other languages
 ~~~~~~~~~~~~~~~
 
-As of the moment I write this, ``rstweaver`` does not support any languages
-other than Haskell and itself. Adding languages, however, is simple. See below.
+As of writing, ``rstweaver`` supports Haskell, C++, Python and reST. Adding
+languages is suppose to be easy. The best way to see how is to look at the
+examples in rstweaver/languages/. Some information is provided here too.
 
 Adding languages
 ~~~~~~~~~~~~~~~~
@@ -213,8 +214,8 @@ deal with to get something working.
 Non-interactive directives
 --------------------------
 
-This is what the ``haskell`` directive is in the examples above: whole blocks
-of code are added to a file, then the file is executed in one go.
+"Non-interactive" is what the ``haskell`` directive is in the examples above:
+whole blocks of code are added to a file, then the file is executed in one go.
 
 Here's a terribly terribly minimal implementation for Haskell:
 
@@ -222,7 +223,6 @@ Here's a terribly terribly minimal implementation for Haskell:
 
     from rstweaver import WeaverLanguage
     from subprocess import Popen, PIPE
-    from xml.sax.saxutils import escape
 
     class MinimalHaskell(WeaverLanguage):
         
@@ -254,15 +254,16 @@ Here's a terribly terribly minimal implementation for Haskell:
             
             return err + out
         
-        def highlight(self, code):
-            return escape(code)
+        def highlight_lang(self):
+            return 'haskell'
 
     # Singleton
     MinimalHaskell = MinimalHaskell()
 
+
 Which could be used like
 
-.. weaver:: test8.rst exec block
+.. weaver:: new exec join
 
     .. minhaskell:: Main.hs exec
     
@@ -274,7 +275,7 @@ The important parts are:
 
 1. Telling ``WeaverLanguage`` you want a non-interactive directive,
    by adding an entry to the dictionary passed to __init__.
-2. Implementing ``test_compile``, ``run``, and ``highlight``.
+2. Implementing ``test_compile``, ``run``, and ``highlight_lang``.
 
 Interactive directives
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -285,7 +286,6 @@ Here's a similarly minimal implementation for interactive Haskell:
 
     from rstweaver import WeaverLanguage
     from subprocess import Popen, PIPE
-    from xml.sax.saxutils import escape
 
     class MinimalGHCI(WeaverLanguage):
         
@@ -294,29 +294,32 @@ Here's a similarly minimal implementation for interactive Haskell:
                 WeaverLanguage.interactive:    'minghci'
             })
         
-        def run_interactive(self, line, imports, wd):
-            command = ['ghc'] + imports + ['-e', line]
+        def run_interactive(self, lines, imports, wd):
+            def do_line(line):
+                command = ['ghc'] + imports + ['-e', line]
+                
+                ghci = Popen(
+                    command,
+                    stdout = PIPE,
+                    stderr = PIPE,
+                    cwd = wd
+                )
+                
+                out, err = ghci.communicate()
 
-            ghci = Popen(
-                command,
-                stdout = PIPE,
-                stderr = PIPE,
-                cwd = wd
-            )
+                return err + out
             
-            out, err = ghci.communicate()
-
-            return err + out
+            return [do_line(line) for line in lines]
         
-        def highlight(self, code):
-            return escape(code)
+        def highlight_lang(self):
+            return 'haskell'
 
     # Singleton
     MinimalGHCI = MinimalGHCI()
 
 Which can be used like
 
-.. weaver:: test9.rst exec block
+.. weaver:: new exec join
 
     .. minghci::
         
@@ -325,7 +328,7 @@ Which can be used like
 The steps are:
 
 1. Telling WeaverLanguage to register an interactive directive.
-2. Defining ``run_interactive`` and ``highlight``
+2. Defining ``run_interactive`` and ``highlight_lang``
    
 You might notice that this implementation has no "memory": one line of
 interactive input has no effect on the next. That could be improved.
