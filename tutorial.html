@@ -78,116 +78,225 @@
 <p>The examples here are produced with... <tt class="docutils literal"><span class="pre">rstweaver</span></tt>! It&#8217;s literate literate
 programming! That means you&#8217;ll see a block of raw reST code, followed by the
 rendered HTML it should produce. That block of course has embedded blocks of
-code in it, which I have tried to distinguish using thinner lines. Hope you
-can follow.</p>
+code in it, which I have tried to distinguish using thinner lines. Hope you can
+follow.</p>
 <p>Let&#8217;s introduce a block of Haskell code:</p>
+<pre class="code code-weaver literal-block">
+<span></span><span class="p">..</span><span class=""> </span><span class="ow">haskell</span><span class="p">::</span><span class=""> </span><span class="">Main.hs</span><span class="">
+</span><span class="">
+</span><span class="">    main = do</span><span class="">
+</span><span class="">        putStrLn &#8220;Hello... world.&#8221;</span><span class="">
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="code code-haskell literal-block">
+<span class="file-header">     Main.hs 
 
-                <p class="file-header">-- test1.rst  --</p>
-                <div class="code code-weaver">.. haskell:: Main.hs
-
-    main = do
-        putStrLn "Hello... world."</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Main.hs  --</p>
-                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-definition'>main</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>do</span>
-<span class="hs-lineno">  2</span>      <span class='hs-varid'>putStrLn</span> <span class='hs-str'>"Hello... world."</span></div></p></div><p>That fed some content to the file but it didn&#8217;t execute it or even compile it.
+</span><span class="lineno">  1  </span><span class="nf">main</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="kr">do</span><span class=""></span><span>
+</span><span class="lineno">  2  </span><span class="">    </span><span class="n">putStrLn</span><span class=""> </span><span class="s">&#8220;</span><span class="s">Hello... world.</span><span class="s">&#8220;</span><span class=""></span><span>
+</span><span class="lineno">  3  </span><span class=""></span>
+</pre>
+</blockquote>
+<p>That fed some content to the file but it didn&#8217;t execute it or even compile it.
 Had we wanted to execute it we could have written:</p>
+<pre class="code code-weaver literal-block">
+<span></span><span class="p">..</span><span class=""> </span><span class="ow">haskell</span><span class="p">::</span><span class=""> </span><span class="">Main-2.hs exec</span><span class="">
+</span><span class="">
+</span><span class="">    main = do</span><span class="">
+</span><span class="">        putStrLn &#8220;Hello... world.&#8221;</span><span class="">
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="code code-haskell literal-block">
+<span class="file-header">     Main-2.hs 
 
-                <p class="file-header">-- test2.rst  --</p>
-                <div class="code code-weaver">.. haskell:: Main.hs exec
+</span><span class="lineno">  1  </span><span class="nf">main</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="kr">do</span><span class=""></span><span>
+</span><span class="lineno">  2  </span><span class="">    </span><span class="n">putStrLn</span><span class=""> </span><span class="s">&#8220;</span><span class="s">Hello... world.</span><span class="s">&#8220;</span><span class=""></span><span>
+</span><span class="lineno">  3  </span><span class=""></span>
+</pre>
+<div class="run-output run-output-haskell highlight-python"><pre>Hello... world.</pre>
+</div>
+</blockquote>
+<p>A file can be built in multiple stages:</p>
+<pre class="code code-weaver literal-block">
+<span></span><span class="p">..</span><span class=""> </span><span class="ow">haskell</span><span class="p">::</span><span class=""> </span><span class="">Stages.hs</span><span class="">
+</span><span class="">
+</span><span class="">    import Control.Monad</span><span class="">
+</span><span class="">
+</span><span class="p">..</span><span class=""> </span><span class="ow">haskell</span><span class="p">::</span><span class=""> </span><span class="">Stages.hs</span><span class="">
+</span><span class="">
+</span><span class="">    genNumbers </span><span class="">:</span><span class="">:</span><span class=""> </span><span class="">[</span><span class="">Int]</span><span class="">
+</span><span class="">    genNumbers = do</span><span class="">
+</span><span class="">        a &lt;- </span><span class="">[</span><span class="">0, 1]</span><span class="">
+</span><span class="">        b &lt;- </span><span class="">[</span><span class="">0, 1]</span><span class="">
+</span><span class="">        return $ a + b</span><span class="">
+</span><span class="">
+</span><span class="p">..</span><span class=""> </span><span class="ow">haskell</span><span class="p">::</span><span class=""> </span><span class="">Stages.hs exec</span><span class="">
+</span><span class="">
+</span><span class="">    main = do</span><span class="">
+</span><span class="">        print genNumbers</span><span class="">
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="code code-haskell literal-block">
+<span class="file-header">     Stages.hs 
 
-    main = do
-        putStrLn "Hello... world."</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Main.hs  --</p>
-                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-definition'>main</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>do</span>
-<span class="hs-lineno">  2</span>      <span class='hs-varid'>putStrLn</span> <span class='hs-str'>"Hello... world."</span></div><div class="run-output run-output-haskell"><p>Hello... world.</p></div></p></div><p>A file can be build in multiple stages:</p>
+</span><span class="lineno">  1  </span><span class="kr">import</span><span class=""> </span><span class="nn">Control.Monad</span><span class=""></span><span>
+</span><span class="lineno">  2  </span><span class=""></span>
+</pre>
+<pre class="code code-haskell literal-block">
+<span class="file-header">     Stages.hs (cont)
 
-                <p class="file-header">-- test3.rst  --</p>
-                <div class="code code-weaver">.. haskell:: Stages.hs
+</span><span class="lineno">  1  </span><span class="nf">genNumbers</span><span class=""> </span><span class="ow">::</span><span class=""> </span><span class="p">[</span><span class="kt">Int</span><span class="p">]</span><span class=""></span><span>
+</span><span class="lineno">  2  </span><span class=""></span><span class="nf">genNumbers</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="kr">do</span><span class=""></span><span>
+</span><span class="lineno">  3  </span><span class="">    </span><span class="n">a</span><span class=""> </span><span class="ow">&lt;-</span><span class=""> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class=""> </span><span class="mi">1</span><span class="p">]</span><span class=""></span><span>
+</span><span class="lineno">  4  </span><span class="">    </span><span class="n">b</span><span class=""> </span><span class="ow">&lt;-</span><span class=""> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class=""> </span><span class="mi">1</span><span class="p">]</span><span class=""></span><span>
+</span><span class="lineno">  5  </span><span class="">    </span><span class="n">return</span><span class=""> </span><span class="o">$</span><span class=""> </span><span class="n">a</span><span class=""> </span><span class="o">+</span><span class=""> </span><span class="n">b</span><span class=""></span><span>
+</span><span class="lineno">  6  </span><span class=""></span>
+</pre>
+<pre class="code code-haskell literal-block">
+<span class="file-header">     Stages.hs (cont)
 
-    import Control.Monad
-
-.. haskell:: Stages.hs
-
-    genNumbers :: [Int]
-    genNumbers = do
-        a &lt;- [0, 1]
-        b &lt;- [0, 1]
-        return $ a + b
-
-.. haskell:: Stages.hs exec
-
-    main = do
-        print genNumbers</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Stages.hs  --</p>
-                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Monad</span></div>
-                <p class="file-header">-- Stages.hs (cont) --</p>
-                <div class="code code-haskell"><span class="hs-lineno">  3</span>  <span class='hs-definition'>genNumbers</span> <span class='hs-keyglyph'>::</span> <span class='hs-keyglyph'>[</span><span class='hs-conid'>Int</span><span class='hs-keyglyph'>]</span>
-<span class="hs-lineno">  4</span>  <span class='hs-definition'>genNumbers</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>do</span>
-<span class="hs-lineno">  5</span>      <span class='hs-varid'>a</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-keyglyph'>[</span><span class='hs-num'>0</span><span class='hs-layout'>,</span> <span class='hs-num'>1</span><span class='hs-keyglyph'>]</span>
-<span class="hs-lineno">  6</span>      <span class='hs-varid'>b</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-keyglyph'>[</span><span class='hs-num'>0</span><span class='hs-layout'>,</span> <span class='hs-num'>1</span><span class='hs-keyglyph'>]</span>
-<span class="hs-lineno">  7</span>      <span class='hs-varid'>return</span> <span class='hs-varop'>$</span> <span class='hs-varid'>a</span> <span class='hs-varop'>+</span> <span class='hs-varid'>b</span></div>
-                <p class="file-header">-- Stages.hs (cont) --</p>
-                <div class="code code-haskell"><span class="hs-lineno">  9</span>  <span class='hs-definition'>main</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>do</span>
-<span class="hs-lineno"> 10</span>      <span class='hs-varid'>print</span> <span class='hs-varid'>genNumbers</span></div><div class="run-output run-output-haskell"><p>[0,1,1,2]</p></div></p></div><p>The last stage included &#8220;<tt class="docutils literal"><span class="pre">exec</span></tt>&#8220;, so the file was executed.</p>
+</span><span class="lineno">  1  </span><span class="nf">main</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="kr">do</span><span class=""></span><span>
+</span><span class="lineno">  2  </span><span class="">    </span><span class="n">print</span><span class=""> </span><span class="n">genNumbers</span><span class=""></span><span>
+</span><span class="lineno">  3  </span><span class=""></span>
+</pre>
+<div class="run-output run-output-haskell highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</blockquote>
+<p>The last stage included &#8220;<tt class="docutils literal"><span class="pre">exec</span></tt>&#8220;, so the file was executed.</p>
 <p>You can name the stages:</p>
+<pre class="code code-weaver literal-block">
+<span></span><span class="p">..</span><span class=""> </span><span class="ow">haskell</span><span class="p">::</span><span class=""> </span><span class="">Named.hs</span><span class="">
+</span><span class="">    </span><span class="nc">:name:</span><span class=""> </span><span class="nf">imports</span><span class="">
+</span><span class="">
+</span><span class="">    import Control.Monad</span><span class="">
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="code code-haskell literal-block">
+<span class="file-header">     Named.hs 
 
-                <p class="file-header">-- test4.rst  --</p>
-                <div class="code code-weaver">.. haskell:: Named.hs
-    :name: imports
+</span><span class="lineno">  1  </span><span class="kr">import</span><span class=""> </span><span class="nn">Control.Monad</span><span class=""></span><span>
+</span><span class="lineno">  2  </span><span class=""></span>
+</pre>
+</blockquote>
+<p>And then go back and edit them:</p>
+<pre class="code code-weaver literal-block">
+<span></span><span class="p">..</span><span class=""> </span><span class="ow">haskell</span><span class="p">::</span><span class=""> </span><span class="">Named.hs redo</span><span class="">
+</span><span class="">    </span><span class="nc">:name:</span><span class=""> </span><span class="nf">imports</span><span class="">
+</span><span class="">
+</span><span class="">    import Control.Monad</span><span class="">
+</span><span class="">    import Control.Applicative</span><span class="">
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="code code-haskell literal-block">
+<span class="file-header">     Named.hs (cont)
 
-    import Control.Monad</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Named.hs  --</p>
-                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Monad</span></div></p></div><p>And then go back and edit them:</p>
+</span><span class="lineno">  1  </span><span class="kr">import</span><span class=""> </span><span class="nn">Control.Monad</span><span class=""></span><span>
+</span><span class="lineno">  2  </span><span class=""></span><span class="kr">import</span><span class=""> </span><span class="nn">Control.Applicative</span><span class=""></span><span>
+</span><span class="lineno">  3  </span><span class=""></span>
+</pre>
+</blockquote>
+<p>Or insert a stage after a named stage:</p>
+<pre class="code code-weaver literal-block">
+<span></span><span class="p">..</span><span class=""> </span><span class="ow">haskell</span><span class="p">::</span><span class=""> </span><span class="">Named.hs</span><span class="">
+</span><span class="">    </span><span class="nc">:after:</span><span class=""> </span><span class="nf">imports</span><span class="">
+</span><span class="">
+</span><span class="">    x = 5</span><span class="">
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="code code-haskell literal-block">
+<span class="file-header">     Named.hs (cont)
 
-                <p class="file-header">-- test4.rst (cont) --</p>
-                <div class="code code-weaver">.. haskell:: Named.hs redo
-    :name: imports
+</span><span class="lineno">  1  </span><span class="nf">x</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="mi">5</span><span class=""></span><span>
+</span><span class="lineno">  2  </span><span class=""></span>
+</pre>
+</blockquote>
+<p>Or at the beginning:</p>
+<pre class="code code-weaver literal-block">
+<span></span><span class="p">..</span><span class=""> </span><span class="ow">haskell</span><span class="p">::</span><span class=""> </span><span class="">Named.hs</span><span class="">
+</span><span class="">    </span><span class="nc">:after:</span><span class=""> </span><span class="nf">start</span><span class="">
+</span><span class="">
+</span><span class="">    {-# LANGUAGE DeriveDataTypeable #-}</span><span class="">
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="code code-haskell literal-block">
+<span class="file-header">     Named.hs (cont)
 
-    import Control.Monad
-    import Control.Applicative</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Named.hs (cont) --</p>
-                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Monad</span>
-<span class="hs-lineno">  2</span>  <span class='hs-keyword'>import</span> <span class='hs-conid'>Control</span><span class='hs-varop'>.</span><span class='hs-conid'>Applicative</span></div></p></div><p>Or insert a stage after a named stage:</p>
+</span><span class="lineno">  1  </span><span class="cm">{-</span><span class="cm"># LANGUAGE DeriveDataTypeable #</span><span class="cm">-}</span><span class=""></span><span>
+</span><span class="lineno">  2  </span><span class=""></span>
+</pre>
+</blockquote>
+<p>You can restart a whole file:</p>
+<pre class="code code-weaver literal-block">
+<span></span><span class="p">..</span><span class=""> </span><span class="ow">haskell</span><span class="p">::</span><span class=""> </span><span class="">Main.hs restart</span><span class="">
+</span><span class="">
+</span><span class="">    main = do</span><span class="">
+</span><span class="">        putStrLn &#8220;Hello... world?&#8221;</span><span class="">
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="code code-haskell literal-block">
+<span class="file-header">     Main.hs 
 
-                <p class="file-header">-- test4.rst (cont) --</p>
-                <div class="code code-weaver">.. haskell:: Named.hs
-    :after: imports
-
-    x = 5</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Named.hs (cont) --</p>
-                <div class="code code-haskell"><span class="hs-lineno">  4</span>  <span class='hs-definition'>x</span> <span class='hs-keyglyph'>=</span> <span class='hs-num'>5</span></div></p></div><p>Or at the beginning:</p>
-
-                <p class="file-header">-- test4.rst (cont) --</p>
-                <div class="code code-weaver">.. haskell:: Named.hs
-    :after: start
-
-    {-# LANGUAGE DeriveDataTypeable #-}</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Named.hs (cont) --</p>
-                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-comment'>{-# LANGUAGE DeriveDataTypeable #-}</span></div></p></div><p>You can restart a whole file:</p>
-
-                <p class="file-header">-- test5.rst  --</p>
-                <div class="code code-weaver">.. haskell:: Main.hs restart
-
-    main = do
-        putStrLn "Hello... world?"</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Main.hs  --</p>
-                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-definition'>main</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>do</span>
-<span class="hs-lineno">  2</span>      <span class='hs-varid'>putStrLn</span> <span class='hs-str'>"Hello... world?"</span></div></p></div><p>You can test compiling without executing (this has no effect on later
+</span><span class="lineno">  1  </span><span class="nf">main</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="kr">do</span><span class=""></span><span>
+</span><span class="lineno">  2  </span><span class="">    </span><span class="n">putStrLn</span><span class=""> </span><span class="s">&#8220;</span><span class="s">Hello... world?</span><span class="s">&#8220;</span><span class=""></span><span>
+</span><span class="lineno">  3  </span><span class=""></span>
+</pre>
+</blockquote>
+<p>You can test compiling without executing (this has no effect on later
 commands):</p>
+<pre class="code code-weaver literal-block">
+<span></span><span class="p">..</span><span class=""> </span><span class="nt">haskell:</span><span class=""> Main.hs done</span><span class="">
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span></blockquote>
+<p>You can run interactive commands that reference your file:</p>
+<pre class="code code-weaver literal-block">
+<span></span><span class="p">..</span><span class=""> </span><span class="ow">ghci</span><span class="p">::</span><span class=""> </span><span class="">Main.hs</span><span class="">
+</span><span class="">
+</span><span class="">    </span><span class="">:</span><span class="">t main</span><span class="">
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="interactive-session literal-block">
+<span class="interactive-input"><span>ghci&gt; </span><span class="kt">:</span><span class="n">t</span><span class=""> </span><span class="n">main</span><span class="">
+</span></span><span class="interactive-output">main :: IO ()</span>
+</pre>
+</blockquote>
+<p>You can add some code silently:</p>
+<pre class="code code-weaver literal-block">
+<span></span><span class="p">..</span><span class=""> </span><span class="ow">haskell</span><span class="p">::</span><span class=""> </span><span class="">Main.hs noecho</span><span class="">
+</span><span class="">
+</span><span class="">    &#8211; You can&#8217;t see this comment ;)</span><span class="">
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span></blockquote>
+<p>You can print some code but not add it to any file:</p>
+<pre class="code code-weaver literal-block">
+<span></span><span class="p">..</span><span class=""> </span><span class="ow">haskell</span><span class="p">::</span><span class=""> </span><span class="">noeval</span><span class="">
+</span><span class="">
+</span><span class="">    maine =</span><span class="">
+</span><span class="">        a state</span><span class="">
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="code code-haskell literal-block">
+<span class="file-header">     main 
 
-                <p class="file-header">-- test5.rst (cont) --</p>
-                <div class="code code-weaver">.. haskell: Main.hs done</div><div class="run-output run-output-weaver"><p><!-- haskell: Main.hs done --></p></div><p>You can run interactive commands that reference your file:</p>
-
-                <p class="file-header">-- test5.rst (cont) --</p>
-                <div class="code code-weaver">.. ghci:: Main.hs
-
-    :t main</div><div class="run-output run-output-weaver"><p><div class="interactive-session"><div class="interactive-input">ghci&gt; <span class='hs-conop'>:</span><span class='hs-varid'>t</span> <span class='hs-varid'>main</span></div><div class="interactive-output">main :: IO ()
-</div></div></p></div><p>You can add some code silently:</p>
-
-                <p class="file-header">-- test6.rst  --</p>
-                <div class="code code-weaver">.. haskell:: Main.hs noecho
-
-    -- You can't see this comment ;)</div><div class="run-output run-output-weaver"><p></p></div><p>You can print some code but not add it to any file:</p>
-
-                <p class="file-header">-- test7.rst  --</p>
-                <div class="code code-weaver">.. haskell:: noeval
-
-    maine =
-        a state</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- main  --</p>
-                <div class="code code-haskell"><span class="hs-lineno">  1</span>  <span class='hs-definition'>maine</span> <span class='hs-keyglyph'>=</span>
-<span class="hs-lineno">  2</span>      <span class='hs-varid'>a</span> <span class='hs-varid'>state</span></div></p></div><p>Error messages do not interrupt the execution: they will show up as error
+</span><span class="lineno">  1  </span><span class="nf">maine</span><span class=""> </span><span class="ow">=</span><span class=""></span><span>
+</span><span class="lineno">  2  </span><span class="">    </span><span class="n">a</span><span class=""> </span><span class="n">state</span><span class=""></span><span>
+</span><span class="lineno">  3  </span><span class=""></span>
+</pre>
+</blockquote>
+<p>Error messages do not interrupt the execution: they will show up as error
 messages in the resulting HTML. I like this because it lets you show what error
 messages look like. You may or may not approve.</p>
 </div>
@@ -217,8 +326,9 @@ messages look like. You may or may not approve.</p>
 </div>
 <div class="section" id="other-languages">
 <h2><a class="toc-backref" href="#id5">Other languages</a><a class="headerlink" href="#other-languages" title="Permalink to this headline">¶</a></h2>
-<p>As of the moment I write this, <tt class="docutils literal"><span class="pre">rstweaver</span></tt> does not support any languages
-other than Haskell and itself. Adding languages, however, is simple. See below.</p>
+<p>As of writing, <tt class="docutils literal"><span class="pre">rstweaver</span></tt> supports Haskell, C++, Python and reST. Adding
+languages is suppose to be easy. The best way to see how is to look at the
+examples in rstweaver/languages/. Some information is provided here too.</p>
 </div>
 <div class="section" id="adding-languages">
 <h2><a class="toc-backref" href="#id6">Adding languages</a><a class="headerlink" href="#adding-languages" title="Permalink to this headline">¶</a></h2>
@@ -250,12 +360,11 @@ override some methods.</p>
 deal with to get something working.</p>
 <div class="section" id="non-interactive-directives">
 <h3><a class="toc-backref" href="#id9">Non-interactive directives</a><a class="headerlink" href="#non-interactive-directives" title="Permalink to this headline">¶</a></h3>
-<p>This is what the <tt class="docutils literal"><span class="pre">haskell</span></tt> directive is in the examples above: whole blocks
-of code are added to a file, then the file is executed in one go.</p>
+<p>&#8220;Non-interactive&#8221; is what the <tt class="docutils literal"><span class="pre">haskell</span></tt> directive is in the examples above:
+whole blocks of code are added to a file, then the file is executed in one go.</p>
 <p>Here&#8217;s a terribly terribly minimal implementation for Haskell:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">rstweaver</span> <span class="kn">import</span> <span class="n">WeaverLanguage</span>
 <span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">PIPE</span>
-<span class="kn">from</span> <span class="nn">xml.sax.saxutils</span> <span class="kn">import</span> <span class="n">escape</span>
 
 <span class="k">class</span> <span class="nc">MinimalHaskell</span><span class="p">(</span><span class="n">WeaverLanguage</span><span class="p">):</span>
 
@@ -287,26 +396,38 @@ of code are added to a file, then the file is executed in one go.</p>
 
         <span class="k">return</span> <span class="n">err</span> <span class="o">+</span> <span class="n">out</span>
 
-    <span class="k">def</span> <span class="nf">highlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">escape</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">highlight_lang</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;haskell&#39;</span>
 
 <span class="c"># Singleton</span>
 <span class="n">MinimalHaskell</span> <span class="o">=</span> <span class="n">MinimalHaskell</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Which could be used like</p>
+<pre class="code code-weaver literal-block">
+<span></span><span class="p">..</span><span class=""> </span><span class="ow">minhaskell</span><span class="p">::</span><span class=""> </span><span class="">Main.hs exec</span><span class="">
+</span><span class="">
+</span><span class="">    main = do</span><span class="">
+</span><span class="">        putStrLn &#8220;Yo&#8221;</span><span class="">
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="code code-minhaskell literal-block">
+<span class="file-header">     Main.hs 
 
-                <p class="file-header">-- test8.rst  --</p>
-                <div class="code code-weaver">.. minhaskell:: Main.hs exec
-
-    main = do
-        putStrLn "Yo"</div><div class="run-output run-output-weaver"><p>                <p class="file-header">-- Main.hs  --</p>
-                <div class="code code-minhaskell"><span class="hs-lineno">  1</span>  main = do
-<span class="hs-lineno">  2</span>      putStrLn "Yo"</div><div class="run-output run-output-minhaskell"><p>Yo</p></div></p></div><p>The important parts are:</p>
+</span><span class="lineno">  1  </span><span class="nf">main</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="kr">do</span><span class=""></span><span>
+</span><span class="lineno">  2  </span><span class="">    </span><span class="n">putStrLn</span><span class=""> </span><span class="s">&#8220;</span><span class="s">Yo</span><span class="s">&#8220;</span><span class=""></span><span>
+</span><span class="lineno">  3  </span><span class=""></span>
+</pre>
+<div class="run-output run-output-minhaskell highlight-python"><div class="highlight"><pre><span class="n">Yo</span>
+</pre></div>
+</div>
+</blockquote>
+<p>The important parts are:</p>
 <ol class="arabic simple">
 <li>Telling <tt class="docutils literal"><span class="pre">WeaverLanguage</span></tt> you want a non-interactive directive,
 by adding an entry to the dictionary passed to __init__.</li>
-<li>Implementing <tt class="docutils literal"><span class="pre">test_compile</span></tt>, <tt class="docutils literal"><span class="pre">run</span></tt>, and <tt class="docutils literal"><span class="pre">highlight</span></tt>.</li>
+<li>Implementing <tt class="docutils literal"><span class="pre">test_compile</span></tt>, <tt class="docutils literal"><span class="pre">run</span></tt>, and <tt class="docutils literal"><span class="pre">highlight_lang</span></tt>.</li>
 </ol>
 </div>
 </div>
@@ -315,7 +436,6 @@ by adding an entry to the dictionary passed to __init__.</li>
 <p>Here&#8217;s a similarly minimal implementation for interactive Haskell:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">rstweaver</span> <span class="kn">import</span> <span class="n">WeaverLanguage</span>
 <span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">PIPE</span>
-<span class="kn">from</span> <span class="nn">xml.sax.saxutils</span> <span class="kn">import</span> <span class="n">escape</span>
 
 <span class="k">class</span> <span class="nc">MinimalGHCI</span><span class="p">(</span><span class="n">WeaverLanguage</span><span class="p">):</span>
 
@@ -324,37 +444,48 @@ by adding an entry to the dictionary passed to __init__.</li>
             <span class="n">WeaverLanguage</span><span class="o">.</span><span class="n">interactive</span><span class="p">:</span>    <span class="s">&#39;minghci&#39;</span>
         <span class="p">})</span>
 
-    <span class="k">def</span> <span class="nf">run_interactive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">imports</span><span class="p">,</span> <span class="n">wd</span><span class="p">):</span>
-        <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;ghc&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">imports</span> <span class="o">+</span> <span class="p">[</span><span class="s">&#39;-e&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">run_interactive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">imports</span><span class="p">,</span> <span class="n">wd</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">do_line</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;ghc&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">imports</span> <span class="o">+</span> <span class="p">[</span><span class="s">&#39;-e&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">]</span>
 
-        <span class="n">ghci</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span>
-            <span class="n">command</span><span class="p">,</span>
-            <span class="n">stdout</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
-            <span class="n">stderr</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
-            <span class="n">cwd</span> <span class="o">=</span> <span class="n">wd</span>
-        <span class="p">)</span>
+            <span class="n">ghci</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span>
+                <span class="n">command</span><span class="p">,</span>
+                <span class="n">stdout</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
+                <span class="n">stderr</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
+                <span class="n">cwd</span> <span class="o">=</span> <span class="n">wd</span>
+            <span class="p">)</span>
 
-        <span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">ghci</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+            <span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">ghci</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="n">err</span> <span class="o">+</span> <span class="n">out</span>
+            <span class="k">return</span> <span class="n">err</span> <span class="o">+</span> <span class="n">out</span>
 
-    <span class="k">def</span> <span class="nf">highlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">escape</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">do_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">highlight_lang</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;haskell&#39;</span>
 
 <span class="c"># Singleton</span>
 <span class="n">MinimalGHCI</span> <span class="o">=</span> <span class="n">MinimalGHCI</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Which can be used like</p>
-
-                <p class="file-header">-- test9.rst  --</p>
-                <div class="code code-weaver">.. minghci::
-
-    :t (:)</div><div class="run-output run-output-weaver"><p><div class="interactive-session"><div class="interactive-input">ghci&gt; :t (:)</div><div class="interactive-output">(:) :: a -&gt; [a] -&gt; [a]
-</div></div></p></div><p>The steps are:</p>
+<pre class="code code-weaver literal-block">
+<span></span><span class="p">..</span><span class=""> </span><span class="ow">minghci</span><span class="p">::</span><span class="">
+</span><span class="">
+</span><span class="">    </span><span class="">:</span><span class="">t (</span><span class="">:</span><span class="">)</span><span class="">
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="interactive-session literal-block">
+<span class="interactive-input"><span>&gt; </span><span class="kt">:</span><span class="n">t</span><span class=""> </span><span class="p">(</span><span class="kt">:</span><span class="p">)</span><span class="">
+</span></span><span class="interactive-output">(:) :: a -&gt; [a] -&gt; [a]
+</span>
+</pre>
+</blockquote>
+<p>The steps are:</p>
 <ol class="arabic simple">
 <li>Telling WeaverLanguage to register an interactive directive.</li>
-<li>Defining <tt class="docutils literal"><span class="pre">run_interactive</span></tt> and <tt class="docutils literal"><span class="pre">highlight</span></tt></li>
+<li>Defining <tt class="docutils literal"><span class="pre">run_interactive</span></tt> and <tt class="docutils literal"><span class="pre">highlight_lang</span></tt></li>
 </ol>
 <p>You might notice that this implementation has no &#8220;memory&#8221;: one line of
 interactive input has no effect on the next. That could be improved.</p>

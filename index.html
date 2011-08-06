@@ -48,10 +48,27 @@
 <h1>rstweaver<a class="headerlink" href="#rstweaver" title="Permalink to this headline">¶</a></h1>
 <p><tt class="docutils literal"><span class="pre">rstweaver</span></tt> is a framework for building reST directives that support literate
 programming, in a style similar to <a class="reference external" href="http://www.stat.uni-muenchen.de/~leisch/Sweave/">Sweave</a>.</p>
-<p>Because these are just reST directives, they should integrate into any system
+<p>Nice features:</p>
+<ul class="simple">
+<li>These are just <tt class="docutils literal"><span class="pre">reST</span></tt> directives &#8211; they will integrate into any system
 that uses reST. <tt class="docutils literal"><span class="pre">rstweaver</span></tt> itself is documented using <tt class="docutils literal"><span class="pre">rstweaver</span></tt> in
-<a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a>. Unfortunately only HTML output is
-supported right now, though that shouldn&#8217;t be too complicated to change.</p>
+<a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a>.</li>
+<li>Largely language agnostic. As I write this, it supports Haskell, C++, Python
+and reST itself.</li>
+<li>Rather than the typical &#8220;document is a source file&#8221; model, in <tt class="docutils literal"><span class="pre">rstweaver</span></tt> a
+document <em>manages</em> source files &#8211; several of them, in possibly multiple
+languages. They can be build, executed, changed, reexecuted. This has both
+advantages and disadvantages, but it is nearly essentially for very static
+compiled languages to be nice in literate code.</li>
+<li>Because it is pure docutils, it should be possible to produce output in any
+format that docutils supports.</li>
+<li>Results are cached across runs, so rerunning the same document multiple times
+with minor changes near the end (which is how I use it) is fast.</li>
+</ul>
+<p>Features which are noticeably missing:</p>
+<ul class="simple">
+<li>Plots</li>
+</ul>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 <ul>
