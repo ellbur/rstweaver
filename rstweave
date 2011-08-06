@@ -31,9 +31,16 @@ parser.add_argument('--print-css', dest='printcss', action='store_true', default
 
 args = parser.parse_args()
 
+format_names = {
+    'latex': 'newlatex2e',
+    'tex':   'newlatex2e',
+    'odt':   'odf_odt'
+}
+
 extensions = {
-    'latex': 'tex',
-    'odf_odt': 'odt'
+    'newlatex2e': 'tex',
+    'latex':      'tex',
+    'odf_odt':    'odt'
 }
 
 def run(source):
@@ -41,7 +48,7 @@ def run(source):
         source,
         css           = args.css,
         full          = not args.fragment,
-        output_format = args.output_format
+        output_format = format_names.get(args.output_format, args.output_format)
     )
 
 def open_output(path):

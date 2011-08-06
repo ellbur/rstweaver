@@ -55,12 +55,11 @@ def rst_to_doc(source, css=True, full=False, output_format='html'):
         source,
         writer_name = output_format
     )
-    docutils_css = parts['stylesheet']
-    
     if output_format == 'html':
         fulltext = parts['fragment']
 
         if css:
+            docutils_css = parts['stylesheet']
             fulltext = (
                   docutils_css
                 + style_tags(weaver_css())
