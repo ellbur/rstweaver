@@ -33,6 +33,7 @@ Contents:
    :maxdepth: 2
  
    tutorial
+   examples
    reference
 
 Indices and tables

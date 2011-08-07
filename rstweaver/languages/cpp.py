@@ -97,11 +97,18 @@ class CPP(WeaverLanguage):
             cwd = wd
         )
         out, err = proc.communicate()
+        # We can't rely on exit status here!
         
         out_lines = [''] * len(lines)
-        [_,rest] = out.split(ids[0])
-        for k in range(len(lines)):
-            [out_lines[k],rest] = rest.split(ids[k+1])
+        try:
+            [_,rest] = out.split(ids[0])
+            for k in range(len(lines)):
+                [out_lines[k],rest] = rest.split(ids[k+1])
+        except:
+            # This basically means we got the wrong number of lines.
+            # Not much we can do. Give them what we can
+            out_lines[-1] = rest
+            pass
         
         return [l.rstrip().lstrip() for l in out_lines]
     
@@ -110,6 +117,9 @@ class CPP(WeaverLanguage):
     
     def interactive_prompt(self):
         return 'c++> '
+    
+    def extension(self):
+        return '.cpp'
 
 CPP = CPP()
 

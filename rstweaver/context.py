@@ -86,6 +86,9 @@ class WeaverContext(object):
     
     def write_all(self):
         self.fsm.write_all()
+        
+    def total_blocks(self):
+        return self.fsm.total_blocks()
 
 class FileSetManager(object):
     
@@ -125,6 +128,11 @@ class FileSetManager(object):
     def write_all(self):
         self.file_set.write_all()
         
+    def total_blocks(self):
+        return sum(len(f.blocks)
+            for f in self.file_set.files.values()
+        )
+        
 class FileSet(object):
     
     def __init__(self, context):
@@ -158,7 +166,7 @@ class FileSetSnapshot(object):
     def restore(self, context):
         set = FileSet(context)
         for f in self.files:
-            set[f.name] = f.restore(context)
+            set.files[f.name] = f.restore(context)
         
         return set
 

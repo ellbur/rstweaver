@@ -1,7 +1,6 @@
 
 from docutils.parsers.rst import Directive, directives
 from docutils import nodes
-from xml.sax.saxutils import escape
 import re
 
 class WeaverDirective(Directive):
@@ -61,7 +60,7 @@ class NoninteractiveDirective(WeaverDirective):
         if len(file_like_args) > 0:
             source_name = file_like_args[0]
         elif 'new' in commands:
-            source_name = 'main' + str(unique_block_id()) + cx.language.extension()
+            source_name = 'main' + str(unique_block_id(cx)) + cx.language.extension()
         else:
             source_name = 'main' + cx.language.extension()
  
@@ -113,6 +112,9 @@ class NoninteractiveDirective(WeaverDirective):
 
         if 'done' in commands:
             output = strip_blank_lines(cx.file(source_name).compile())
+            output = filter(
+                lambda c: ord(c) < 128, output
+            )
             output_node = nodes.literal_block(output, output,
                 classes=['run-output', 'run-output-' + self.directive_name]
             )
@@ -124,6 +126,9 @@ class NoninteractiveDirective(WeaverDirective):
  
             if isinstance(output, str):
                 output = strip_blank_lines(output)
+                output = filter(
+                    lambda c: ord(c) < 128, output
+                )
                 output_node = nodes.literal_block(output, output,
                     classes=['run-output', 'run-output-' + self.directive_name]
                 )
@@ -164,6 +169,9 @@ class InteractiveDirective(WeaverDirective):
                 input_node += n
             
             output_line = output_lines[k]
+            output_line = filter(
+                lambda c: ord(c) < 128, output_line
+            )
             output_node = nodes.inline('', output_line,
                 classes = ['interactive-output'])
             
@@ -207,9 +215,6 @@ def add_line_numbers(toks, start):
         
     return list(gen())
 
-block_counter = 0
-def unique_block_id():
-    global block_counter
-    block_counter += 1
-    return block_counter
+def unique_block_id(cx):
+    return cx.total_blocks() + 1
 
