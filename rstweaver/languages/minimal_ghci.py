@@ -4,10 +4,12 @@ from subprocess import Popen, PIPE
 
 class MinimalGHCI(WeaverLanguage):
     
-    def __init__(self):
+    def __init__(self, **other_options):
         WeaverLanguage.__init__(self, {
             WeaverLanguage.interactive:    'minghci'
-        })
+        },
+        **other_options
+        )
     
     def run_interactive(self, lines, imports, wd):
         def do_line(line):
@@ -28,7 +30,4 @@ class MinimalGHCI(WeaverLanguage):
     
     def highlight_lang(self):
         return 'haskell'
-
-# Singleton
-MinimalGHCI = MinimalGHCI()
 

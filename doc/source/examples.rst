@@ -32,7 +32,7 @@ Appending
         :name: main
         
         int main() {
-            std::cout << std::time(0) << "\n";
+            std::cout << ::time(0) << "\n";
         }
 
 Inserting
@@ -46,7 +46,7 @@ Inserting
         int even_time() {
             int time;
             for (;;) {
-                time = std::time(0);
+                time = ::time(0);
                 if (time % 2 == 0) return time;
                 
                 sleep(1);
@@ -58,7 +58,7 @@ Editing
 
 .. weaver:: new exec join
 
-    .. cpp:: main.cpp redo done
+    .. cpp:: main.cpp redo exec
         :name: includes
         
         #include <iostream>
@@ -74,6 +74,69 @@ Uh... you can't do this right now. You can set its contents to nothing, though.
 
     .. cpp:: main.cpp redo
         :name: main
+
+.. _nowebish:
+
+Noweb-like structuring
+----------------------
+
+One of the features that ``rstweaver`` borrows from ``noweb`` is the ability to
+define the structure of a file and then fill in the parts. For example if we
+are using Happy we can make a skeleton:
+
+.. weaver:: new exec join
+
+    .. happy:: Parser.y
+    
+        {
+        module Parser where
+        }
+        
+        <<<<Configuration>>>>
+        
+        <<<<Tokens>>>>
+        
+        %%
+        
+        <<<<Rules>>>>
+        
+        {
+        <<<<Haskell Code>>>>
+        }
+    
+    .. happy:: Parser.y
+        :in: Configuration
+        
+        %name      parse
+        %tokentype { Char }
+        
+    .. happy:: Parser.y
+        :in: Tokens
+        
+        %token
+            a    { 'a' }
+            b    { 'b' }
+    
+    .. happy:: Parser.y
+        :in: Rules
+        
+        File : AB { $1 }
+        
+        AB :        { (0::Int)      }
+           | a AB b { (1::Int) + $2 }
+    
+    .. happy:: Parser.y
+        :in: Haskell Code
+        
+        happyError _ = error "Happy error!"
+
+Showing already-written blocks
+------------------------------
+
+.. weaver:: new exec join
+
+    .. cpp:: main.cpp recall
+        :name: includes
 
 C++
 ---

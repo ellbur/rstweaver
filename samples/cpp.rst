@@ -1,18 +1,24 @@
 
-.. cpp:: main.cpp exec
+.. cpp:: foo.h
 
-    #include <iostream>
+    #ifndef _foo_h
+    #define _foo_h 1
     
-    int main() {
+    int foo(int x);
     
-        std::cout << "Hi\n";
+    #endif
+
+.. cpp:: foo.c
+
+    #include "foo.h"
     
-        return 0;
+    int foo(int x) {
+        return (x*7) ^ (x + 13131) ^ (x*x + x + 51335);
     }
 
-.. icpp:: iostream
+.. icpp:: foo.h foo.c
 
-    std::cout << "hi"
-    std::cout << (2 + 2)
-
+    std::cout << foo(0)
+    std::cout << foo(1)
+    std::cout << foo(2)
 

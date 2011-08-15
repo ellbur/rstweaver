@@ -1,31 +1,16 @@
 
-.. weaver:: exec new join
+.. weaver:: new exec join
 
-    first
+    .. haskell:: Main.hs exec
+        :name: main
     
-    .. cpp:: foo.h
-    
-        #ifndef _foo_h
-        #define _foo_h 1
-    
-        int foo();
+        main = do
+            print "Hi"
+
+.. weaver:: new exec join
+
+    .. haskell:: Main.hs exec
+        :after: main
         
-        #endif /* defined _foo_h */
-    
-    .. cpp:: foo.cpp
-    
-        #include "foo.h"
-    
-        int foo() {
-            return 5;
-        }
-    
-.. weaver:: exec new join
-
-    next
-    
-    .. icpp:: foo.h foo.cpp
-        
-        std::cout << foo() << "\n"
-
+        -- Yo
 

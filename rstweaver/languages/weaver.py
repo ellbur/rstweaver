@@ -2,15 +2,18 @@
 from rstweaver import WeaverLanguage
 import docutils.core
 from docutils import nodes
+from docutils.parsers import rst
 from subprocess import Popen, PIPE
 import re
 
 class RstWeaverLanguage(WeaverLanguage):
     
-    def __init__(self):
+    def __init__(self, **other_options):
         WeaverLanguage.__init__(self, {
             WeaverLanguage.noninteractive: 'weaver'
-        })
+        },
+        **other_options
+        )
     
     def test_compile(self, path, wd):
         run = Popen(
@@ -26,7 +29,14 @@ class RstWeaverLanguage(WeaverLanguage):
     def run_tokens(self, path, wd):
         with open(wd + '/' + path, 'r') as hl:
             content = hl.read()
-        tree = docutils.core.publish_doctree(content)
+            
+        parser = rst.Parser(
+            run_directives = self.context.directive_dict()
+        )
+        tree = docutils.core.publish_doctree(
+            content,
+            parser = parser
+        )
         return tree.children
     
     def format_tokens(self, tokens):
@@ -53,9 +63,6 @@ class RstWeaverLanguage(WeaverLanguage):
     
     def number_lines(self):
         return False
-
-# Singleton
-RstWeaverLanguage = RstWeaverLanguage()
 
 css = '''
 .run-output-weaver {

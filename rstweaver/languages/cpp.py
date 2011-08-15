@@ -7,11 +7,13 @@ import operator
 
 class CPP(WeaverLanguage):
     
-    def __init__(self):
+    def __init__(self, **other_options):
         WeaverLanguage.__init__(self, {
             WeaverLanguage.noninteractive: 'cpp',
             WeaverLanguage.interactive:    'icpp'
-        })
+        },
+        **other_options
+        )
     
     def test_compile(self, path, wd):
         proc = Popen(
@@ -120,6 +122,4 @@ class CPP(WeaverLanguage):
     
     def extension(self):
         return '.cpp'
-
-CPP = CPP()
 

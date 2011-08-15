@@ -1,9 +1,8 @@
 
-import pygments
-from pygments.lexers import get_lexer_by_name
-from pygments.formatters.html import _get_ttype_class
+from highlight import highlight_as
 from docutils import nodes
 from uuid import uuid4
+import re
 import operator
 from subprocess import Popen, PIPE, STDOUT
 
@@ -30,8 +29,9 @@ class WeaverLanguage(object):
     noninteractive = 1
     interactive    = 2
     
-    def __init__(self, directives):
+    def __init__(self, directives, context):
         self.directives = directives
+        self.context    = context
     
     def test_compile(self, path, wd):
         '''
@@ -153,11 +153,15 @@ class WeaverLanguage(object):
         out, err = proc.communicate(input)
         
         out_lines = [None] * len(lines)
-        [_,rest] = out.split(get_id(ids[0]))
-        for k in range(len(lines)):
-            [out_lines[k], rest] = rest.split(get_id(ids[k+1]))
         
-        return [l.rstrip().lstrip() for l in out_lines]
+        try:
+            [_,rest] = out.split(get_id(ids[0]))
+            for k in range(len(lines)):
+                [out_lines[k], rest] = rest.split(get_id(ids[k+1]))
+            
+            return [l.rstrip().lstrip() for l in out_lines]
+        except:
+            return [out]
     
     def highlight_lang(self, code):
         '''
@@ -179,17 +183,7 @@ class WeaverLanguage(object):
         Required for:
             All
         '''
-        tokens = pygments.lex(code, get_lexer_by_name(
-            self.highlight_lang()
-        ))
-        
-        def make_nodes():
-            for ttype, text in tokens:
-                yield nodes.inline(text, text, classes=[
-                    _get_ttype_class(ttype)
-                ])
-        
-        return list(make_nodes())
+        return highlight_as(code, self.highlight_lang())
     
     def css(self):
         '''

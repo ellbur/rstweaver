@@ -2,7 +2,9 @@
 
 from __future__ import print_function
 
-from rstweaver import rst_to_doc, weaver_css
+from rstweaver import rst_to_doc, weaver_css, register_all_languages
+from rstweaver.languages import all_languages
+from rstweaver.context import get_weaver_context
 
 from argparse import ArgumentParser
 import sys
@@ -32,20 +34,24 @@ parser.add_argument('--print-css', dest='printcss', action='store_true', default
 args = parser.parse_args()
 
 format_names = {
-    'latex': 'newlatex2e',
-    'tex':   'newlatex2e',
-    'odt':   'odf_odt'
+    'latex'     : 'latex',
+    'tex'       : 'latex',
+    'odt'       : 'odf_odt'
 }
 
 extensions = {
-    'newlatex2e': 'tex',
-    'latex':      'tex',
-    'odf_odt':    'odt'
+    'tex'        : 'tex',
+    'latex'      : 'tex',
+    'odf_odt'    : 'odt'
 }
 
-def run(source):
+def run(path, source):
+    wd = path + '-weaver'
+    
     return rst_to_doc(
         source,
+        languages     = all_languages,
+        wd            = wd,
         css           = args.css,
         full          = not args.fragment,
         output_format = format_names.get(args.output_format, args.output_format)
@@ -74,12 +80,14 @@ def print_to_outpath(inpath, content):
             hl.write(content)
  
 if args.printcss:
-    print_to_outpath(None, weaver_css())
+    register_all_languages()
+    context = get_weaver_context()
+    print_to_outpath(None, weaver_css(context))
     sys.exit(0)
 
 if len(args.source) == 0:
     source = sys.stdin.read()
-    body = run(source)
+    body = run('./stdin', source)
     
     print_to_outpath(None, body)
 
@@ -87,6 +95,6 @@ for inpath in args.source:
     with open(inpath, 'r') as infile:
         source = infile.read()
 
-    body = run(source)
+    body = run(inpath, source)
     print_to_outpath(inpath, body)
 

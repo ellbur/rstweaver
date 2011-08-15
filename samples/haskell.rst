@@ -2,9 +2,9 @@
 .. haskell:: Main.hs exec
 
     main = do
-        putStrLn "hi"
+        print "Hi :)"
 
 .. ghci:: Main.hs
 
-    main
+    :t main
 

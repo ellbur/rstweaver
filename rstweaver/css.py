@@ -28,26 +28,27 @@ pre.literal-block {
 .code p {
     padding: 0px 0px 0px 0px;
     margin:  0px 0px 0px 0px;
+    overflow: visible;
 }
 .run-output p {
     padding: 0px 0px 0px 0px;
     margin:  0px 0px 0px 0px;
+    overflow: visible;
 }
 .interactive-input {
     white-space: pre;
     font-family: monospace;
-    padding: 5px 5px 1px 5px;
 }
 .interactive-output {
     white-space: pre;
     font-family: monospace;
-    padding: 0px 5px 5px 5px;
 }
 .interactive-session {
     background-color: #fff;
     border: 1px solid #eee;
     margin:  10px 0px 0px 0px;
     padding: 0px 0px 0px 5px;
+    overflow: visible;
 }
 .c { color: #408080; font-style: italic } /* Comment */
 .err { border: 1px solid #FF0000 } /* Error */

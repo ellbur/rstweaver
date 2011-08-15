@@ -1,7 +1,13 @@
 
-.. minhaskell:: Main.hs exec
+.. It's important to test these so we know that the
+.. example language definitions are correct.
+
+.. minhaskell:: exec
 
     main = do
-        putStrLn "hi"
+        print "Hi"
 
+.. minghci::
+    
+    [x | (x:_) <- ["a", "b", ""]]
 

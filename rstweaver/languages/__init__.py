@@ -5,6 +5,9 @@ from minimal_haskell import MinimalHaskell
 from minimal_ghci import MinimalGHCI
 from cpp import CPP
 from python import Python
+from happy import Happy
+from bash import Bash
+from generic import Generic
 
 all_languages = [
     Haskell,
@@ -12,6 +15,9 @@ all_languages = [
     MinimalHaskell,
     MinimalGHCI,
     CPP,
-    Python
+    Python,
+    Happy,
+    Bash,
+    Generic
 ]
 

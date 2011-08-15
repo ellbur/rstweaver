@@ -2,8 +2,8 @@
 Directives Reference
 ====================
 
-This reference is about using the directives: options and arguments that they
-accept. For the API documentation, see... somewhere.
+This reference is about using the rst directives: options and arguments that
+they accept. For the API documentation, see... somewhere.
 
 To get a feel for how to use these directives, see the :doc:`tutorial`.
 
@@ -25,11 +25,12 @@ after
     Place this block after the named block. Use ``start`` to make this the
     first block in the file. If omitted, block will be added at the end.
 
+in
+    Place this block into a named block as a sub-block. Usually used with
+    :ref:`nowebish`.
+
 Commands
 --------
-
-Commands are distinguished from the file name by the absence of a '.' in their
-name. I realize this is not the best system.
 
 exec
     After appending the block, run this file.
@@ -55,6 +56,9 @@ noecho
 
 new
     Invent a unique file name.
+
+recall
+    Print the contents of a named block.
 
 Interactive directive
 ~~~~~~~~~~~~~~~~~~~~~
