@@ -7,13 +7,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Directives Reference &mdash; rstweaver v0.8 documentation</title>
+    <title>Directives Reference &mdash; rstweaver v0.9 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.8',
+        VERSION:     '0.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,8 +22,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="rstweaver v0.8 documentation" href="index.html" />
-    <link rel="prev" title="Examples" href="examples.html" /> 
+    <link rel="top" title="rstweaver v0.9 documentation" href="index.html" />
+    <link rel="prev" title="Adding languages" href="languages.html" /> 
   </head>
   <body>
     <div class="related">
@@ -33,9 +33,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="examples.html" title="Examples"
+          <a href="languages.html" title="Adding languages"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">rstweaver v0.8 documentation</a> &raquo;</li> 
+        <li><a href="index.html">rstweaver v0.9 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -46,9 +46,9 @@
             
   <div class="section" id="directives-reference">
 <h1>Directives Reference<a class="headerlink" href="#directives-reference" title="Permalink to this headline">¶</a></h1>
-<p>This reference is about using the directives: options and arguments that they
-accept. For the API documentation, see... somewhere.</p>
-<p>To get a feel for how to use these directives, see the <a class="reference internal" href="tutorial.html"><em>Tutorial</em></a>.</p>
+<p>This reference is about using the rst directives: options and arguments that
+they accept.</p>
+<p>To get a feel for how to use these directives, see <a class="reference internal" href="using.html"><em>Using rstweaver</em></a>.</p>
 <div class="section" id="non-interactive-directive">
 <h2>Non-interactive directive<a class="headerlink" href="#non-interactive-directive" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="arguments">
@@ -63,12 +63,13 @@ accept. For the API documentation, see... somewhere.</p>
 <dt>after</dt>
 <dd>Place this block after the named block. Use <tt class="docutils literal"><span class="pre">start</span></tt> to make this the
 first block in the file. If omitted, block will be added at the end.</dd>
+<dt>in</dt>
+<dd>Place this block into a named block as a sub-block. Usually used with
+<a class="reference internal" href="examples.html#nowebish"><em>Noweb-like structuring</em></a>.</dd>
 </dl>
 </div>
 <div class="section" id="commands">
 <h3>Commands<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h3>
-<p>Commands are distinguished from the file name by the absence of a &#8216;.&#8217; in their
-name. I realize this is not the best system.</p>
 <dl class="docutils">
 <dt>exec</dt>
 <dd>After appending the block, run this file.</dd>
@@ -87,6 +88,8 @@ possible.</dd>
 <dd>Don&#8217;t print the code.</dd>
 <dt>new</dt>
 <dd>Invent a unique file name.</dd>
+<dt>recall</dt>
+<dd>Print the contents of a named block.</dd>
 </dl>
 </div>
 </div>
@@ -127,8 +130,8 @@ refer to files written in previous non-interactive blocks.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="examples.html"
-                        title="previous chapter">Examples</a></p>
+  <p class="topless"><a href="languages.html"
+                        title="previous chapter">Adding languages</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/reference.txt"
@@ -158,9 +161,9 @@ refer to files written in previous non-interactive blocks.</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="examples.html" title="Examples"
+          <a href="languages.html" title="Adding languages"
              >previous</a> |</li>
-        <li><a href="index.html">rstweaver v0.8 documentation</a> &raquo;</li> 
+        <li><a href="index.html">rstweaver v0.9 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

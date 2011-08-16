@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Adding languages &mdash; rstweaver v0.9 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.9',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="rstweaver v0.9 documentation" href="index.html" />
+    <link rel="next" title="Directives Reference" href="reference.html" />
+    <link rel="prev" title="Caching" href="caching.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="reference.html" title="Directives Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="caching.html" title="Caching"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">rstweaver v0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="adding-languages">
+<h1>Adding languages<a class="headerlink" href="#adding-languages" title="Permalink to this headline">¶</a></h1>
+<p>If you just want to write a quick bit of Ruby, you&#8217;re best bet is
+<a class="reference internal" href="complicated.html#arbfiles"><em>Working with arbitrary files</em></a>.</p>
+<div class="section" id="defining-languages">
+<h2>Defining languages<a class="headerlink" href="#defining-languages" title="Permalink to this headline">¶</a></h2>
+<p>To add a language you will want to extend <tt class="docutils literal"><span class="pre">rstweaver.WeaverLanguage</span></tt>, and
+override some methods.</p>
+<p><tt class="docutils literal"><span class="pre">WeaverLanguage</span></tt> has many methods, but there are only a few that you have do
+deal with to get something working.</p>
+<div class="section" id="non-interactive-directives">
+<h3>Non-interactive directives<a class="headerlink" href="#non-interactive-directives" title="Permalink to this headline">¶</a></h3>
+<p>&#8220;Non-interactive&#8221; is what the <tt class="docutils literal"><span class="pre">haskell</span></tt> directive is in the examples above:
+whole blocks of code are added to a file, then the file is executed in one go.</p>
+<p>Here&#8217;s a terribly terribly minimal implementation for Haskell:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">rstweaver</span> <span class="kn">import</span> <span class="n">WeaverLanguage</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">PIPE</span>
+
+<span class="k">class</span> <span class="nc">MinimalHaskell</span><span class="p">(</span><span class="n">WeaverLanguage</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">other_options</span><span class="p">):</span>
+        <span class="n">WeaverLanguage</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">{</span>
+            <span class="n">WeaverLanguage</span><span class="o">.</span><span class="n">noninteractive</span><span class="p">:</span> <span class="s">&#39;minhaskell&#39;</span>
+        <span class="p">},</span>
+        <span class="o">**</span><span class="n">other_options</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_compile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">wd</span><span class="p">):</span>
+        <span class="n">ghc</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span>
+            <span class="p">[</span><span class="s">&#39;ghc&#39;</span><span class="p">,</span> <span class="s">&#39;-c&#39;</span><span class="p">,</span> <span class="s">&#39;-o&#39;</span><span class="p">,</span> <span class="s">&#39;/dev/null&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">],</span>
+            <span class="n">stdout</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
+            <span class="n">stderr</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
+            <span class="n">cwd</span> <span class="o">=</span> <span class="n">wd</span>
+        <span class="p">)</span>
+        <span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">ghc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">err</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">wd</span><span class="p">):</span>
+        <span class="n">runghc</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span>
+            <span class="p">[</span><span class="s">&#39;runghc&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">],</span>
+            <span class="n">stdout</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
+            <span class="n">stderr</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
+            <span class="n">cwd</span> <span class="o">=</span> <span class="n">wd</span>
+        <span class="p">)</span>
+
+        <span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">runghc</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">err</span> <span class="o">+</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">highlight_lang</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;haskell&#39;</span>
+</pre></div>
+</div>
+<p>Which could be used like</p>
+<pre class="code code-weaver literal-block">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">minhaskell</span><span class="p">::</span><span> </span><span>new exec</span><span>
+</span><span>
+</span><span>    main = do</span><span>
+</span><span>        putStrLn &#8220;Yo&#8221;</span><span>
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="code code-minhaskell literal-block">
+<span class="file-header">     main6b06 
+
+</span><span class="lineno">  1  </span><span></span><span class="nf">main</span><span> </span><span class="ow">=</span><span> </span><span class="kr">do</span><span></span><span>
+</span><span class="lineno">  2  </span><span>    </span><span class="n">putStrLn</span><span> </span><span class="s">&#8220;</span><span class="s">Yo</span><span class="s">&#8220;</span><span></span><span>
+</span><span></span>
+</pre>
+<div class="run-output run-output-minhaskell highlight-python"><div class="highlight"><pre><span class="n">Yo</span>
+</pre></div>
+</div>
+</blockquote>
+<p>The important parts are:</p>
+<ol class="arabic simple">
+<li>Telling <tt class="docutils literal"><span class="pre">WeaverLanguage</span></tt> you want a non-interactive directive,
+by adding an entry to the dictionary passed to __init__.</li>
+<li>Implementing <tt class="docutils literal"><span class="pre">test_compile</span></tt>, <tt class="docutils literal"><span class="pre">run</span></tt>, and <tt class="docutils literal"><span class="pre">highlight_lang</span></tt>.</li>
+</ol>
+</div>
+<div class="section" id="interactive-directives">
+<h3>Interactive directives<a class="headerlink" href="#interactive-directives" title="Permalink to this headline">¶</a></h3>
+<p>Here&#8217;s a similarly minimal implementation for interactive Haskell:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">rstweaver</span> <span class="kn">import</span> <span class="n">WeaverLanguage</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">PIPE</span>
+
+<span class="k">class</span> <span class="nc">MinimalGHCI</span><span class="p">(</span><span class="n">WeaverLanguage</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">other_options</span><span class="p">):</span>
+        <span class="n">WeaverLanguage</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">{</span>
+            <span class="n">WeaverLanguage</span><span class="o">.</span><span class="n">interactive</span><span class="p">:</span>    <span class="s">&#39;minghci&#39;</span>
+        <span class="p">},</span>
+        <span class="o">**</span><span class="n">other_options</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">run_interactive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">imports</span><span class="p">,</span> <span class="n">wd</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">do_line</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;ghc&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">imports</span> <span class="o">+</span> <span class="p">[</span><span class="s">&#39;-e&#39;</span><span class="p">,</span> <span class="n">line</span><span class="p">]</span>
+
+            <span class="n">ghci</span> <span class="o">=</span> <span class="n">Popen</span><span class="p">(</span>
+                <span class="n">command</span><span class="p">,</span>
+                <span class="n">stdout</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
+                <span class="n">stderr</span> <span class="o">=</span> <span class="n">PIPE</span><span class="p">,</span>
+                <span class="n">cwd</span> <span class="o">=</span> <span class="n">wd</span>
+            <span class="p">)</span>
+
+            <span class="n">out</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">ghci</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+
+            <span class="k">return</span> <span class="n">err</span> <span class="o">+</span> <span class="n">out</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">do_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">highlight_lang</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;haskell&#39;</span>
+</pre></div>
+</div>
+<p>Which can be used like</p>
+<pre class="code code-weaver literal-block">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">minghci</span><span class="p">::</span><span>
+</span><span>
+</span><span>    </span><span>:</span><span>t (</span><span>:</span><span>)</span><span>
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="interactive-session literal-block">
+<span class="interactive-input"><span>&gt; </span><span></span><span class="kt">:</span><span class="n">t</span><span> </span><span class="p">(</span><span class="kt">:</span><span class="p">)</span><span></span></span><span>
+</span><span class="interactive-output">(:) :: a -&gt; [a] -&gt; [a]
+</span>
+</pre>
+</blockquote>
+<p>The steps are:</p>
+<ol class="arabic simple">
+<li>Telling WeaverLanguage to register an interactive directive.</li>
+<li>Defining <tt class="docutils literal"><span class="pre">run_interactive</span></tt> and <tt class="docutils literal"><span class="pre">highlight_lang</span></tt></li>
+</ol>
+<p>You might notice that this implementation has no &#8220;memory&#8221;: one line of
+interactive input has no effect on the next. That could be improved.</p>
+</div>
+</div>
+<div class="section" id="telling-rstweaver-about-the-language">
+<h2>Telling <tt class="docutils literal"><span class="pre">rstweaver</span></tt> about the language<a class="headerlink" href="#telling-rstweaver-about-the-language" title="Permalink to this headline">¶</a></h2>
+<p>Once you have defined a language, you will need to register its directives.
+This is a matter of calling</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rstweaver</span><span class="o">.</span><span class="n">register_weaver_language</span><span class="p">(</span><span class="n">MyLanguage</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>sometime before you process your document.</p>
+<p>Of course, if you&#8217;re using the <tt class="docutils literal"><span class="pre">rstweave</span></tt> program that won&#8217;t do you much
+good. For <tt class="docutils literal"><span class="pre">rstweave</span></tt> to see the language, you need to add it to the
+<tt class="docutils literal"><span class="pre">rstweaver</span></tt> distribution.</p>
+<div class="section" id="adding-a-language-to-rstweaver-proper">
+<h3>Adding a language to <tt class="docutils literal"><span class="pre">rstweaver</span></tt> proper<a class="headerlink" href="#adding-a-language-to-rstweaver-proper" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Add the code for you language in <tt class="docutils literal"><span class="pre">rstweaver/languages/</span></tt></li>
+<li>Import it from <tt class="docutils literal"><span class="pre">rstweaver/languages/__init__.py</span></tt> and add it to the
+obvious list.</li>
+</ol>
+<p>Now <tt class="docutils literal"><span class="pre">rstweave</span></tt> will recognize it. Yes this is a terrible system. I just
+haven&#8217;t gotten around to making a better one.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Adding languages</a><ul>
+<li><a class="reference internal" href="#defining-languages">Defining languages</a><ul>
+<li><a class="reference internal" href="#non-interactive-directives">Non-interactive directives</a></li>
+<li><a class="reference internal" href="#interactive-directives">Interactive directives</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#telling-rstweaver-about-the-language">Telling <tt class="docutils literal"><span class="pre">rstweaver</span></tt> about the language</a><ul>
+<li><a class="reference internal" href="#adding-a-language-to-rstweaver-proper">Adding a language to <tt class="docutils literal"><span class="pre">rstweaver</span></tt> proper</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="caching.html"
+                        title="previous chapter">Caching</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="reference.html"
+                        title="next chapter">Directives Reference</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/languages.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="reference.html" title="Directives Reference"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="caching.html" title="Caching"
+             >previous</a> |</li>
+        <li><a href="index.html">rstweaver v0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Owen.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

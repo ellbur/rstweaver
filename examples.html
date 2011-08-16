@@ -7,13 +7,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Examples &mdash; rstweaver v0.8 documentation</title>
+    <title>Examples &mdash; rstweaver v0.9 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.8',
+        VERSION:     '0.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,9 +22,9 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="rstweaver v0.8 documentation" href="index.html" />
-    <link rel="next" title="Directives Reference" href="reference.html" />
-    <link rel="prev" title="Tutorial" href="tutorial.html" /> 
+    <link rel="top" title="rstweaver v0.9 documentation" href="index.html" />
+    <link rel="next" title="Even more complicated examples" href="complicated.html" />
+    <link rel="prev" title="Using rstweaver" href="using.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,12 +34,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="reference.html" title="Directives Reference"
+          <a href="complicated.html" title="Even more complicated examples"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="tutorial.html" title="Tutorial"
+          <a href="using.html" title="Using rstweaver"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">rstweaver v0.8 documentation</a> &raquo;</li> 
+        <li><a href="index.html">rstweaver v0.9 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -50,7 +50,6 @@
             
   <div class="section" id="examples">
 <h1><a class="toc-backref" href="#id5">Examples</a><a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
-<p>These are yet more examples to supplement the <a class="reference internal" href="tutorial.html"><em>Tutorial</em></a>.</p>
 <div class="contents topic" id="contents">
 <p class="topic-title first">Contents</p>
 <ul class="simple">
@@ -63,19 +62,21 @@
 <li><a class="reference external" href="#deleting" id="id11">Deleting</a></li>
 </ul>
 </li>
-<li><a class="reference external" href="#c" id="id12">C++</a><ul>
-<li><a class="reference external" href="#noninteractive" id="id13">Noninteractive</a></li>
-<li><a class="reference external" href="#interactive" id="id14">Interactive</a></li>
+<li><a class="reference external" href="#noweb-like-structuring" id="id12">Noweb-like structuring</a></li>
+<li><a class="reference external" href="#showing-already-written-blocks" id="id13">Showing already-written blocks</a></li>
+<li><a class="reference external" href="#c" id="id14">C++</a><ul>
+<li><a class="reference external" href="#noninteractive" id="id15">Noninteractive</a></li>
+<li><a class="reference external" href="#interactive" id="id16">Interactive</a></li>
 </ul>
 </li>
-<li><a class="reference external" href="#python" id="id15">Python</a><ul>
-<li><a class="reference external" href="#non-interactive" id="id16">Non-interactive</a></li>
-<li><a class="reference external" href="#id2" id="id17">Interactive</a></li>
+<li><a class="reference external" href="#python" id="id17">Python</a><ul>
+<li><a class="reference external" href="#non-interactive" id="id18">Non-interactive</a></li>
+<li><a class="reference external" href="#id2" id="id19">Interactive</a></li>
 </ul>
 </li>
-<li><a class="reference external" href="#haskell" id="id18">Haskell</a><ul>
-<li><a class="reference external" href="#id3" id="id19">Non-interactive</a></li>
-<li><a class="reference external" href="#id4" id="id20">Interactive</a></li>
+<li><a class="reference external" href="#haskell" id="id20">Haskell</a><ul>
+<li><a class="reference external" href="#id3" id="id21">Non-interactive</a></li>
+<li><a class="reference external" href="#id4" id="id22">Interactive</a></li>
 </ul>
 </li>
 </ul>
@@ -89,20 +90,20 @@ the <tt class="docutils literal"><span class="pre">rst</span></tt> document.</p>
 <div class="section" id="naming-a-block">
 <h3><a class="toc-backref" href="#id7">Naming a block</a><a class="headerlink" href="#naming-a-block" title="Permalink to this headline">¶</a></h3>
 <pre class="code code-weaver literal-block">
-<span></span><span class="p">..</span><span class=""> </span><span class="ow">cpp</span><span class="p">::</span><span class=""> </span><span class="">main.cpp done</span><span class="">
-</span><span class="">    </span><span class="nc">:name:</span><span class=""> </span><span class="nf">includes</span><span class="">
-</span><span class="">
-</span><span class="">    #include &lt;iostream&gt;</span><span class="">
-</span><span class="">    #include &lt;cstdlib&gt;</span><span class="">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">cpp</span><span class="p">::</span><span> </span><span>main.cpp done</span><span>
+</span><span>    </span><span class="nc">:name:</span><span> </span><span class="nf">includes</span><span>
+</span><span>
+</span><span>    #include &lt;iostream&gt;</span><span>
+</span><span>    #include &lt;cstdlib&gt;</span><span>
 </span>
 </pre>
 <blockquote class="run-output run-output-weaver" id="weaver">
 <span></span><pre class="code code-cpp literal-block">
 <span class="file-header">     main.cpp 
 
-</span><span class="lineno">  1  </span><span class="cp">#</span><span class="cp">include &lt;iostream&gt;</span><span class="cp"></span><span>
-</span><span class="lineno">  2  </span><span class="cp"></span><span class="cp">#</span><span class="cp">include &lt;cstdlib&gt;</span><span class="cp"></span><span>
-</span><span class="lineno">  3  </span><span class="cp"></span>
+</span><span class="lineno">  1  </span><span></span><span class="cp">#</span><span class="cp">include &lt;iostream&gt;</span><span class="cp"></span><span>
+</span><span class="lineno">  2  </span><span class="cp"></span><span class="cp">#</span><span class="cp">include &lt;cstdlib&gt;</span><span></span><span>
+</span><span></span>
 </pre>
 <div class="run-output run-output-cpp highlight-python"><div class="highlight"><pre>
 </pre></div>
@@ -112,88 +113,86 @@ the <tt class="docutils literal"><span class="pre">rst</span></tt> document.</p>
 <div class="section" id="appending">
 <h3><a class="toc-backref" href="#id8">Appending</a><a class="headerlink" href="#appending" title="Permalink to this headline">¶</a></h3>
 <pre class="code code-weaver literal-block">
-<span></span><span class="p">..</span><span class=""> </span><span class="ow">cpp</span><span class="p">::</span><span class=""> </span><span class="">main.cpp done</span><span class="">
-</span><span class="">    </span><span class="nc">:name:</span><span class=""> </span><span class="nf">main</span><span class="">
-</span><span class="">
-</span><span class="">    int main() {</span><span class="">
-</span><span class="">        std</span><span class="">:</span><span class="">:</span><span class="">cout &lt;&lt; std</span><span class="">:</span><span class="">:</span><span class="">time(0) &lt;&lt; &#8220;</span><span class="">\n</span><span class="">&#8220;;</span><span class="">
-</span><span class="">    }</span><span class="">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">cpp</span><span class="p">::</span><span> </span><span>main.cpp done</span><span>
+</span><span>    </span><span class="nc">:name:</span><span> </span><span class="nf">main</span><span>
+</span><span>
+</span><span>    int main() {</span><span>
+</span><span>        std</span><span>:</span><span>:</span><span>cout &lt;&lt; </span><span>:</span><span>:</span><span>time(0) &lt;&lt; &#8220;</span><span>\n</span><span>&#8220;;</span><span>
+</span><span>    }</span><span>
 </span>
 </pre>
 <blockquote class="run-output run-output-weaver" id="weaver">
 <span></span><pre class="code code-cpp literal-block">
 <span class="file-header">     main.cpp (cont)
 
-</span><span class="lineno">  4  </span><span class="kt">int</span><span class=""> </span><span class="n">main</span><span class="p">(</span><span class="p">)</span><span class=""> </span><span class="p">{</span><span class=""></span><span>
-</span><span class="lineno">  5  </span><span class=""></span><span class="">    </span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span class=""> </span><span class="o">&lt;</span><span class="o">&lt;</span><span class=""> </span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class=""> </span><span class="o">&lt;</span><span class="o">&lt;</span><span class=""> </span><span class="s">&#8220;</span><span class="se">\n</span><span class="s">&#8220;</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno">  6  </span><span class=""></span><span class="p">}</span><span class=""></span><span>
-</span><span class="lineno">  7  </span><span class=""></span>
+</span><span class="lineno">  3  </span><span></span><span class="kt">int</span><span> </span><span class="n">main</span><span class="p">(</span><span class="p">)</span><span> </span><span class="p">{</span><span></span><span>
+</span><span class="lineno">  4  </span><span></span><span>    </span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span> </span><span class="o">&lt;</span><span class="o">&lt;</span><span> </span><span class="o">:</span><span class="o">:</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span> </span><span class="o">&lt;</span><span class="o">&lt;</span><span> </span><span class="s">&#8220;</span><span class="se">\n</span><span class="s">&#8220;</span><span class="p">;</span><span></span><span>
+</span><span class="lineno">  5  </span><span></span><span class="p">}</span><span></span><span>
+</span><span></span>
 </pre>
-<div class="run-output run-output-cpp highlight-python"><pre>main.cpp: In function int main():
-main.cpp:5:18: error: time is not a member of std</pre>
+<div class="run-output run-output-cpp highlight-python"><div class="highlight"><pre>
+</pre></div>
 </div>
 </blockquote>
 </div>
 <div class="section" id="inserting">
 <h3><a class="toc-backref" href="#id9">Inserting</a><a class="headerlink" href="#inserting" title="Permalink to this headline">¶</a></h3>
 <pre class="code code-weaver literal-block">
-<span></span><span class="p">..</span><span class=""> </span><span class="ow">cpp</span><span class="p">::</span><span class=""> </span><span class="">main.cpp done</span><span class="">
-</span><span class="">    </span><span class="nc">:after:</span><span class=""> </span><span class="nf">includes</span><span class="">
-</span><span class="">
-</span><span class="">    int even_time() {</span><span class="">
-</span><span class="">        int time;</span><span class="">
-</span><span class="">        for (;;) {</span><span class="">
-</span><span class="">            time = std</span><span class="">:</span><span class="">:</span><span class="">time(0);</span><span class="">
-</span><span class="">            if (time % 2 == 0) return time;</span><span class="">
-</span><span class="">
-</span><span class="">            sleep(1);</span><span class="">
-</span><span class="">        }</span><span class="">
-</span><span class="">    }</span><span class="">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">cpp</span><span class="p">::</span><span> </span><span>main.cpp done</span><span>
+</span><span>    </span><span class="nc">:after:</span><span> </span><span class="nf">includes</span><span>
+</span><span>
+</span><span>    int even_time() {</span><span>
+</span><span>        int time;</span><span>
+</span><span>        for (;;) {</span><span>
+</span><span>            time = </span><span>:</span><span>:</span><span>time(0);</span><span>
+</span><span>            if (time % 2 == 0) return time;</span><span>
+</span><span>
+</span><span>            sleep(1);</span><span>
+</span><span>        }</span><span>
+</span><span>    }</span><span>
 </span>
 </pre>
 <blockquote class="run-output run-output-weaver" id="weaver">
 <span></span><pre class="code code-cpp literal-block">
 <span class="file-header">     main.cpp (cont)
 
-</span><span class="lineno">  4  </span><span class="kt">int</span><span class=""> </span><span class="n">even_time</span><span class="p">(</span><span class="p">)</span><span class=""> </span><span class="p">{</span><span class=""></span><span>
-</span><span class="lineno">  5  </span><span class=""></span><span class="">    </span><span class="kt">int</span><span class=""> </span><span class="n">time</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno">  6  </span><span class=""></span><span class="">    </span><span class="k">for</span><span class=""> </span><span class="p">(</span><span class="p">;</span><span class="p">;</span><span class="p">)</span><span class=""> </span><span class="p">{</span><span class=""></span><span>
-</span><span class="lineno">  7  </span><span class=""></span><span class="">        </span><span class="n">time</span><span class=""> </span><span class="o">=</span><span class=""> </span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno">  8  </span><span class=""></span><span class="">        </span><span class="k">if</span><span class=""> </span><span class="p">(</span><span class="n">time</span><span class=""> </span><span class="o">%</span><span class=""> </span><span class="mi">2</span><span class=""> </span><span class="o">=</span><span class="o">=</span><span class=""> </span><span class="mi">0</span><span class="p">)</span><span class=""> </span><span class="k">return</span><span class=""> </span><span class="n">time</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno">  9  </span><span class=""></span><span class=""></span><span>
-</span><span class="lineno"> 10  </span><span class=""></span><span class="">        </span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno"> 11  </span><span class=""></span><span class="">    </span><span class="p">}</span><span class=""></span><span>
-</span><span class="lineno"> 12  </span><span class=""></span><span class="p">}</span><span class=""></span><span>
-</span><span class="lineno"> 13  </span><span class=""></span>
+</span><span class="lineno">  6  </span><span></span><span class="kt">int</span><span> </span><span class="n">even_time</span><span class="p">(</span><span class="p">)</span><span> </span><span class="p">{</span><span></span><span>
+</span><span class="lineno">  7  </span><span></span><span>    </span><span class="kt">int</span><span> </span><span class="n">time</span><span class="p">;</span><span></span><span>
+</span><span class="lineno">  8  </span><span></span><span>    </span><span class="k">for</span><span> </span><span class="p">(</span><span class="p">;</span><span class="p">;</span><span class="p">)</span><span> </span><span class="p">{</span><span></span><span>
+</span><span class="lineno">  9  </span><span></span><span>        </span><span class="n">time</span><span> </span><span class="o">=</span><span> </span><span class="o">:</span><span class="o">:</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="p">;</span><span></span><span>
+</span><span class="lineno"> 10  </span><span></span><span>        </span><span class="k">if</span><span> </span><span class="p">(</span><span class="n">time</span><span> </span><span class="o">%</span><span> </span><span class="mi">2</span><span> </span><span class="o">=</span><span class="o">=</span><span> </span><span class="mi">0</span><span class="p">)</span><span> </span><span class="k">return</span><span> </span><span class="n">time</span><span class="p">;</span><span></span><span>
+</span><span class="lineno"> 11  </span><span></span><span></span><span>
+</span><span class="lineno"> 12  </span><span></span><span>        </span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="p">;</span><span></span><span>
+</span><span class="lineno"> 13  </span><span></span><span>    </span><span class="p">}</span><span></span><span>
+</span><span class="lineno"> 14  </span><span></span><span class="p">}</span><span></span><span>
+</span><span></span>
 </pre>
-<div class="run-output run-output-cpp highlight-python"><pre>main.cpp: In function int even_time():
-main.cpp:7:16: error: time is not a member of std
-main.cpp: In function int main():
-main.cpp:15:18: error: time is not a member of std</pre>
+<div class="run-output run-output-cpp highlight-python"><div class="highlight"><pre>
+</pre></div>
 </div>
 </blockquote>
 </div>
 <div class="section" id="id1">
 <h3><a class="toc-backref" href="#id10">Editing</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <pre class="code code-weaver literal-block">
-<span></span><span class="p">..</span><span class=""> </span><span class="ow">cpp</span><span class="p">::</span><span class=""> </span><span class="">main.cpp redo done</span><span class="">
-</span><span class="">    </span><span class="nc">:name:</span><span class=""> </span><span class="nf">includes</span><span class="">
-</span><span class="">
-</span><span class="">    #include &lt;iostream&gt;</span><span class="">
-</span><span class="">    #include &lt;ctime&gt;</span><span class="">
-</span><span class="">    #include &lt;cstdlib&gt;</span><span class="">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">cpp</span><span class="p">::</span><span> </span><span>main.cpp redo exec</span><span>
+</span><span>    </span><span class="nc">:name:</span><span> </span><span class="nf">includes</span><span>
+</span><span>
+</span><span>    #include &lt;iostream&gt;</span><span>
+</span><span>    #include &lt;ctime&gt;</span><span>
+</span><span>    #include &lt;cstdlib&gt;</span><span>
 </span>
 </pre>
 <blockquote class="run-output run-output-weaver" id="weaver">
 <span></span><pre class="code code-cpp literal-block">
 <span class="file-header">     main.cpp (cont)
 
-</span><span class="lineno">  1  </span><span class="cp">#</span><span class="cp">include &lt;iostream&gt;</span><span class="cp"></span><span>
-</span><span class="lineno">  2  </span><span class="cp"></span><span class="cp">#</span><span class="cp">include &lt;ctime&gt;</span><span class="cp"></span><span>
-</span><span class="lineno">  3  </span><span class="cp"></span><span class="cp">#</span><span class="cp">include &lt;cstdlib&gt;</span><span class="cp"></span><span>
-</span><span class="lineno">  4  </span><span class="cp"></span>
+</span><span class="lineno"> 15  </span><span></span><span class="cp">#</span><span class="cp">include &lt;iostream&gt;</span><span class="cp"></span><span>
+</span><span class="lineno"> 16  </span><span class="cp"></span><span class="cp">#</span><span class="cp">include &lt;ctime&gt;</span><span class="cp"></span><span>
+</span><span class="lineno"> 17  </span><span class="cp"></span><span class="cp">#</span><span class="cp">include &lt;cstdlib&gt;</span><span></span><span>
+</span><span></span>
 </pre>
-<div class="run-output run-output-cpp highlight-python"><div class="highlight"><pre>
+<div class="run-output run-output-cpp highlight-python"><div class="highlight"><pre><span class="mi">1313464665</span>
 </pre></div>
 </div>
 </blockquote>
@@ -202,78 +201,201 @@ main.cpp:15:18: error: time is not a member of std</pre>
 <h3><a class="toc-backref" href="#id11">Deleting</a><a class="headerlink" href="#deleting" title="Permalink to this headline">¶</a></h3>
 <p>Uh... you can&#8217;t do this right now. You can set its contents to nothing, though.</p>
 <pre class="code code-weaver literal-block">
-<span></span><span class="p">..</span><span class=""> </span><span class="ow">cpp</span><span class="p">::</span><span class=""> </span><span class="">main.cpp redo</span><span class="">
-</span><span class="">    </span><span class="nc">:name:</span><span class=""> </span><span class="nf">main</span><span class="">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">cpp</span><span class="p">::</span><span> </span><span>main.cpp redo</span><span>
+</span><span>    </span><span class="nc">:name:</span><span> </span><span class="nf">main</span><span>
 </span>
 </pre>
 <blockquote class="run-output run-output-weaver" id="weaver">
 <span></span><pre class="code code-cpp literal-block">
 <span class="file-header">     main.cpp (cont)
 
-</span><span class="lineno"> 15  </span><span class=""></span><span>
-</span><span class="lineno"> 16  </span><span class=""></span>
+</span><span class="lineno"> 16  </span>
 </pre>
 </blockquote>
 </div>
 </div>
-<div class="section" id="c">
-<h2><a class="toc-backref" href="#id12">C++</a><a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="noninteractive">
-<h3><a class="toc-backref" href="#id13">Noninteractive</a><a class="headerlink" href="#noninteractive" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="noweb-like-structuring">
+<span id="nowebish"></span><h2><a class="toc-backref" href="#id12">Noweb-like structuring</a><a class="headerlink" href="#noweb-like-structuring" title="Permalink to this headline">¶</a></h2>
+<p>One of the features that <tt class="docutils literal"><span class="pre">rstweaver</span></tt> borrows from <tt class="docutils literal"><span class="pre">noweb</span></tt> is the ability to
+define the structure of a file and then fill in the parts. For example if we
+are using Happy we can make a skeleton:</p>
 <pre class="code code-weaver literal-block">
-<span></span><span class="p">..</span><span class=""> </span><span class="ow">cpp</span><span class="p">::</span><span class=""> </span><span class="">new exec</span><span class="">
-</span><span class="">
-</span><span class="">    #include &lt;iostream&gt;</span><span class="">
-</span><span class="">
-</span><span class="">    int main() {</span><span class="">
-</span><span class="">        static const int N = 20;</span><span class="">
-</span><span class="">        int x</span><span class="">[</span><span class="">N];</span><span class="">
-</span><span class="">
-</span><span class="">        using std</span><span class="">:</span><span class="">:</span><span class="">cout;</span><span class="">
-</span><span class="">
-</span><span class="">        for (int i=0; i&lt;N; i++) {</span><span class="">
-</span><span class="">            x</span><span class="">[</span><span class="">i] = 1;</span><span class="">
-</span><span class="">        }</span><span class="">
-</span><span class="">
-</span><span class="">        for (int j=0; j&lt;N; j++) {</span><span class="">
-</span><span class="">            for (int i=1; i&lt;N; i++) {</span><span class="">
-</span><span class="">                x</span><span class="">[</span><span class="">i] = 3</span><span class="">*</span><span class="">x</span><span class="">[</span><span class="">i-1] - x</span><span class="">[</span><span class="">i];</span><span class="">
-</span><span class="">            }</span><span class="">
-</span><span class="">        }</span><span class="">
-</span><span class="">
-</span><span class="">        for (int i=0; i&lt;N; i++) {</span><span class="">
-</span><span class="">            cout &lt;&lt; x</span><span class="">[</span><span class="">i] &lt;&lt; &#8220;</span><span class="">\n</span><span class="">&#8220;;</span><span class="">
-</span><span class="">        }</span><span class="">
-</span><span class="">    }</span><span class="">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">happy</span><span class="p">::</span><span> </span><span>Parser.y</span><span>
+</span><span>
+</span><span>    {</span><span>
+</span><span>    module Parser where</span><span>
+</span><span>    }</span><span>
+</span><span>
+</span><span>    &lt;&lt;&lt;Configuration&gt;&gt;&gt;</span><span>
+</span><span>
+</span><span>    &lt;&lt;&lt;Tokens&gt;&gt;&gt;</span><span>
+</span><span>
+</span><span>    %%</span><span>
+</span><span>
+</span><span>    &lt;&lt;&lt;Rules&gt;&gt;&gt;</span><span>
+</span><span>
+</span><span>    {</span><span>
+</span><span>    &lt;&lt;&lt;Haskell Code&gt;&gt;&gt;</span><span>
+</span><span>    }</span><span>
+</span><span>
+</span><span class="p">..</span><span> </span><span class="ow">happy</span><span class="p">::</span><span> </span><span>Parser.y</span><span>
+</span><span>    </span><span>:</span><span>in</span><span>:</span><span> Configuration</span><span>
+</span><span>
+</span><span>    %name      parse</span><span>
+</span><span>    %tokentype { Char }</span><span>
+</span><span>
+</span><span class="p">..</span><span> </span><span class="ow">happy</span><span class="p">::</span><span> </span><span>Parser.y</span><span>
+</span><span>    </span><span>:</span><span>in</span><span>:</span><span> Tokens</span><span>
+</span><span>
+</span><span>    %token</span><span>
+</span><span>        a    { &#8216;a&#8217; }</span><span>
+</span><span>        b    { &#8216;b&#8217; }</span><span>
+</span><span>
+</span><span class="p">..</span><span> </span><span class="ow">happy</span><span class="p">::</span><span> </span><span>Parser.y</span><span>
+</span><span>    </span><span>:</span><span>in</span><span>:</span><span> Rules</span><span>
+</span><span>
+</span><span>    File </span><span>:</span><span> AB { $1 }</span><span>
+</span><span>
+</span><span>    AB </span><span>:</span><span>        { (0</span><span>:</span><span>:</span><span>Int)      }</span><span>
+</span><span>       | a AB b { (1</span><span>:</span><span>:</span><span>Int) + $2 }</span><span>
+</span><span>
+</span><span class="p">..</span><span> </span><span class="ow">happy</span><span class="p">::</span><span> </span><span>Parser.y</span><span>
+</span><span>    </span><span>:</span><span>in</span><span>:</span><span> Haskell Code</span><span>
+</span><span>
+</span><span>    happyError _ = error &#8220;Happy error!&#8221;</span><span>
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="code code-happy literal-block">
+<span class="file-header">     Parser.y 
+
+</span><span class="lineno">  1  </span><span></span><span class="p">{</span><span></span><span>
+</span><span class="lineno">  2  </span><span></span><span class="kr">module</span><span> </span><span class="nn">Parser</span><span> </span><span class="kr">where</span><span></span><span>
+</span><span class="lineno">  3  </span><span></span><span class="p">}</span><span></span><span>
+</span><span class="lineno">  4  </span><span></span><span>
+</span><span class="lineno">  5  </span><span></span><span class="omission">[... Configuration ...]</span><span></span><span>
+</span><span class="lineno">  6  </span><span></span><span></span><span>
+</span><span class="lineno">  7  </span><span></span><span></span><span>
+</span><span class="lineno">  8  </span><span></span><span class="omission">[... Tokens ...]</span><span></span><span>
+</span><span class="lineno">  9  </span><span></span><span></span><span>
+</span><span class="lineno"> 10  </span><span></span><span class="o">%%</span><span></span><span>
+</span><span class="lineno"> 11  </span><span></span><span>
+</span><span class="lineno"> 12  </span><span></span><span class="omission">[... Rules ...]</span><span></span><span>
+</span><span class="lineno"> 13  </span><span></span><span></span><span>
+</span><span class="lineno"> 14  </span><span></span><span class="p">{</span><span></span><span>
+</span><span class="lineno"> 15  </span><span></span><span class="omission">[... Haskell Code ...]</span><span></span><span>
+</span><span class="lineno"> 16  </span><span></span><span></span><span class="p">}</span><span></span><span>
+</span><span></span>
+</pre>
+<pre class="code code-happy literal-block">
+<span class="file-header">     Parser.y (cont)
+
+</span><span class="lineno"> 12  </span><span></span><span class="o">%</span><span class="n">name</span><span>      </span><span class="n">parse</span><span></span><span>
+</span><span class="lineno"> 13  </span><span></span><span class="o">%</span><span class="n">tokentype</span><span> </span><span class="p">{</span><span> </span><span class="kt">Char</span><span> </span><span class="p">}</span><span></span><span>
+</span><span></span>
+</pre>
+<pre class="code code-happy literal-block">
+<span class="file-header">     Parser.y (cont)
+
+</span><span class="lineno"> 14  </span><span></span><span class="o">%</span><span class="n">token</span><span></span><span>
+</span><span class="lineno"> 15  </span><span>    </span><span class="n">a</span><span>    </span><span class="p">{</span><span> </span><span class="sc">&#8216;</span><span class="sc">a</span><span class="sc">&#8216;</span><span> </span><span class="p">}</span><span></span><span>
+</span><span class="lineno"> 16  </span><span>    </span><span class="n">b</span><span>    </span><span class="p">{</span><span> </span><span class="sc">&#8216;</span><span class="sc">b</span><span class="sc">&#8216;</span><span> </span><span class="p">}</span><span></span><span>
+</span><span></span>
+</pre>
+<pre class="code code-happy literal-block">
+<span class="file-header">     Parser.y (cont)
+
+</span><span class="lineno"> 17  </span><span></span><span class="kt">File</span><span> </span><span class="kt">:</span><span> </span><span class="kt">AB</span><span> </span><span class="p">{</span><span> </span><span class="o">$</span><span class="mi">1</span><span> </span><span class="p">}</span><span></span><span>
+</span><span class="lineno"> 18  </span><span></span><span>
+</span><span class="lineno"> 19  </span><span></span><span class="kt">AB</span><span> </span><span class="kt">:</span><span>        </span><span class="p">{</span><span> </span><span class="p">(</span><span class="mi">0</span><span class="ow">::</span><span class="kt">Int</span><span class="p">)</span><span>      </span><span class="p">}</span><span></span><span>
+</span><span class="lineno"> 20  </span><span>   </span><span class="o">|</span><span> </span><span class="n">a</span><span> </span><span class="kt">AB</span><span> </span><span class="n">b</span><span> </span><span class="p">{</span><span> </span><span class="p">(</span><span class="mi">1</span><span class="ow">::</span><span class="kt">Int</span><span class="p">)</span><span> </span><span class="o">+</span><span> </span><span class="o">$</span><span class="mi">2</span><span> </span><span class="p">}</span><span></span><span>
+</span><span></span>
+</pre>
+<pre class="code code-happy literal-block">
+<span class="file-header">     Parser.y (cont)
+
+</span><span class="lineno"> 21  </span><span></span><span class="nf">happyError</span><span> </span><span class="kr">_</span><span> </span><span class="ow">=</span><span> </span><span class="ne">error</span><span> </span><span class="s">&#8220;</span><span class="s">Happy error!</span><span class="s">&#8220;</span><span></span><span>
+</span><span></span>
+</pre>
+</blockquote>
+</div>
+<div class="section" id="showing-already-written-blocks">
+<h2><a class="toc-backref" href="#id13">Showing already-written blocks</a><a class="headerlink" href="#showing-already-written-blocks" title="Permalink to this headline">¶</a></h2>
+<pre class="code code-weaver literal-block">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">cpp</span><span class="p">::</span><span> </span><span>main.cpp recall</span><span>
+</span><span>    </span><span class="nc">:name:</span><span> </span><span class="nf">includes</span><span>
 </span>
 </pre>
 <blockquote class="run-output run-output-weaver" id="weaver">
 <span></span><pre class="code code-cpp literal-block">
-<span class="file-header">     main1.cpp 
+<span class="file-header">     main.cpp (cont)
 
-</span><span class="lineno">  1  </span><span class="cp">#</span><span class="cp">include &lt;iostream&gt;</span><span class="cp"></span><span>
-</span><span class="lineno">  2  </span><span class="cp"></span><span class=""></span><span>
-</span><span class="lineno">  3  </span><span class=""></span><span class="kt">int</span><span class=""> </span><span class="n">main</span><span class="p">(</span><span class="p">)</span><span class=""> </span><span class="p">{</span><span class=""></span><span>
-</span><span class="lineno">  4  </span><span class=""></span><span class="">    </span><span class="k">static</span><span class=""> </span><span class="k">const</span><span class=""> </span><span class="kt">int</span><span class=""> </span><span class="n">N</span><span class=""> </span><span class="o">=</span><span class=""> </span><span class="mi">20</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno">  5  </span><span class=""></span><span class="">    </span><span class="kt">int</span><span class=""> </span><span class="n">x</span><span class="p">[</span><span class="n">N</span><span class="p">]</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno">  6  </span><span class=""></span><span class=""></span><span>
-</span><span class="lineno">  7  </span><span class=""></span><span class="">    </span><span class="k">using</span><span class=""> </span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno">  8  </span><span class=""></span><span class=""></span><span>
-</span><span class="lineno">  9  </span><span class=""></span><span class="">    </span><span class="k">for</span><span class=""> </span><span class="p">(</span><span class="kt">int</span><span class=""> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class=""> </span><span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span><span class=""> </span><span class="n">i</span><span class="o">+</span><span class="o">+</span><span class="p">)</span><span class=""> </span><span class="p">{</span><span class=""></span><span>
-</span><span class="lineno"> 10  </span><span class=""></span><span class="">        </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class=""> </span><span class="o">=</span><span class=""> </span><span class="mi">1</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno"> 11  </span><span class=""></span><span class="">    </span><span class="p">}</span><span class=""></span><span>
-</span><span class="lineno"> 12  </span><span class=""></span><span class=""></span><span>
-</span><span class="lineno"> 13  </span><span class=""></span><span class="">    </span><span class="k">for</span><span class=""> </span><span class="p">(</span><span class="kt">int</span><span class=""> </span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class=""> </span><span class="n">j</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span><span class=""> </span><span class="n">j</span><span class="o">+</span><span class="o">+</span><span class="p">)</span><span class=""> </span><span class="p">{</span><span class=""></span><span>
-</span><span class="lineno"> 14  </span><span class=""></span><span class="">        </span><span class="k">for</span><span class=""> </span><span class="p">(</span><span class="kt">int</span><span class=""> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class=""> </span><span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span><span class=""> </span><span class="n">i</span><span class="o">+</span><span class="o">+</span><span class="p">)</span><span class=""> </span><span class="p">{</span><span class=""></span><span>
-</span><span class="lineno"> 15  </span><span class=""></span><span class="">            </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class=""> </span><span class="o">=</span><span class=""> </span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class=""> </span><span class="o">-</span><span class=""> </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno"> 16  </span><span class=""></span><span class="">        </span><span class="p">}</span><span class=""></span><span>
-</span><span class="lineno"> 17  </span><span class=""></span><span class="">    </span><span class="p">}</span><span class=""></span><span>
-</span><span class="lineno"> 18  </span><span class=""></span><span class=""></span><span>
-</span><span class="lineno"> 19  </span><span class=""></span><span class="">    </span><span class="k">for</span><span class=""> </span><span class="p">(</span><span class="kt">int</span><span class=""> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class=""> </span><span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span><span class=""> </span><span class="n">i</span><span class="o">+</span><span class="o">+</span><span class="p">)</span><span class=""> </span><span class="p">{</span><span class=""></span><span>
-</span><span class="lineno"> 20  </span><span class=""></span><span class="">        </span><span class="n">cout</span><span class=""> </span><span class="o">&lt;</span><span class="o">&lt;</span><span class=""> </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class=""> </span><span class="o">&lt;</span><span class="o">&lt;</span><span class=""> </span><span class="s">&#8220;</span><span class="se">\n</span><span class="s">&#8220;</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno"> 21  </span><span class=""></span><span class="">    </span><span class="p">}</span><span class=""></span><span>
-</span><span class="lineno"> 22  </span><span class=""></span><span class="p">}</span><span class=""></span><span>
-</span><span class="lineno"> 23  </span><span class=""></span>
+</span><span class="lineno"> 13  </span><span></span><span class="cp">#</span><span class="cp">include &lt;iostream&gt;</span><span class="cp"></span><span>
+</span><span class="lineno"> 14  </span><span class="cp"></span><span class="cp">#</span><span class="cp">include &lt;ctime&gt;</span><span class="cp"></span><span>
+</span><span class="lineno"> 15  </span><span class="cp"></span><span class="cp">#</span><span class="cp">include &lt;cstdlib&gt;</span><span></span><span>
+</span><span class="lineno"> 16  </span><span></span><span>
+</span><span></span>
+</pre>
+</blockquote>
+</div>
+<div class="section" id="c">
+<h2><a class="toc-backref" href="#id14">C++</a><a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="noninteractive">
+<h3><a class="toc-backref" href="#id15">Noninteractive</a><a class="headerlink" href="#noninteractive" title="Permalink to this headline">¶</a></h3>
+<pre class="code code-weaver literal-block">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">cpp</span><span class="p">::</span><span> </span><span>new exec</span><span>
+</span><span>
+</span><span>    #include &lt;iostream&gt;</span><span>
+</span><span>
+</span><span>    int main() {</span><span>
+</span><span>        static const int N = 20;</span><span>
+</span><span>        int x</span><span>[</span><span>N];</span><span>
+</span><span>
+</span><span>        using std</span><span>:</span><span>:</span><span>cout;</span><span>
+</span><span>
+</span><span>        for (int i=0; i&lt;N; i++) {</span><span>
+</span><span>            x</span><span>[</span><span>i] = 1;</span><span>
+</span><span>        }</span><span>
+</span><span>
+</span><span>        for (int j=0; j&lt;N; j++) {</span><span>
+</span><span>            for (int i=1; i&lt;N; i++) {</span><span>
+</span><span>                x</span><span>[</span><span>i] = 3</span><span>*</span><span>x</span><span>[</span><span>i-1] - x</span><span>[</span><span>i];</span><span>
+</span><span>            }</span><span>
+</span><span>        }</span><span>
+</span><span>
+</span><span>        for (int i=0; i&lt;N; i++) {</span><span>
+</span><span>            cout &lt;&lt; x</span><span>[</span><span>i] &lt;&lt; &#8220;</span><span>\n</span><span>&#8220;;</span><span>
+</span><span>        }</span><span>
+</span><span>    }</span><span>
+</span>
+</pre>
+<blockquote class="run-output run-output-weaver" id="weaver">
+<span></span><pre class="code code-cpp literal-block">
+<span class="file-header">     main76e7.cpp 
+
+</span><span class="lineno">  1  </span><span></span><span class="cp">#</span><span class="cp">include &lt;iostream&gt;</span><span class="cp"></span><span>
+</span><span class="lineno">  2  </span><span class="cp"></span><span></span><span>
+</span><span class="lineno">  3  </span><span></span><span class="kt">int</span><span> </span><span class="n">main</span><span class="p">(</span><span class="p">)</span><span> </span><span class="p">{</span><span></span><span>
+</span><span class="lineno">  4  </span><span></span><span>    </span><span class="k">static</span><span> </span><span class="k">const</span><span> </span><span class="kt">int</span><span> </span><span class="n">N</span><span> </span><span class="o">=</span><span> </span><span class="mi">20</span><span class="p">;</span><span></span><span>
+</span><span class="lineno">  5  </span><span></span><span>    </span><span class="kt">int</span><span> </span><span class="n">x</span><span class="p">[</span><span class="n">N</span><span class="p">]</span><span class="p">;</span><span></span><span>
+</span><span class="lineno">  6  </span><span></span><span></span><span>
+</span><span class="lineno">  7  </span><span></span><span>    </span><span class="k">using</span><span> </span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span class="p">;</span><span></span><span>
+</span><span class="lineno">  8  </span><span></span><span></span><span>
+</span><span class="lineno">  9  </span><span></span><span>    </span><span class="k">for</span><span> </span><span class="p">(</span><span class="kt">int</span><span> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span> </span><span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span><span> </span><span class="n">i</span><span class="o">+</span><span class="o">+</span><span class="p">)</span><span> </span><span class="p">{</span><span></span><span>
+</span><span class="lineno"> 10  </span><span></span><span>        </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span> </span><span class="o">=</span><span> </span><span class="mi">1</span><span class="p">;</span><span></span><span>
+</span><span class="lineno"> 11  </span><span></span><span>    </span><span class="p">}</span><span></span><span>
+</span><span class="lineno"> 12  </span><span></span><span></span><span>
+</span><span class="lineno"> 13  </span><span></span><span>    </span><span class="k">for</span><span> </span><span class="p">(</span><span class="kt">int</span><span> </span><span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span> </span><span class="n">j</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span><span> </span><span class="n">j</span><span class="o">+</span><span class="o">+</span><span class="p">)</span><span> </span><span class="p">{</span><span></span><span>
+</span><span class="lineno"> 14  </span><span></span><span>        </span><span class="k">for</span><span> </span><span class="p">(</span><span class="kt">int</span><span> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span> </span><span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span><span> </span><span class="n">i</span><span class="o">+</span><span class="o">+</span><span class="p">)</span><span> </span><span class="p">{</span><span></span><span>
+</span><span class="lineno"> 15  </span><span></span><span>            </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span> </span><span class="o">=</span><span> </span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span> </span><span class="o">-</span><span> </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="p">;</span><span></span><span>
+</span><span class="lineno"> 16  </span><span></span><span>        </span><span class="p">}</span><span></span><span>
+</span><span class="lineno"> 17  </span><span></span><span>    </span><span class="p">}</span><span></span><span>
+</span><span class="lineno"> 18  </span><span></span><span></span><span>
+</span><span class="lineno"> 19  </span><span></span><span>    </span><span class="k">for</span><span> </span><span class="p">(</span><span class="kt">int</span><span> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span> </span><span class="n">i</span><span class="o">&lt;</span><span class="n">N</span><span class="p">;</span><span> </span><span class="n">i</span><span class="o">+</span><span class="o">+</span><span class="p">)</span><span> </span><span class="p">{</span><span></span><span>
+</span><span class="lineno"> 20  </span><span></span><span>        </span><span class="n">cout</span><span> </span><span class="o">&lt;</span><span class="o">&lt;</span><span> </span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span> </span><span class="o">&lt;</span><span class="o">&lt;</span><span> </span><span class="s">&#8220;</span><span class="se">\n</span><span class="s">&#8220;</span><span class="p">;</span><span></span><span>
+</span><span class="lineno"> 21  </span><span></span><span>    </span><span class="p">}</span><span></span><span>
+</span><span class="lineno"> 22  </span><span></span><span class="p">}</span><span></span><span>
+</span><span></span>
 </pre>
 <div class="run-output run-output-cpp highlight-python"><div class="highlight"><pre><span class="mi">1</span>
 <span class="mi">1</span>
@@ -300,243 +422,243 @@ main.cpp:15:18: error: time is not a member of std</pre>
 </blockquote>
 </div>
 <div class="section" id="interactive">
-<h3><a class="toc-backref" href="#id14">Interactive</a><a class="headerlink" href="#interactive" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id16">Interactive</a><a class="headerlink" href="#interactive" title="Permalink to this headline">¶</a></h3>
 <pre class="code code-weaver literal-block">
-<span></span><span class="p">..</span><span class=""> </span><span class="ow">icpp</span><span class="p">::</span><span class="">
-</span><span class="">
-</span><span class="">    int x = 5</span><span class="">
-</span><span class="">    std</span><span class="">:</span><span class="">:</span><span class="">cout &lt;&lt; x</span><span class="">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">icpp</span><span class="p">::</span><span>
+</span><span>
+</span><span>    int x = 5</span><span>
+</span><span>    std</span><span>:</span><span>:</span><span>cout &lt;&lt; x</span><span>
 </span>
 </pre>
 <blockquote class="run-output run-output-weaver" id="weaver">
 <span></span><pre class="interactive-session literal-block">
-<span class="interactive-input"><span>c++&gt; </span><span class="kt">int</span><span class=""> </span><span class="n">x</span><span class=""> </span><span class="o">=</span><span class=""> </span><span class="mi">5</span><span class="">
-</span></span><span class="interactive-output"></span><span>
+<span class="interactive-input"><span>c++&gt; </span><span></span><span class="kt">int</span><span> </span><span class="n">x</span><span> </span><span class="o">=</span><span> </span><span class="mi">5</span><span></span></span><span>
+</span><span class="interactive-output"></span><span>
 
-</span><span class="interactive-input"><span>c++&gt; </span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span class=""> </span><span class="o">&lt;</span><span class="o">&lt;</span><span class=""> </span><span class="n">x</span><span class="">
-</span></span><span class="interactive-output">5</span>
+</span><span class="interactive-input"><span>c++&gt; </span><span></span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span> </span><span class="o">&lt;</span><span class="o">&lt;</span><span> </span><span class="n">x</span><span></span></span><span>
+</span><span class="interactive-output">5</span>
 </pre>
 </blockquote>
 <p>Which isn&#8217;t terribly handy unless you want to use some code you&#8217;ve written:</p>
 <pre class="code code-weaver literal-block">
-<span></span><span class="p">..</span><span class=""> </span><span class="ow">cpp</span><span class="p">::</span><span class=""> </span><span class="">collatz.hpp</span><span class="">
-</span><span class="">
-</span><span class="">    int collatz(int n);</span><span class="">
-</span><span class="">
-</span><span class="p">..</span><span class=""> </span><span class="ow">cpp</span><span class="p">::</span><span class=""> </span><span class="">collatz.cpp</span><span class="">
-</span><span class="">
-</span><span class="">    int collatz(int n) {</span><span class="">
-</span><span class="">        int k = n;</span><span class="">
-</span><span class="">        int count = 0;</span><span class="">
-</span><span class="">
-</span><span class="">        while (k != 1) {</span><span class="">
-</span><span class="">            if (k % 2 == 0) k = k/2;</span><span class="">
-</span><span class="">            else k = 3</span><span class="">*</span><span class="">k + 1;</span><span class="">
-</span><span class="">
-</span><span class="">            count++;</span><span class="">
-</span><span class="">        }</span><span class="">
-</span><span class="">
-</span><span class="">        return count;</span><span class="">
-</span><span class="">    }</span><span class="">
-</span><span class="">
-</span><span class="p">..</span><span class=""> </span><span class="ow">icpp</span><span class="p">::</span><span class=""> </span><span class="">collatz.cpp collatz.hpp</span><span class="">
-</span><span class="">
-</span><span class="">    std</span><span class="">:</span><span class="">:</span><span class="">cout &lt;&lt; collatz(1)</span><span class="">
-</span><span class="">    std</span><span class="">:</span><span class="">:</span><span class="">cout &lt;&lt; collatz(2)</span><span class="">
-</span><span class="">    std</span><span class="">:</span><span class="">:</span><span class="">cout &lt;&lt; collatz(3)</span><span class="">
-</span><span class="">    std</span><span class="">:</span><span class="">:</span><span class="">cout &lt;&lt; collatz(4)</span><span class="">
-</span><span class="">    std</span><span class="">:</span><span class="">:</span><span class="">cout &lt;&lt; collatz(5)</span><span class="">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">cpp</span><span class="p">::</span><span> </span><span>collatz.hpp</span><span>
+</span><span>
+</span><span>    int collatz(int n);</span><span>
+</span><span>
+</span><span class="p">..</span><span> </span><span class="ow">cpp</span><span class="p">::</span><span> </span><span>collatz.cpp</span><span>
+</span><span>
+</span><span>    int collatz(int n) {</span><span>
+</span><span>        int k = n;</span><span>
+</span><span>        int count = 0;</span><span>
+</span><span>
+</span><span>        while (k != 1) {</span><span>
+</span><span>            if (k % 2 == 0) k = k/2;</span><span>
+</span><span>            else k = 3</span><span>*</span><span>k + 1;</span><span>
+</span><span>
+</span><span>            count++;</span><span>
+</span><span>        }</span><span>
+</span><span>
+</span><span>        return count;</span><span>
+</span><span>    }</span><span>
+</span><span>
+</span><span class="p">..</span><span> </span><span class="ow">icpp</span><span class="p">::</span><span> </span><span>collatz.cpp collatz.hpp</span><span>
+</span><span>
+</span><span>    std</span><span>:</span><span>:</span><span>cout &lt;&lt; collatz(1)</span><span>
+</span><span>    std</span><span>:</span><span>:</span><span>cout &lt;&lt; collatz(2)</span><span>
+</span><span>    std</span><span>:</span><span>:</span><span>cout &lt;&lt; collatz(3)</span><span>
+</span><span>    std</span><span>:</span><span>:</span><span>cout &lt;&lt; collatz(4)</span><span>
+</span><span>    std</span><span>:</span><span>:</span><span>cout &lt;&lt; collatz(5)</span><span>
 </span>
 </pre>
 <blockquote class="run-output run-output-weaver" id="weaver">
 <span></span><pre class="code code-cpp literal-block">
 <span class="file-header">     collatz.hpp 
 
-</span><span class="lineno">  1  </span><span class="kt">int</span><span class=""> </span><span class="n">collatz</span><span class="p">(</span><span class="kt">int</span><span class=""> </span><span class="n">n</span><span class="p">)</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno">  2  </span><span class=""></span>
+</span><span class="lineno">  1  </span><span></span><span class="kt">int</span><span> </span><span class="n">collatz</span><span class="p">(</span><span class="kt">int</span><span> </span><span class="n">n</span><span class="p">)</span><span class="p">;</span><span></span><span>
+</span><span></span>
 </pre>
 <pre class="code code-cpp literal-block">
 <span class="file-header">     collatz.cpp 
 
-</span><span class="lineno">  1  </span><span class="kt">int</span><span class=""> </span><span class="n">collatz</span><span class="p">(</span><span class="kt">int</span><span class=""> </span><span class="n">n</span><span class="p">)</span><span class=""> </span><span class="p">{</span><span class=""></span><span>
-</span><span class="lineno">  2  </span><span class=""></span><span class="">    </span><span class="kt">int</span><span class=""> </span><span class="n">k</span><span class=""> </span><span class="o">=</span><span class=""> </span><span class="n">n</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno">  3  </span><span class=""></span><span class="">    </span><span class="kt">int</span><span class=""> </span><span class="n">count</span><span class=""> </span><span class="o">=</span><span class=""> </span><span class="mi">0</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno">  4  </span><span class=""></span><span class=""></span><span>
-</span><span class="lineno">  5  </span><span class=""></span><span class="">    </span><span class="k">while</span><span class=""> </span><span class="p">(</span><span class="n">k</span><span class=""> </span><span class="o">!</span><span class="o">=</span><span class=""> </span><span class="mi">1</span><span class="p">)</span><span class=""> </span><span class="p">{</span><span class=""></span><span>
-</span><span class="lineno">  6  </span><span class=""></span><span class="">        </span><span class="k">if</span><span class=""> </span><span class="p">(</span><span class="n">k</span><span class=""> </span><span class="o">%</span><span class=""> </span><span class="mi">2</span><span class=""> </span><span class="o">=</span><span class="o">=</span><span class=""> </span><span class="mi">0</span><span class="p">)</span><span class=""> </span><span class="n">k</span><span class=""> </span><span class="o">=</span><span class=""> </span><span class="n">k</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno">  7  </span><span class=""></span><span class="">        </span><span class="k">else</span><span class=""> </span><span class="n">k</span><span class=""> </span><span class="o">=</span><span class=""> </span><span class="mi">3</span><span class="o">*</span><span class="n">k</span><span class=""> </span><span class="o">+</span><span class=""> </span><span class="mi">1</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno">  8  </span><span class=""></span><span class=""></span><span>
-</span><span class="lineno">  9  </span><span class=""></span><span class="">        </span><span class="n">count</span><span class="o">+</span><span class="o">+</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno"> 10  </span><span class=""></span><span class="">    </span><span class="p">}</span><span class=""></span><span>
-</span><span class="lineno"> 11  </span><span class=""></span><span class=""></span><span>
-</span><span class="lineno"> 12  </span><span class=""></span><span class="">    </span><span class="k">return</span><span class=""> </span><span class="n">count</span><span class="p">;</span><span class=""></span><span>
-</span><span class="lineno"> 13  </span><span class=""></span><span class="p">}</span><span class=""></span><span>
-</span><span class="lineno"> 14  </span><span class=""></span>
+</span><span class="lineno">  1  </span><span></span><span class="kt">int</span><span> </span><span class="n">collatz</span><span class="p">(</span><span class="kt">int</span><span> </span><span class="n">n</span><span class="p">)</span><span> </span><span class="p">{</span><span></span><span>
+</span><span class="lineno">  2  </span><span></span><span>    </span><span class="kt">int</span><span> </span><span class="n">k</span><span> </span><span class="o">=</span><span> </span><span class="n">n</span><span class="p">;</span><span></span><span>
+</span><span class="lineno">  3  </span><span></span><span>    </span><span class="kt">int</span><span> </span><span class="n">count</span><span> </span><span class="o">=</span><span> </span><span class="mi">0</span><span class="p">;</span><span></span><span>
+</span><span class="lineno">  4  </span><span></span><span></span><span>
+</span><span class="lineno">  5  </span><span></span><span>    </span><span class="k">while</span><span> </span><span class="p">(</span><span class="n">k</span><span> </span><span class="o">!</span><span class="o">=</span><span> </span><span class="mi">1</span><span class="p">)</span><span> </span><span class="p">{</span><span></span><span>
+</span><span class="lineno">  6  </span><span></span><span>        </span><span class="k">if</span><span> </span><span class="p">(</span><span class="n">k</span><span> </span><span class="o">%</span><span> </span><span class="mi">2</span><span> </span><span class="o">=</span><span class="o">=</span><span> </span><span class="mi">0</span><span class="p">)</span><span> </span><span class="n">k</span><span> </span><span class="o">=</span><span> </span><span class="n">k</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span><span></span><span>
+</span><span class="lineno">  7  </span><span></span><span>        </span><span class="k">else</span><span> </span><span class="n">k</span><span> </span><span class="o">=</span><span> </span><span class="mi">3</span><span class="o">*</span><span class="n">k</span><span> </span><span class="o">+</span><span> </span><span class="mi">1</span><span class="p">;</span><span></span><span>
+</span><span class="lineno">  8  </span><span></span><span></span><span>
+</span><span class="lineno">  9  </span><span></span><span>        </span><span class="n">count</span><span class="o">+</span><span class="o">+</span><span class="p">;</span><span></span><span>
+</span><span class="lineno"> 10  </span><span></span><span>    </span><span class="p">}</span><span></span><span>
+</span><span class="lineno"> 11  </span><span></span><span></span><span>
+</span><span class="lineno"> 12  </span><span></span><span>    </span><span class="k">return</span><span> </span><span class="n">count</span><span class="p">;</span><span></span><span>
+</span><span class="lineno"> 13  </span><span></span><span class="p">}</span><span></span><span>
+</span><span></span>
 </pre>
 <pre class="interactive-session literal-block">
-<span class="interactive-input"><span>c++&gt; </span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span class=""> </span><span class="o">&lt;</span><span class="o">&lt;</span><span class=""> </span><span class="n">collatz</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="">
-</span></span><span class="interactive-output">0</span><span>
+<span class="interactive-input"><span>c++&gt; </span><span></span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span> </span><span class="o">&lt;</span><span class="o">&lt;</span><span> </span><span class="n">collatz</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span></span></span><span>
+</span><span class="interactive-output">0</span><span>
 
-</span><span class="interactive-input"><span>c++&gt; </span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span class=""> </span><span class="o">&lt;</span><span class="o">&lt;</span><span class=""> </span><span class="n">collatz</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="">
-</span></span><span class="interactive-output">1</span><span>
+</span><span class="interactive-input"><span>c++&gt; </span><span></span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span> </span><span class="o">&lt;</span><span class="o">&lt;</span><span> </span><span class="n">collatz</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span></span></span><span>
+</span><span class="interactive-output">1</span><span>
 
-</span><span class="interactive-input"><span>c++&gt; </span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span class=""> </span><span class="o">&lt;</span><span class="o">&lt;</span><span class=""> </span><span class="n">collatz</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="">
-</span></span><span class="interactive-output">7</span><span>
+</span><span class="interactive-input"><span>c++&gt; </span><span></span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span> </span><span class="o">&lt;</span><span class="o">&lt;</span><span> </span><span class="n">collatz</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span></span></span><span>
+</span><span class="interactive-output">7</span><span>
 
-</span><span class="interactive-input"><span>c++&gt; </span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span class=""> </span><span class="o">&lt;</span><span class="o">&lt;</span><span class=""> </span><span class="n">collatz</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="">
-</span></span><span class="interactive-output">2</span><span>
+</span><span class="interactive-input"><span>c++&gt; </span><span></span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span> </span><span class="o">&lt;</span><span class="o">&lt;</span><span> </span><span class="n">collatz</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span></span></span><span>
+</span><span class="interactive-output">2</span><span>
 
-</span><span class="interactive-input"><span>c++&gt; </span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span class=""> </span><span class="o">&lt;</span><span class="o">&lt;</span><span class=""> </span><span class="n">collatz</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="">
-</span></span><span class="interactive-output">5</span>
+</span><span class="interactive-input"><span>c++&gt; </span><span></span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span> </span><span class="o">&lt;</span><span class="o">&lt;</span><span> </span><span class="n">collatz</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span></span></span><span>
+</span><span class="interactive-output">5</span>
 </pre>
 </blockquote>
 <p>Unfortunately every interactive line has to be one file line (because to do
 otherwise would require parsing the C++) so this fails:</p>
 <pre class="code code-weaver literal-block">
-<span></span><span class="p">..</span><span class=""> </span><span class="ow">icpp</span><span class="p">::</span><span class="">
-</span><span class="">
-</span><span class="">    for (int i=0; i&lt;10; i++) {</span><span class="">
-</span><span class="">        std</span><span class="">:</span><span class="">:</span><span class="">cout &lt;&lt; i;</span><span class="">
-</span><span class="">    }</span><span class="">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">icpp</span><span class="p">::</span><span>
+</span><span>
+</span><span>    for (int i=0; i&lt;10; i++) {</span><span>
+</span><span>        std</span><span>:</span><span>:</span><span>cout &lt;&lt; i;</span><span>
+</span><span>    }</span><span>
 </span>
 </pre>
 <blockquote class="run-output run-output-weaver" id="weaver">
 <span></span><pre class="interactive-session literal-block">
-<span class="interactive-input"><span>c++&gt; </span><span class="k">for</span><span class=""> </span><span class="p">(</span><span class="kt">int</span><span class=""> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class=""> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span><span class=""> </span><span class="n">i</span><span class="o">+</span><span class="o">+</span><span class="p">)</span><span class=""> </span><span class="p">{</span><span class="">
-</span></span><span class="interactive-output"></span><span>
+<span class="interactive-input"><span>c++&gt; </span><span></span><span class="k">for</span><span> </span><span class="p">(</span><span class="kt">int</span><span> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span><span> </span><span class="n">i</span><span class="o">+</span><span class="o">+</span><span class="p">)</span><span> </span><span class="p">{</span><span></span></span><span>
+</span><span class="interactive-output"></span><span>
 
-</span><span class="interactive-input"><span>c++&gt; </span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span class=""> </span><span class="o">&lt;</span><span class="o">&lt;</span><span class=""> </span><span class="n">i</span><span class="p">;</span><span class="">
-</span></span><span class="interactive-output"></span><span>
+</span><span class="interactive-input"><span>c++&gt; </span><span></span><span class="n">std</span><span class="o">:</span><span class="o">:</span><span class="n">cout</span><span> </span><span class="o">&lt;</span><span class="o">&lt;</span><span> </span><span class="n">i</span><span class="p">;</span><span></span></span><span>
+</span><span class="interactive-output"></span><span>
 
-</span><span class="interactive-input"><span>c++&gt; </span><span class="p">}</span><span class="">
-</span></span><span class="interactive-output">102e7ede79e34f64a8a168266e0c138e
-0a010e56dc9a744a88d52bc46f0de8784
-102e7ede79e34f64a8a168266e0c138e
-1a010e56dc9a744a88d52bc46f0de8784
-102e7ede79e34f64a8a168266e0c138e
-2a010e56dc9a744a88d52bc46f0de8784
-102e7ede79e34f64a8a168266e0c138e
-3a010e56dc9a744a88d52bc46f0de8784
-102e7ede79e34f64a8a168266e0c138e
-4a010e56dc9a744a88d52bc46f0de8784
-102e7ede79e34f64a8a168266e0c138e
-5a010e56dc9a744a88d52bc46f0de8784
-102e7ede79e34f64a8a168266e0c138e
-6a010e56dc9a744a88d52bc46f0de8784
-102e7ede79e34f64a8a168266e0c138e
-7a010e56dc9a744a88d52bc46f0de8784
-102e7ede79e34f64a8a168266e0c138e
-8a010e56dc9a744a88d52bc46f0de8784
-102e7ede79e34f64a8a168266e0c138e
-9a010e56dc9a744a88d52bc46f0de8784
-b45755e3454b4c078d637c0b9c03dcdc</span>
+</span><span class="interactive-input"><span>c++&gt; </span><span></span><span class="p">}</span><span></span></span><span>
+</span><span class="interactive-output">e398f11bef1246bda7db546b0b22510e
+0542ea9403b8947ffb5a15907f664e337
+e398f11bef1246bda7db546b0b22510e
+1542ea9403b8947ffb5a15907f664e337
+e398f11bef1246bda7db546b0b22510e
+2542ea9403b8947ffb5a15907f664e337
+e398f11bef1246bda7db546b0b22510e
+3542ea9403b8947ffb5a15907f664e337
+e398f11bef1246bda7db546b0b22510e
+4542ea9403b8947ffb5a15907f664e337
+e398f11bef1246bda7db546b0b22510e
+5542ea9403b8947ffb5a15907f664e337
+e398f11bef1246bda7db546b0b22510e
+6542ea9403b8947ffb5a15907f664e337
+e398f11bef1246bda7db546b0b22510e
+7542ea9403b8947ffb5a15907f664e337
+e398f11bef1246bda7db546b0b22510e
+8542ea9403b8947ffb5a15907f664e337
+e398f11bef1246bda7db546b0b22510e
+9542ea9403b8947ffb5a15907f664e337
+e499f99e06f143629dd3db150d134d6c</span>
 </pre>
 </blockquote>
 </div>
 </div>
 <div class="section" id="python">
-<h2><a class="toc-backref" href="#id15">Python</a><a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id17">Python</a><a class="headerlink" href="#python" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="non-interactive">
-<h3><a class="toc-backref" href="#id16">Non-interactive</a><a class="headerlink" href="#non-interactive" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id18">Non-interactive</a><a class="headerlink" href="#non-interactive" title="Permalink to this headline">¶</a></h3>
 <pre class="code code-weaver literal-block">
-<span></span><span class="p">..</span><span class=""> </span><span class="ow">python</span><span class="p">::</span><span class=""> </span><span class="">new exec</span><span class="">
-</span><span class="">
-</span><span class="">    import numpy as np</span><span class="">
-</span><span class="">
-</span><span class="">    x = np.random.uniform(size=20)</span><span class="">
-</span><span class="">    print(np.mean(x))</span><span class="">
-</span><span class="">    print(np.std(x))</span><span class="">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">python</span><span class="p">::</span><span> </span><span>new exec</span><span>
+</span><span>
+</span><span>    import numpy as np</span><span>
+</span><span>
+</span><span>    x = np.random.uniform(size=20)</span><span>
+</span><span>    print(np.mean(x))</span><span>
+</span><span>    print(np.std(x))</span><span>
 </span>
 </pre>
 <blockquote class="run-output run-output-weaver" id="weaver">
 <span></span><pre class="code code-python literal-block">
-<span class="file-header">     main1.py 
+<span class="file-header">     mainec1e.py 
 
-</span><span class="lineno">  1  </span><span class="kn">import</span><span class=""> </span><span class="nn">numpy</span><span class=""> </span><span class="kn">as</span><span class=""> </span><span class="nn">np</span><span class=""></span><span class=""></span><span>
-</span><span class="lineno">  2  </span><span class=""></span><span class=""></span><span>
-</span><span class="lineno">  3  </span><span class=""></span><span class="n">x</span><span class=""> </span><span class="o">=</span><span class=""> </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class=""></span><span>
-</span><span class="lineno">  4  </span><span class=""></span><span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="p">)</span><span class=""></span><span>
-</span><span class="lineno">  5  </span><span class=""></span><span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="p">)</span><span class=""></span><span>
-</span><span class="lineno">  6  </span><span class=""></span>
+</span><span class="lineno">  1  </span><span></span><span class="kn">import</span><span> </span><span class="nn">numpy</span><span> </span><span class="kn">as</span><span> </span><span class="nn">np</span><span></span><span></span><span>
+</span><span class="lineno">  2  </span><span></span><span></span><span>
+</span><span class="lineno">  3  </span><span></span><span class="n">x</span><span> </span><span class="o">=</span><span> </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span></span><span>
+</span><span class="lineno">  4  </span><span></span><span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="p">)</span><span></span><span>
+</span><span class="lineno">  5  </span><span></span><span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="p">)</span><span></span><span>
+</span><span></span>
 </pre>
-<div class="run-output run-output-python highlight-python"><div class="highlight"><pre><span class="mf">0.552177877904</span>
-<span class="mf">0.305642866216</span>
+<div class="run-output run-output-python highlight-python"><div class="highlight"><pre><span class="mf">0.534249820523</span>
+<span class="mf">0.270320030882</span>
 </pre></div>
 </div>
 </blockquote>
 </div>
 <div class="section" id="id2">
-<h3><a class="toc-backref" href="#id17">Interactive</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id19">Interactive</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <pre class="code code-weaver literal-block">
-<span></span><span class="p">..</span><span class=""> </span><span class="ow">ipython</span><span class="p">::</span><span class="">
-</span><span class="">
-</span><span class="">    import numpy as np</span><span class="">
-</span><span class="">    x = np.random.uniform(size=20)</span><span class="">
-</span><span class="">    print(np.mean(x))</span><span class="">
-</span><span class="">    print(np.std(x))</span><span class="">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">ipython</span><span class="p">::</span><span>
+</span><span>
+</span><span>    import numpy as np</span><span>
+</span><span>    x = np.random.uniform(size=20)</span><span>
+</span><span>    print(np.mean(x))</span><span>
+</span><span>    print(np.std(x))</span><span>
 </span>
 </pre>
 <blockquote class="run-output run-output-weaver" id="weaver">
 <span></span><pre class="interactive-session literal-block">
-<span class="interactive-input"><span>py&gt; </span><span class="kn">import</span><span class=""> </span><span class="nn">numpy</span><span class=""> </span><span class="kn">as</span><span class=""> </span><span class="nn">np</span><span class=""></span><span class="">
-</span></span><span class="interactive-output"></span><span>
+<span class="interactive-input"><span>py&gt; </span><span></span><span class="kn">import</span><span> </span><span class="nn">numpy</span><span> </span><span class="kn">as</span><span> </span><span class="nn">np</span><span></span><span></span></span><span>
+</span><span class="interactive-output"></span><span>
 
-</span><span class="interactive-input"><span>py&gt; </span><span class="n">x</span><span class=""> </span><span class="o">=</span><span class=""> </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="">
-</span></span><span class="interactive-output"></span><span>
+</span><span class="interactive-input"><span>py&gt; </span><span></span><span class="n">x</span><span> </span><span class="o">=</span><span> </span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span></span></span><span>
+</span><span class="interactive-output"></span><span>
 
-</span><span class="interactive-input"><span>py&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="p">)</span><span class="">
-</span></span><span class="interactive-output">0.62077958117</span><span>
+</span><span class="interactive-input"><span>py&gt; </span><span></span><span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="p">)</span><span></span></span><span>
+</span><span class="interactive-output">0.517046311403</span><span>
 
-</span><span class="interactive-input"><span>py&gt; </span><span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="p">)</span><span class="">
-</span></span><span class="interactive-output">0.302808743766</span>
+</span><span class="interactive-input"><span>py&gt; </span><span></span><span class="k">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="p">)</span><span></span></span><span>
+</span><span class="interactive-output">0.274333359957</span>
 </pre>
 </blockquote>
 </div>
 </div>
 <div class="section" id="haskell">
-<h2><a class="toc-backref" href="#id18">Haskell</a><a class="headerlink" href="#haskell" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id20">Haskell</a><a class="headerlink" href="#haskell" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id3">
-<h3><a class="toc-backref" href="#id19">Non-interactive</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id21">Non-interactive</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <pre class="code code-weaver literal-block">
-<span></span><span class="p">..</span><span class=""> </span><span class="ow">haskell</span><span class="p">::</span><span class=""> </span><span class="">new exec</span><span class="">
-</span><span class="">
-</span><span class="">    {-# LANGUAGE OverlappingInstances #-}</span><span class="">
-</span><span class="">    {-# LANGUAGE FlexibleInstances #-}</span><span class="">
-</span><span class="">    {-# LANGUAGE ScopedTypeVariables #-}</span><span class="">
-</span><span class="">
-</span><span class="">    class CountArgs a where</span><span class="">
-</span><span class="">        countArgs </span><span class="">:</span><span class="">:</span><span class=""> a -&gt; Int</span><span class="">
-</span><span class="">
-</span><span class="">    instance (CountArgs b) =&gt; CountArgs (a -&gt; b) where</span><span class="">
-</span><span class="">        countArgs _ = (1</span><span class="">:</span><span class="">:</span><span class="">Int) + (countArgs (undefined </span><span class="">:</span><span class="">:</span><span class=""> b))</span><span class="">
-</span><span class="">
-</span><span class="">    instance CountArgs a where</span><span class="">
-</span><span class="">        countArgs _ = (0</span><span class="">:</span><span class="">:</span><span class="">Int)</span><span class="">
-</span><span class="">
-</span><span class="">    main = do</span><span class="">
-</span><span class="">        print $ countArgs (</span><span class="">:</span><span class="">)</span><span class="">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">haskell</span><span class="p">::</span><span> </span><span>new exec</span><span>
+</span><span>
+</span><span>    {-# LANGUAGE OverlappingInstances #-}</span><span>
+</span><span>    {-# LANGUAGE FlexibleInstances #-}</span><span>
+</span><span>    {-# LANGUAGE ScopedTypeVariables #-}</span><span>
+</span><span>
+</span><span>    class CountArgs a where</span><span>
+</span><span>        countArgs </span><span>:</span><span>:</span><span> a -&gt; Int</span><span>
+</span><span>
+</span><span>    instance (CountArgs b) =&gt; CountArgs (a -&gt; b) where</span><span>
+</span><span>        countArgs _ = (1</span><span>:</span><span>:</span><span>Int) + (countArgs (undefined </span><span>:</span><span>:</span><span> b))</span><span>
+</span><span>
+</span><span>    instance CountArgs a where</span><span>
+</span><span>        countArgs _ = (0</span><span>:</span><span>:</span><span>Int)</span><span>
+</span><span>
+</span><span>    main = do</span><span>
+</span><span>        print $ countArgs (</span><span>:</span><span>)</span><span>
 </span>
 </pre>
 <blockquote class="run-output run-output-weaver" id="weaver">
 <span></span><pre class="code code-haskell literal-block">
-<span class="file-header">     main1 
+<span class="file-header">     main1779 
 
-</span><span class="lineno">  1  </span><span class="cm">{-</span><span class="cm"># LANGUAGE OverlappingInstances #</span><span class="cm">-}</span><span class=""></span><span>
-</span><span class="lineno">  2  </span><span class=""></span><span class="cm">{-</span><span class="cm"># LANGUAGE FlexibleInstances #</span><span class="cm">-}</span><span class=""></span><span>
-</span><span class="lineno">  3  </span><span class=""></span><span class="cm">{-</span><span class="cm"># LANGUAGE ScopedTypeVariables #</span><span class="cm">-}</span><span class=""></span><span>
-</span><span class="lineno">  4  </span><span class=""></span><span>
-</span><span class="lineno">  5  </span><span class=""></span><span class="kr">class</span><span class=""> </span><span class="kt">CountArgs</span><span class=""> </span><span class="n">a</span><span class=""> </span><span class="kr">where</span><span class=""></span><span>
-</span><span class="lineno">  6  </span><span class="">    </span><span class="n">countArgs</span><span class=""> </span><span class="ow">::</span><span class=""> </span><span class="n">a</span><span class=""> </span><span class="ow">-&gt;</span><span class=""> </span><span class="kt">Int</span><span class=""></span><span>
-</span><span class="lineno">  7  </span><span class=""></span><span>
-</span><span class="lineno">  8  </span><span class=""></span><span class="kr">instance</span><span class=""> </span><span class="p">(</span><span class="kt">CountArgs</span><span class=""> </span><span class="n">b</span><span class="p">)</span><span class=""> </span><span class="ow">=&gt;</span><span class=""> </span><span class="kt">CountArgs</span><span class=""> </span><span class="p">(</span><span class="n">a</span><span class=""> </span><span class="ow">-&gt;</span><span class=""> </span><span class="n">b</span><span class="p">)</span><span class=""> </span><span class="kr">where</span><span class=""></span><span>
-</span><span class="lineno">  9  </span><span class="">    </span><span class="n">countArgs</span><span class=""> </span><span class="kr">_</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="p">(</span><span class="mi">1</span><span class="ow">::</span><span class="kt">Int</span><span class="p">)</span><span class=""> </span><span class="o">+</span><span class=""> </span><span class="p">(</span><span class="n">countArgs</span><span class=""> </span><span class="p">(</span><span class="n">undefined</span><span class=""> </span><span class="ow">::</span><span class=""> </span><span class="n">b</span><span class="p">)</span><span class="p">)</span><span class=""></span><span>
-</span><span class="lineno"> 10  </span><span class=""></span><span>
-</span><span class="lineno"> 11  </span><span class=""></span><span class="kr">instance</span><span class=""> </span><span class="kt">CountArgs</span><span class=""> </span><span class="n">a</span><span class=""> </span><span class="kr">where</span><span class=""></span><span>
-</span><span class="lineno"> 12  </span><span class="">    </span><span class="n">countArgs</span><span class=""> </span><span class="kr">_</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="p">(</span><span class="mi">0</span><span class="ow">::</span><span class="kt">Int</span><span class="p">)</span><span class=""></span><span>
-</span><span class="lineno"> 13  </span><span class=""></span><span>
-</span><span class="lineno"> 14  </span><span class=""></span><span class="nf">main</span><span class=""> </span><span class="ow">=</span><span class=""> </span><span class="kr">do</span><span class=""></span><span>
-</span><span class="lineno"> 15  </span><span class="">    </span><span class="n">print</span><span class=""> </span><span class="o">$</span><span class=""> </span><span class="n">countArgs</span><span class=""> </span><span class="p">(</span><span class="kt">:</span><span class="p">)</span><span class=""></span><span>
-</span><span class="lineno"> 16  </span><span class=""></span>
+</span><span class="lineno">  1  </span><span></span><span class="cm">{-</span><span class="cm"># LANGUAGE OverlappingInstances #</span><span class="cm">-}</span><span></span><span>
+</span><span class="lineno">  2  </span><span></span><span class="cm">{-</span><span class="cm"># LANGUAGE FlexibleInstances #</span><span class="cm">-}</span><span></span><span>
+</span><span class="lineno">  3  </span><span></span><span class="cm">{-</span><span class="cm"># LANGUAGE ScopedTypeVariables #</span><span class="cm">-}</span><span></span><span>
+</span><span class="lineno">  4  </span><span></span><span>
+</span><span class="lineno">  5  </span><span></span><span class="kr">class</span><span> </span><span class="kt">CountArgs</span><span> </span><span class="n">a</span><span> </span><span class="kr">where</span><span></span><span>
+</span><span class="lineno">  6  </span><span>    </span><span class="n">countArgs</span><span> </span><span class="ow">::</span><span> </span><span class="n">a</span><span> </span><span class="ow">-&gt;</span><span> </span><span class="kt">Int</span><span></span><span>
+</span><span class="lineno">  7  </span><span></span><span>
+</span><span class="lineno">  8  </span><span></span><span class="kr">instance</span><span> </span><span class="p">(</span><span class="kt">CountArgs</span><span> </span><span class="n">b</span><span class="p">)</span><span> </span><span class="ow">=&gt;</span><span> </span><span class="kt">CountArgs</span><span> </span><span class="p">(</span><span class="n">a</span><span> </span><span class="ow">-&gt;</span><span> </span><span class="n">b</span><span class="p">)</span><span> </span><span class="kr">where</span><span></span><span>
+</span><span class="lineno">  9  </span><span>    </span><span class="n">countArgs</span><span> </span><span class="kr">_</span><span> </span><span class="ow">=</span><span> </span><span class="p">(</span><span class="mi">1</span><span class="ow">::</span><span class="kt">Int</span><span class="p">)</span><span> </span><span class="o">+</span><span> </span><span class="p">(</span><span class="n">countArgs</span><span> </span><span class="p">(</span><span class="n">undefined</span><span> </span><span class="ow">::</span><span> </span><span class="n">b</span><span class="p">)</span><span class="p">)</span><span></span><span>
+</span><span class="lineno"> 10  </span><span></span><span>
+</span><span class="lineno"> 11  </span><span></span><span class="kr">instance</span><span> </span><span class="kt">CountArgs</span><span> </span><span class="n">a</span><span> </span><span class="kr">where</span><span></span><span>
+</span><span class="lineno"> 12  </span><span>    </span><span class="n">countArgs</span><span> </span><span class="kr">_</span><span> </span><span class="ow">=</span><span> </span><span class="p">(</span><span class="mi">0</span><span class="ow">::</span><span class="kt">Int</span><span class="p">)</span><span></span><span>
+</span><span class="lineno"> 13  </span><span></span><span>
+</span><span class="lineno"> 14  </span><span></span><span class="nf">main</span><span> </span><span class="ow">=</span><span> </span><span class="kr">do</span><span></span><span>
+</span><span class="lineno"> 15  </span><span>    </span><span class="n">print</span><span> </span><span class="o">$</span><span> </span><span class="n">countArgs</span><span> </span><span class="p">(</span><span class="kt">:</span><span class="p">)</span><span></span><span>
+</span><span></span>
 </pre>
 <div class="run-output run-output-haskell highlight-python"><div class="highlight"><pre><span class="mi">2</span>
 </pre></div>
@@ -544,17 +666,17 @@ b45755e3454b4c078d637c0b9c03dcdc</span>
 </blockquote>
 </div>
 <div class="section" id="id4">
-<h3><a class="toc-backref" href="#id20">Interactive</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id22">Interactive</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <pre class="code code-weaver literal-block">
-<span></span><span class="p">..</span><span class=""> </span><span class="ow">ghci</span><span class="p">::</span><span class="">
-</span><span class="">
-</span><span class="">    </span><span class="">:</span><span class="">i Show</span><span class="">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">ghci</span><span class="p">::</span><span>
+</span><span>
+</span><span>    </span><span>:</span><span>i Show</span><span>
 </span>
 </pre>
 <blockquote class="run-output run-output-weaver" id="weaver">
 <span></span><pre class="interactive-session literal-block">
-<span class="interactive-input"><span>ghci&gt; </span><span class="kt">:</span><span class="n">i</span><span class=""> </span><span class="kt">Show</span><span class="">
-</span></span><span class="interactive-output">class Show a where
+<span class="interactive-input"><span>ghci&gt; </span><span></span><span class="kt">:</span><span class="n">i</span><span> </span><span class="kt">Show</span><span></span></span><span>
+</span><span class="interactive-output">class Show a where
   showsPrec :: Int -&gt; a -&gt; ShowS
   show :: a -&gt; String
   showList :: [a] -&gt; ShowS
@@ -722,6 +844,8 @@ instance Show Double &#8211; Defined in GHC.Float</span>
 <li><a class="reference internal" href="#deleting">Deleting</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#noweb-like-structuring">Noweb-like structuring</a></li>
+<li><a class="reference internal" href="#showing-already-written-blocks">Showing already-written blocks</a></li>
 <li><a class="reference internal" href="#c">C++</a><ul>
 <li><a class="reference internal" href="#noninteractive">Noninteractive</a></li>
 <li><a class="reference internal" href="#interactive">Interactive</a></li>
@@ -742,11 +866,11 @@ instance Show Double &#8211; Defined in GHC.Float</span>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="tutorial.html"
-                        title="previous chapter">Tutorial</a></p>
+  <p class="topless"><a href="using.html"
+                        title="previous chapter">Using <tt class="docutils literal"><span class="pre">rstweaver</span></tt></a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="reference.html"
-                        title="next chapter">Directives Reference</a></p>
+  <p class="topless"><a href="complicated.html"
+                        title="next chapter">Even more complicated examples</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/examples.txt"
@@ -776,12 +900,12 @@ instance Show Double &#8211; Defined in GHC.Float</span>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="reference.html" title="Directives Reference"
+          <a href="complicated.html" title="Even more complicated examples"
              >next</a> |</li>
         <li class="right" >
-          <a href="tutorial.html" title="Tutorial"
+          <a href="using.html" title="Using rstweaver"
              >previous</a> |</li>
-        <li><a href="index.html">rstweaver v0.8 documentation</a> &raquo;</li> 
+        <li><a href="index.html">rstweaver v0.9 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

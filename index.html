@@ -7,13 +7,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>rstweaver &mdash; rstweaver v0.8 documentation</title>
+    <title>rstweaver &mdash; rstweaver v0.9 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.8',
+        VERSION:     '0.9',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -22,8 +22,8 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="rstweaver v0.8 documentation" href="#" />
-    <link rel="next" title="Tutorial" href="tutorial.html" /> 
+    <link rel="top" title="rstweaver v0.9 documentation" href="#" />
+    <link rel="next" title="Library dependencies" href="dependencies.html" /> 
   </head>
   <body>
     <div class="related">
@@ -33,9 +33,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="tutorial.html" title="Tutorial"
+          <a href="dependencies.html" title="Library dependencies"
              accesskey="N">next</a> |</li>
-        <li><a href="#">rstweaver v0.8 documentation</a> &raquo;</li> 
+        <li><a href="#">rstweaver v0.9 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -48,22 +48,25 @@
 <h1>rstweaver<a class="headerlink" href="#rstweaver" title="Permalink to this headline">¶</a></h1>
 <p><tt class="docutils literal"><span class="pre">rstweaver</span></tt> is a framework for building reST directives that support literate
 programming, in a style similar to <a class="reference external" href="http://www.stat.uni-muenchen.de/~leisch/Sweave/">Sweave</a>.</p>
+<p>Rather than the typical &#8220;document is a source file&#8221; model, in <tt class="docutils literal"><span class="pre">rstweaver</span></tt> a
+document <em>manages</em> source files &#8211; several of them, in possibly multiple
+languages. They can be built, executed, changed, reexecuted. This has both
+advantages and disadvantages, but it is nearly essential for very static
+compiled languages to be nice in literate code.</p>
 <p>Nice features:</p>
 <ul class="simple">
 <li>These are just <tt class="docutils literal"><span class="pre">reST</span></tt> directives &#8211; they will integrate into any system
 that uses reST. <tt class="docutils literal"><span class="pre">rstweaver</span></tt> itself is documented using <tt class="docutils literal"><span class="pre">rstweaver</span></tt> in
 <a class="reference external" href="http://sphinx.pocoo.org/">Sphinx</a>.</li>
-<li>Largely language agnostic. As I write this, it supports Haskell, C++, Python
-and reST itself.</li>
-<li>Rather than the typical &#8220;document is a source file&#8221; model, in <tt class="docutils literal"><span class="pre">rstweaver</span></tt> a
-document <em>manages</em> source files &#8211; several of them, in possibly multiple
-languages. They can be built, executed, changed, reexecuted. This has both
-advantages and disadvantages, but it is nearly essential for very static
-compiled languages to be nice in literate code.</li>
+<li>Largely language agnostic. It knows about Haskell, Happy, Python, Bash, C++
+and reST, but because it does bash you can use practically any language.</li>
 <li>Because it is pure docutils, it should be possible to produce output in any
 format that docutils supports.</li>
-<li>Results are cached across runs, so rerunning the same document multiple times
-with minor changes near the end (which is how I use it) is fast.</li>
+<li>Results are cached and dependencies tracked in a fashion similar to an
+incremental build tool such as <tt class="docutils literal"><span class="pre">make</span></tt>, which makes repeated runs go much
+faster.</li>
+<li>It supports a syntax similar to <a class="reference external" href="http://www.cs.tufts.edu/~nr/noweb/">noweb</a>
+for structuring a source file and then filling in the parts.</li>
 </ul>
 <p>Features which are noticeably missing:</p>
 <ul class="simple">
@@ -72,20 +75,39 @@ with minor changes near the end (which is how I use it) is fast.</li>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#some-examples">Some examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#registering-the-directives">Registering the directives</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#other-languages">Other languages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#adding-languages">Adding languages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#defining-languages">Defining languages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#interactive-directives">Interactive directives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dependencies.html">Library dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#from-source">From source</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="using.html">Using <tt class="docutils literal"><span class="pre">rstweaver</span></tt></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="using.html#using-the-directives">Using the directives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="using.html#some-examples">Some examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#editing">Editing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#noweb-like-structuring">Noweb-like structuring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#showing-already-written-blocks">Showing already-written blocks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#c">C++</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#python">Python</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples.html#haskell">Haskell</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="complicated.html">Even more complicated examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="complicated.html#producing-a-file-then-reading-it-in">Producing a file then reading it in</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complicated.html#preprocessing-a-source-file">Preprocessing a source file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="complicated.html#working-with-arbitrary-files">Working with arbitrary files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="built.html">Accessing built files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="caching.html">Caching</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="caching.html#the-cache-file">The cache file</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="languages.html">Adding languages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="languages.html#defining-languages">Defining languages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="languages.html#telling-rstweaver-about-the-language">Telling <tt class="docutils literal"><span class="pre">rstweaver</span></tt> about the language</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">Directives Reference</a><ul>
@@ -122,8 +144,8 @@ with minor changes near the end (which is how I use it) is fast.</li>
 </ul>
 
   <h4>Next topic</h4>
-  <p class="topless"><a href="tutorial.html"
-                        title="next chapter">Tutorial</a></p>
+  <p class="topless"><a href="dependencies.html"
+                        title="next chapter">Library dependencies</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/index.txt"
@@ -153,9 +175,9 @@ with minor changes near the end (which is how I use it) is fast.</li>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="tutorial.html" title="Tutorial"
+          <a href="dependencies.html" title="Library dependencies"
              >next</a> |</li>
-        <li><a href="#">rstweaver v0.8 documentation</a> &raquo;</li> 
+        <li><a href="#">rstweaver v0.9 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

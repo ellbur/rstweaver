@@ -1,0 +1,142 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Caching &mdash; rstweaver v0.9 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.9',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="rstweaver v0.9 documentation" href="index.html" />
+    <link rel="next" title="Adding languages" href="languages.html" />
+    <link rel="prev" title="Accessing built files" href="built.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="languages.html" title="Adding languages"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="built.html" title="Accessing built files"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">rstweaver v0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="caching">
+<h1>Caching<a class="headerlink" href="#caching" title="Permalink to this headline">¶</a></h1>
+<p><tt class="docutils literal"><span class="pre">rstweaver</span></tt> caches the results of program runs. It also watches for
+dependencies and modifications, so <em>usually</em> the caching is invisible to the
+user and things just &#8220;go faster&#8221;.</p>
+<p>However, occasionally due to a bug in <tt class="docutils literal"><span class="pre">rstweaver</span></tt> or a dependency it can&#8217;t
+see, an incorrect result will be cached and held on to. When this happens,
+delete the cache file (see below), and report it as a bug.</p>
+<p>One situation where this is likely to happen is when a file becomes a
+dependency because of its <em>absence</em> rather than its presence. For example,</p>
+<pre class="code code-cpp literal-block">
+<span class="file-header">     bad-cache.c 
+
+</span><span class="lineno">  1  </span><span></span><span class="cp">#</span><span class="cp">include &#8220;not-exist.h&#8221;</span><span></span><span>
+</span><span></span>
+</pre>
+<div class="run-output run-output-cpp highlight-python"><pre>bad-cache.c:1:23: fatal error: not-exist.h: No such file or directory
+compilation terminated.</pre>
+</div>
+<p>since <tt class="docutils literal"><span class="pre">not-exist.h</span></tt> doesn&#8217;t exist, <tt class="docutils literal"><span class="pre">gcc</span></tt> dies on compiling. However, if
+<tt class="docutils literal"><span class="pre">not-exist.h</span></tt> is created, that will change the result of the run, but
+<tt class="docutils literal"><span class="pre">rstweaver</span></tt> won&#8217;t know that: it never saw anyone access <tt class="docutils literal"><span class="pre">not-exist.h</span></tt> so it
+has no way of knowing that that is a dependency.</p>
+<div class="section" id="the-cache-file">
+<h2>The cache file<a class="headerlink" href="#the-cache-file" title="Permalink to this headline">¶</a></h2>
+<p>When editing <tt class="docutils literal"><span class="pre">foo.rst</span></tt> the cache file is <tt class="docutils literal"><span class="pre">foo.rst-weaver/cache</span></tt>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Caching</a><ul>
+<li><a class="reference internal" href="#the-cache-file">The cache file</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="built.html"
+                        title="previous chapter">Accessing built files</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="languages.html"
+                        title="next chapter">Adding languages</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/caching.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="languages.html" title="Adding languages"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="built.html" title="Accessing built files"
+             >previous</a> |</li>
+        <li><a href="index.html">rstweaver v0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Owen.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.1.
+    </div>
+  </body>
+</html>

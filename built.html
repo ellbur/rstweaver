@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Index &mdash; rstweaver v0.9 documentation</title>
+    <title>Accessing built files &mdash; rstweaver v0.9 documentation</title>
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -22,15 +22,23 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="rstweaver v0.9 documentation" href="index.html" /> 
+    <link rel="top" title="rstweaver v0.9 documentation" href="index.html" />
+    <link rel="next" title="Caching" href="caching.html" />
+    <link rel="prev" title="Even more complicated examples" href="complicated.html" /> 
   </head>
   <body>
     <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="#" title="General Index"
+          <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="caching.html" title="Caching"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="complicated.html" title="Even more complicated examples"
+             accesskey="P">previous</a> |</li>
         <li><a href="index.html">rstweaver v0.9 documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -40,12 +48,16 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-   <h1 id="index">Index</h1>
-
-   <div class="genindex-jumpbox">
-   
-   </div>
+  <div class="section" id="accessing-built-files">
+<h1>Accessing built files<a class="headerlink" href="#accessing-built-files" title="Permalink to this headline">¶</a></h1>
+<p>When editing <tt class="docutils literal"><span class="pre">foo.rst</span></tt>, the files produced by <tt class="docutils literal"><span class="pre">rstweaver</span></tt> will go in <tt class="docutils literal"><span class="pre">foo.rst-weaver/</span></tt>.
+They are only created as needed; to force them to be created add</p>
+<pre class="code code-weaver literal-block">
+<span></span><span></span><span class="p">..</span><span> </span><span class="ow">write-all</span><span class="p">::</span><span>
+</span>
+</pre>
+<p>to the end of your document.</p>
+</div>
 
 
           </div>
@@ -53,9 +65,17 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-
-   
-
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="complicated.html"
+                        title="previous chapter">Even more complicated examples</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="caching.html"
+                        title="next chapter">Caching</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/built.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
@@ -77,8 +97,14 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="#" title="General Index"
+          <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="caching.html" title="Caching"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="complicated.html" title="Even more complicated examples"
+             >previous</a> |</li>
         <li><a href="index.html">rstweaver v0.9 documentation</a> &raquo;</li> 
       </ul>
     </div>
