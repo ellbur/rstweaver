@@ -3,9 +3,9 @@ Directives Reference
 ====================
 
 This reference is about using the rst directives: options and arguments that
-they accept. For the API documentation, see... somewhere.
+they accept.
 
-To get a feel for how to use these directives, see the :doc:`tutorial`.
+To get a feel for how to use these directives, see :doc:`using`.
 
 Non-interactive directive
 ~~~~~~~~~~~~~~~~~~~~~~~~~

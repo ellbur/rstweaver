@@ -2,8 +2,6 @@
 Examples
 ~~~~~~~~
 
-These are yet more examples to supplement the :doc:`tutorial`.
-
 .. contents::
 
 Editing

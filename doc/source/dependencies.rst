@@ -9,7 +9,7 @@ Library dependencies
 2. `*my* docutils <https://github.com/ellbur/docutils>`_ - because I fixed some
    bugs and added some features that ``rstweaver`` uses. This was a
    questionable decision. For my thoughts on it see `Welcome to my github world
-   <>`_.
+   <http://strugglingthroughproblems.blogspot.com/2011/08/welcome-to-my-github-world.html>`_.
 
 3. `pygments <http://pygments.org/>`_
 
