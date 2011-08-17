@@ -1,5 +1,6 @@
 
 from rstweaver import WeaverLanguage
+from docutils import nodes
 
 class Generic(WeaverLanguage):
     
@@ -10,6 +11,6 @@ class Generic(WeaverLanguage):
         **other_options
         )
     
-    def highlight_lang(self):
-        return 'txt'
+    def highlight(self, code):
+        return [nodes.inline(code, code)]
 
