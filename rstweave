@@ -65,10 +65,10 @@ def open_output(path):
 def print_to_outpath(inpath, content):
     if inpath == None:
         if args.outpath == '':
-            sys.stdout.write(content)
+            sys.stdout.write(content.encode('utf-8'))
         else:
             with open_output(args.outpath) as hl:
-                hl.write(content)
+                hl.write(content.encode('utf-8'))
     else:
         if args.outpath == '':
             ext = extensions.get(args.output_format, args.output_format)
@@ -77,7 +77,7 @@ def print_to_outpath(inpath, content):
             outpath = args.outpath
         
         with open_output(outpath) as hl:
-            hl.write(content)
+            hl.write(content.encode('utf-8'))
  
 if args.printcss:
     register_all_languages()
@@ -86,14 +86,14 @@ if args.printcss:
     sys.exit(0)
 
 if len(args.source) == 0:
-    source = sys.stdin.read()
+    source = sys.stdin.read().decode('utf-8')
     body = run('./stdin', source)
     
     print_to_outpath(None, body)
 
 for inpath in args.source:
     with open(inpath, 'r') as infile:
-        source = infile.read()
+        source = infile.read().decode('utf-8')
 
     body = run(inpath, source)
     print_to_outpath(inpath, body)

@@ -34,10 +34,77 @@ class WeaverDirective(Directive):
     def handle(self, args, options, content):
         raise NotImplementedError
 
-class NoninteractiveDirective(WeaverDirective):
+class FileManagingDirective(WeaverDirective):
+    
+    def __init__(self, context, name, *a, **b):
+        WeaverDirective(self, context, name, *a, **b)
+    
+    def do_recall(self, source, commands, options, content):
+        block_name = (self.options['name']
+            if 'name' in self.options else None
+        )
+        text = self.context.recall(source, block_name)
+        return [Block.just_text(text)]
+    
+    def do_mods(self, source, commands, options, content):
+        cx = self.context
+        
+        if 'restart' in commands:
+            cx.restart(source)
+
+        block_name = (self.options['name']
+            if 'name' in self.options
+            else None
+        )
+        
+        redo = 'redo' in commands
+        into = options['in'] if 'in' in options else None
+        after = options['after'] if 'after' in options else None
+
+        lines = map(str, content)
+        
+        block = self.expand_subparts(lines, block_name)
+        
+        if not ('noeval' in commands):
+            cx.feed(source, block, redo, after, into)
+            
+        return block.subblocks
+    
+    def expand_subparts(self, lines, block_name):
+        leading = ()
+        parts   = ()
+        
+        while 1:
+            if len(lines) == 0:
+                if len(leading) > 0:
+                    back = Block.with_lines(None, leading)
+                    parts = parts + (back,)
+                break
+            
+            else:
+                head = lines[0]
+                rest = lines[1:]
+                match = re.match(r'^\s*\<\<\<([^\>]*)\>\>\>\s*$', head)
+                
+                if match != None:
+                    back = Block.with_lines(None, leading)
+                    leading = ()
+                    
+                    takeout = Block.empty(match.groups(1)[0])
+                    parts = parts + (back,takeout)
+                
+                else:
+                    head = re.subn(r'\<\<\<\<([^\>]*)\>\>\>\>', r'<<<\1>>>', head)[0]
+                    leading = leading + (head,)
+                
+                lines = rest
+        
+        return Block.with_parts(block_name, parts)
+
+class NoninteractiveDirective(FileManagingDirective):
     
     def __init__(self, context, name, language, *a, **b):
-        WeaverDirective.__init__(self, context, name, *a, **b)
+        FileManaging.__init__(self, context, name, *a, **b)
         self.language = language
         
     def handle(self, args, options, content):
@@ -124,37 +191,6 @@ class NoninteractiveDirective(WeaverDirective):
         
             return result
     
-    def do_recall(self, source, commands, options, content):
-        block_name = (self.options['name']
-            if 'name' in self.options else None
-        )
-        text = self.context.recall(source, block_name)
-        return [Block.just_text(text)]
-    
-    def do_mods(self, source, commands, options, content):
-        cx = self.context
-        
-        if 'restart' in commands:
-            cx.restart(source)
-
-        block_name = (self.options['name']
-            if 'name' in self.options
-            else None
-        )
-        
-        redo = 'redo' in commands
-        into = options['in'] if 'in' in options else None
-        after = options['after'] if 'after' in options else None
-
-        lines = map(str, content)
-        
-        block = self.expand_subparts(lines, block_name)
-        
-        if not ('noeval' in commands):
-            cx.feed(source, block, redo, after, into)
-            
-        return block.subblocks
-    
     def do_run(self, source, commands, options, content):
         if 'done' in commands:
             return self.context.compile(source, self.language)
@@ -162,37 +198,6 @@ class NoninteractiveDirective(WeaverDirective):
         elif 'exec' in commands:
             return self.context.run(source, self.language)
     
-    def expand_subparts(self, lines, block_name):
-        leading = ()
-        parts   = ()
-        
-        while 1:
-            if len(lines) == 0:
-                if len(leading) > 0:
-                    back = Block.with_lines(None, leading)
-                    parts = parts + (back,)
-                break
-            
-            else:
-                head = lines[0]
-                rest = lines[1:]
-                match = re.match(r'^\s*\<\<\<([^\>]*)\>\>\>\s*$', head)
-                
-                if match != None:
-                    back = Block.with_lines(None, leading)
-                    leading = ()
-                    
-                    takeout = Block.empty(match.groups(1)[0])
-                    parts = parts + (back,takeout)
-                
-                else:
-                    head = re.subn(r'\<\<\<\<([^\>]*)\>\>\>\>', r'<<<\1>>>', head)[0]
-                    leading = leading + (head,)
-                
-                lines = rest
-        
-        return Block.with_parts(block_name, parts)
-
 class InteractiveDirective(WeaverDirective):
 
     def __init__(self, context, name, language, *a, **b):
@@ -234,6 +239,25 @@ class InteractiveDirective(WeaverDirective):
             
         return [all_node]
 
+class SessionDirective(FileManagingDirective):
+    
+    def __init__(self, context, name, language, *a, **b):
+        FileManaging.__init__(self, context, name, *a, **b)
+        self.language = language
+        
+    def handle(self, args, options, content):
+        file_like_args    = [arg for arg in args if arg.find('.') != -1]
+        command_like_args = [arg for arg in args if arg.find('.') == -1]
+        
+        def cmd(s):
+            return directives.choice(s, [
+                'restart', 'noeval', 'redo', 'wait', 'noecho'
+            ])
+        commands = map(cmd, command_like_args)
+        source = self.name + '-input' + self.language.exension()
+        
+        blocks = self.do_mods(source, commands, options, content)
+        
 class WriteAllDirective(WeaverDirective):
     
     def __init__(self, context, name, *a, **b):

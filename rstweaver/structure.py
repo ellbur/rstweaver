@@ -30,6 +30,7 @@ class FileSetManager(object):
                 return action.output
         
         print('generating')
+        self.no_cache_flag = False
         
         watch = self.add_watch()
         output = producer()
@@ -56,9 +57,13 @@ class FileSetManager(object):
         outputs = [self.file_set.file(file) for file in
             (watch.outputs_internal.union(watch.outputs_external))]
         
-        self.actions[key] = Action(watch.inputs, outputs, output)
+        if not self.no_cache_flag:
+            self.actions[key] = Action(watch.inputs, outputs, output)
         
         return output
+    
+    def no_cache(self):
+        self.no_cache_flag = True
     
     def add_watch(self):
         watch = Watch(self.file_set.files)

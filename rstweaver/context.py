@@ -107,6 +107,27 @@ class WeaverContext(object):
 
         return Factory()
     
+    def session_directive(self, language):
+        context = self
+        name = language.directives[WeaverLanguage.session]
+        
+        class Factory(Directive):
+            def __init__(self):
+                self.optional_arguments = 5
+                self.has_content = True
+                self.option_spec = {
+                    'name':      directives.unchanged,
+                    'after':     directives.unchanged,
+                    'in':        directives.unchanged,
+                    'highlight': directives.unchanged
+                }
+                self.name = name
+
+            def __call__(self, *a, **b):
+                return SessionDirective(context, name, language, *a, **b)
+
+        return Factory()
+    
     def write_all_directive(self):
         context = self
         name = 'write-all'
@@ -152,6 +173,9 @@ class WeaverContext(object):
     
     def count_lines(self, source):
         return self.fsm.count_lines(source)
+    
+    def no_cache(self):
+        self.fsm.no_cache()
 
 # Singleton (blame docutils!)
 def get_weaver_context(wd=None):

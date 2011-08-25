@@ -13,6 +13,7 @@ class WeaverLanguage(object):
     Pass to the constructor a dict with some subset of the following keys:
         -- WeaverLanguage.noninteractive
         -- WeaverLanguage.interactive
+        -- WeaverLanguage.session
     
     The values of the dict should be the reST directive names associated with
     those modes. So for example for Haskell you could do:
@@ -28,6 +29,7 @@ class WeaverLanguage(object):
     
     noninteractive = 1
     interactive    = 2
+    session        = 3
     
     def __init__(self, directives, context):
         self.directives = directives
@@ -163,6 +165,12 @@ class WeaverLanguage(object):
         except:
             return [out]
     
+    def start_session(self):
+        '''
+        This should return a WeaverSession.
+        '''
+        raise NotImplementedError
+    
     def highlight_lang(self, code):
         '''
         Return the name of the language to highlight in.
@@ -219,4 +227,24 @@ class WeaverLanguage(object):
         Defaults to true.
         '''
         return True
+
+class WeaverSession:
+    
+    def run(self, input):
+        '''
+        Parameters:
+            input - Text to run in the interpreter
+        
+        Returns:
+            A list of tuples. The first element of each should be some of the
+            input text, and the second element the corresponding output, or
+            None if there isn't any.
+            
+            The output can be plain text or a docutils node. The latter is
+            convenient for inserting images.
+        
+        It's up to the implementor to decide how input should be broken up. If
+        you don't want to break it up just leave it one big piece.
+        '''
+        raise NotImplementedError
 
