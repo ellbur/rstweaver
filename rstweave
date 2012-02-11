@@ -30,14 +30,10 @@ parser.add_argument('-u', '--full', dest='fragment', action='store_false',
     help='Do include <html>, <body> etc (not the default)')
 parser.add_argument('--print-css', dest='printcss', action='store_true', default=False,
     help='Print CSS and exit')
+parser.add_argument('--clear-cache', dest='clearcache', action='store_true', default=False,
+    help='Clear the cache before running (ensures clean run)')
 
 args = parser.parse_args()
-
-format_names = {
-    'latex'     : 'latex',
-    'tex'       : 'latex',
-    'odt'       : 'odf_odt'
-}
 
 extensions = {
     'tex'        : 'tex',
@@ -46,7 +42,7 @@ extensions = {
 }
 
 def run(path, source):
-    wd = path + '-weaver'
+    wd = '.' + path + '-weaver'
     
     return rst_to_doc(
         source,
@@ -54,7 +50,8 @@ def run(path, source):
         wd            = wd,
         css           = args.css,
         full          = not args.fragment,
-        output_format = format_names.get(args.output_format, args.output_format)
+        output_format = args.output_format,
+        clear_cache   = args.clearcache
     )
 
 def open_output(path):

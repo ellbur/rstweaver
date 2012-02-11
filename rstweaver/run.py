@@ -37,7 +37,8 @@ def register_all_languages():
     for lang in all_languages:
         register_weaver_language(lang)
 
-def rst_to_doc(source, languages, wd=None, css=True, full=False, output_format='html'):
+def rst_to_doc(source, languages, wd=None, css=True, full=False, output_format='html',
+        clear_cache=False):
     '''
     Convert the reST input source to the output format.
     
@@ -50,14 +51,17 @@ def rst_to_doc(source, languages, wd=None, css=True, full=False, output_format='
         css           -- Include <style> tags
         full          -- Include <html>, <body> etc
         output_format -- passed to publish_parts as writer_name
+        clear_cache   -- Clear the cache before running
     
     Returns:
         HTML as a string
     '''
     context = WeaverContext(
         wd = wd,
-        languages = languages
+        languages = languages,
+        clear_cache = clear_cache
     )
+    
     parser = rst.Parser(
         run_directives = context.directive_dict()
     )

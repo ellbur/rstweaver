@@ -8,28 +8,32 @@ from highlight import highlight_as
 
 class WeaverDirective(Directive):
     
-    def __init__(self, context, name, *a, **b):
+    def __init__(self, context, name, use_cache, *a, **b):
         Directive.__init__(self, *a, **b)
         self.context        = context
         self.directive_name = name
+        self.use_cache      = use_cache
     
     def run(self):
         args    = self.arguments
         options = self.options
         content = self.content
         
-        key = (
-            self.directive_name,
-            tuple(args),
-            tuple(options.items()),
-            tuple(content)
-        )
-        
-        output = self.context.run_cache(
-            key,
-            lambda: self.handle(args, options, content)
-        )
-        return output
+        if self.use_cache:
+            key = (
+                self.directive_name,
+                tuple(args),
+                tuple(options.items()),
+                tuple(content)
+            )
+            
+            output = self.context.run_cache(
+                key,
+                lambda: self.handle(args, options, content)
+            )
+            return output
+        else:
+            return self.handle(args, options, content)
     
     def handle(self, args, options, content):
         raise NotImplementedError
@@ -104,7 +108,7 @@ class FileManagingDirective(WeaverDirective):
 class NoninteractiveDirective(FileManagingDirective):
     
     def __init__(self, context, name, language, *a, **b):
-        FileManaging.__init__(self, context, name, *a, **b)
+        FileManaging.__init__(self, context, name, True, *a, **b)
         self.language = language
         
     def handle(self, args, options, content):
@@ -191,6 +195,38 @@ class NoninteractiveDirective(FileManagingDirective):
         
             return result
     
+    def do_recall(self, source, commands, options, content):
+        block_name = (self.options['name']
+            if 'name' in self.options else None
+        )
+        text = self.context.recall(source, block_name)
+        return [Block.just_text(text)]
+    
+    def do_mods(self, source, commands, options, content):
+        cx = self.context
+        
+        if 'restart' in commands:
+            cx.restart(source)
+
+        block_name = (self.options['name']
+            if 'name' in self.options
+            else None
+        )
+        
+        redo = 'redo' in commands
+        into = options['in'] if 'in' in options else None
+        after = options['after'] if 'after' in options else None
+        before = options['before'] if 'before' in options else None
+
+        lines = map(str, content)
+        
+        block = self.expand_subparts(lines, block_name)
+        
+        if not ('noeval' in commands):
+            cx.feed(source, block, redo, after, before, into)
+            
+        return block.subblocks
+    
     def do_run(self, source, commands, options, content):
         if 'done' in commands:
             return self.context.compile(source, self.language)
@@ -201,7 +237,7 @@ class NoninteractiveDirective(FileManagingDirective):
 class InteractiveDirective(WeaverDirective):
 
     def __init__(self, context, name, language, *a, **b):
-        WeaverDirective.__init__(self, context, name,  *a, **b)
+        WeaverDirective.__init__(self, context, name, True,  *a, **b)
         self.language = language
     
     def handle(self, args, options, content):
@@ -242,7 +278,7 @@ class InteractiveDirective(WeaverDirective):
 class SessionDirective(FileManagingDirective):
     
     def __init__(self, context, name, language, *a, **b):
-        FileManaging.__init__(self, context, name, *a, **b)
+        FileManaging.__init__(self, context, name, False, *a, **b)
         self.language = language
         
     def handle(self, args, options, content):
@@ -261,7 +297,7 @@ class SessionDirective(FileManagingDirective):
 class WriteAllDirective(WeaverDirective):
     
     def __init__(self, context, name, *a, **b):
-        WeaverDirective.__init__(self, context, name, *a, **b)
+        WeaverDirective.__init__(self, context, name, False, *a, **b)
     
     def handle(self, args, options, content):
         self.context.write_all()
