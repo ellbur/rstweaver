@@ -8,6 +8,8 @@ from python import Python
 from happy import Happy
 from bash import Bash
 from generic import Generic
+from java import Java
+from c import C
 
 all_languages = [
     Haskell,
@@ -18,6 +20,8 @@ all_languages = [
     Python,
     Happy,
     Bash,
-    Generic
+    Generic,
+    Java,
+    C
 ]
 

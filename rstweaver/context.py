@@ -14,7 +14,7 @@ from docutils.parsers.rst import Directive, directives
 
 class WeaverContext(object):
     
-    def __init__(self, wd=None, languages=[]):
+    def __init__(self, wd=None, languages=[], clear_cache=False):
         languages = [lang(context = self) for lang in languages]
         self.languages = languages
         
@@ -27,7 +27,7 @@ class WeaverContext(object):
         makepdir(self.wd)
         makepdir(self.root_dir)
         
-        self.fsm = FileSetManager(self)
+        self.fsm = FileSetManager(self, clear_cache=clear_cache)
         self.registered = False
     
     def register_global_directives(self):
@@ -80,6 +80,7 @@ class WeaverContext(object):
                 self.option_spec = {
                     'name':      directives.unchanged,
                     'after':     directives.unchanged,
+                    'before':    directives.unchanged,
                     'in':        directives.unchanged,
                     'highlight': directives.unchanged
                 }
@@ -126,8 +127,8 @@ class WeaverContext(object):
     def is_empty(self, source):
         return self.fsm.is_empty(source)
     
-    def feed(self, source, block, redo, after, into):
-        return self.fsm.feed(source, block, redo, after, into)
+    def feed(self, source, block, redo, after, before, into):
+        return self.fsm.feed(source, block, redo, after, before, into)
     
     def recall(self, source, name):
         return self.fsm.recall(source, name)

@@ -8,9 +8,10 @@ import os
 
 class FileSetManager(object):
     
-    def __init__(self, context):
+    def __init__(self, context, clear_cache=False):
         self.context = context
         
+        if clear_cache: os.unlink(context.root_dir + '/cache')
         self.db = db.make_db(
             context.root_dir + '/cache'
         )
@@ -81,6 +82,9 @@ class FileSetManager(object):
             watch.add_output_external(name)
     
     def write_all(self):
+        for name in self.file_set.files:
+            self.watch_input(name)
+            
         self.file_set.write_all(self.context.wd)
         
     def total_blocks(self):
@@ -102,13 +106,13 @@ class FileSetManager(object):
         self.watch_output_internal(source)
         self.file_set.files[source] = File.empty(source)
     
-    def feed(self, source, block, redo, after, into):
+    def feed(self, source, block, redo, after, before, into):
         self.watch_input(source)
         self.watch_output_internal(source)
         
         file = self.file_set.file(source)
         
-        self.file_set.files[source] = file.feed(block, redo, after, into)
+        self.file_set.files[source] = file.feed(block, redo, after, before, into)
         
     def run_interactive(self, imports, lines, language):
         return self.do_watched(
@@ -213,7 +217,7 @@ class File(_File):
     def count_lines(self):
         return self.block.count_lines()
     
-    def feed(self, block, redo, after, into):
+    def feed(self, block, redo, after, before, into):
         old_block = self.block
         if into != None:
             new_block = old_block.into(block, into)
@@ -222,6 +226,10 @@ class File(_File):
             new_block = old_block.after(block, after)
             if new_block == None:
                 raise NameNotFound(after)
+        elif before != None:
+            new_block = old_block.before(block, before)
+            if new_block == None:
+                raise NameNotFound(before)
         elif redo:
             new_block = old_block.redo(block, block.name)
             if new_block == None: raise NameNotFound(block.name)
@@ -354,6 +362,18 @@ class Block(_Block):
                     return self._replace(subblocks=sblocks)
             else:
                 return None
+            
+    @reverse_replaced
+    def before(self, block, before):
+        sblocks = list(reversed(self.subblocks))
+        for i in range(len(sblocks)):
+            sblock = sblocks[i]
+            if sblock.name == before:
+                sblocks.insert(i+1, block)
+                sblocks = tuple(reversed(sblocks))
+                return self._replace(subblocks=sblocks)
+        else:
+            return None
     
     @reverse_replaced
     def into(self, block, into):
