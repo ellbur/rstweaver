@@ -5,9 +5,9 @@ from structure import Block
 from uuid import uuid4
 import re
 from highlight import highlight_as
+import os
 
 class WeaverDirective(Directive):
-    
     def __init__(self, context, name, use_cache, *a, **b):
         Directive.__init__(self, *a, **b)
         self.context        = context
@@ -19,7 +19,7 @@ class WeaverDirective(Directive):
         options = self.options
         content = self.content
         
-        if self.use_cache:
+        if self.use_cache or 'nocache' in options:
             key = (
                 self.directive_name,
                 tuple(args),
@@ -33,16 +33,22 @@ class WeaverDirective(Directive):
             )
             return output
         else:
-            return self.handle(args, options, content)
+            return self.context.with_no_cache(
+                lambda: self.handle(args, options, content)
+            )
     
     def handle(self, args, options, content):
         raise NotImplementedError
 
-class FileManagingDirective(WeaverDirective):
-    
-    def __init__(self, context, name, *a, **b):
-        WeaverDirective(self, context, name, *a, **b)
-    
+class ContentDirective:
+    def actual_content(self, args, options, maybe_content):
+        if 'file' in options:
+            path = options['file']
+            with open(path) as hl:
+                return hl.read().split('\n')
+        return maybe_content
+
+class FileManagingDirective:
     def do_recall(self, source, commands, options, content):
         block_name = (self.options['name']
             if 'name' in self.options else None
@@ -62,15 +68,16 @@ class FileManagingDirective(WeaverDirective):
         )
         
         redo = 'redo' in commands
-        into = options['in'] if 'in' in options else None
-        after = options['after'] if 'after' in options else None
+        into = options.get('in', None)
+        after = options.get('after', None)
+        before = options.get('before', None)
 
-        lines = map(str, content)
+        lines = map(unicode, content)
         
         block = self.expand_subparts(lines, block_name)
         
         if not ('noeval' in commands):
-            cx.feed(source, block, redo, after, into)
+            cx.feed(source, block, redo, after, before, into)
             
         return block.subblocks
     
@@ -105,13 +112,72 @@ class FileManagingDirective(WeaverDirective):
         
         return Block.with_parts(block_name, parts)
 
-class NoninteractiveDirective(FileManagingDirective):
+class BlockDisplayDirective:
+    def render_input(self, input_blocks, options, was_lines, header_node=None):
+        ''' Renders the result of do_mods.'''
+        # I forget what this means.
+        if input_blocks == None:
+            return None
+        
+        source_nodes = []
+        for sblock in input_blocks:
+            if sblock.name == None:
+                source_nodes += self.render_input_string(sblock.text(), options)
+            else:
+                source_nodes += [nodes.inline('',
+                    '[... %s ...]' % sblock.name,
+                    classes = ['omission']
+                ), nodes.inline('\n', '\n')]
+                
+        if self.language.number_lines():
+            source_nodes = add_line_numbers(source_nodes, was_lines+1)
+        
+        return self.wrap_in_code(source_nodes, header_node)
     
+    def render_input_string(self, text, options):
+        if 'highlight' in options:
+            hlbtext = highlight_as(text, options['highlight'])
+        else:
+            hlbtext = self.language.highlight(text)
+        return hlbtext
+    
+    def wrap_in_code(self, content_nodes, header_node=None):
+        source_node = nodes.literal_block(
+            classes=['code', 'code-' + self.directive_name])
+        if header_node != None: source_node += header_node
+        for n in content_nodes:
+            source_node += n
+            
+        return source_node
+    
+    def render_output(self, output_obj, options):
+        ''' Renders the result of do_run().'''
+        # This means there was no output
+        if output_obj == None:
+            return None
+        
+        if type(output_obj) is str:
+            output = strip_blank_lines(output_obj)
+            try:
+                output = output.decode('utf-8')
+            except:
+                output = filter(lambda c: ord(c)<128, output)
+            output_node = nodes.literal_block(output, output,
+                classes=['run-output', 'run-output-' + self.directive_name]
+            )
+        else:
+            output_node = output_obj
+            
+        return output_node
+
+class NoninteractiveDirective(WeaverDirective, FileManagingDirective, BlockDisplayDirective, ContentDirective):
     def __init__(self, context, name, language, *a, **b):
-        FileManaging.__init__(self, context, name, True, *a, **b)
+        WeaverDirective.__init__(self, context, name, True, *a, **b)
         self.language = language
         
-    def handle(self, args, options, content):
+    def handle(self, args, options, maybe_content):
+        content = self.actual_content(args, options, maybe_content)
+        
         file_like_args    = [arg for arg in args if arg.find('.') != -1]
         command_like_args = [arg for arg in args if arg.find('.') == -1]
         
@@ -145,88 +211,18 @@ class NoninteractiveDirective(FileManagingDirective):
                 header_text, header_text, classes=['file-header']
             )
         
-        if input_display != None:
-            source_nodes = []
-            for sblock in input_display:
-                if sblock.name == None:
-                    btext = sblock.text()
-                    if 'highlight' in options:
-                        hlbtext = highlight_as(btext, options['highlight'])
-                    else:
-                        hlbtext = self.language.highlight(sblock.text())
-                    source_nodes +=  hlbtext
-                else:
-                    source_nodes += [nodes.inline('',
-                        '[... %s ...]' % sblock.name,
-                        classes = ['omission']
-                    ), nodes.inline('\n', '\n')]
-                    
-            if self.language.number_lines():
-                source_nodes = add_line_numbers(source_nodes, was_lines+1)
-            
-            source_node = nodes.literal_block(
-                classes=['code', 'code-' + self.directive_name])
-            source_node += header_node
-            for n in source_nodes:
-                source_node += n
-        else:
-            source_node = None
-        
-        if output_display != None:
-            if isinstance(output_display, str):
-                output = strip_blank_lines(output_display)
-                try:
-                    output = output.decode('utf-8')
-                except:
-                    output = filter(lambda c: ord(c)<128, output)
-                output_node = nodes.literal_block(output, output,
-                    classes=['run-output', 'run-output-' + self.directive_name]
-                )
-            else:
-                output_node = output_display
-        else:
-            output_node = None
-        
         if 'noecho' in commands: return [ ]
         else:
+            source_node = self.render_input(input_display, options, was_lines,
+                header_node=header_node)
+            output_node = self.render_output(output_display, options)
+        
             result = []
             if source_node != None: result.append(source_node)
             if output_node != None: result.append(output_node)
         
             return result
-    
-    def do_recall(self, source, commands, options, content):
-        block_name = (self.options['name']
-            if 'name' in self.options else None
-        )
-        text = self.context.recall(source, block_name)
-        return [Block.just_text(text)]
-    
-    def do_mods(self, source, commands, options, content):
-        cx = self.context
         
-        if 'restart' in commands:
-            cx.restart(source)
-
-        block_name = (self.options['name']
-            if 'name' in self.options
-            else None
-        )
-        
-        redo = 'redo' in commands
-        into = options['in'] if 'in' in options else None
-        after = options['after'] if 'after' in options else None
-        before = options['before'] if 'before' in options else None
-
-        lines = map(str, content)
-        
-        block = self.expand_subparts(lines, block_name)
-        
-        if not ('noeval' in commands):
-            cx.feed(source, block, redo, after, before, into)
-            
-        return block.subblocks
-    
     def do_run(self, source, commands, options, content):
         if 'done' in commands:
             return self.context.compile(source, self.language)
@@ -235,7 +231,6 @@ class NoninteractiveDirective(FileManagingDirective):
             return self.context.run(source, self.language)
     
 class InteractiveDirective(WeaverDirective):
-
     def __init__(self, context, name, language, *a, **b):
         WeaverDirective.__init__(self, context, name, True,  *a, **b)
         self.language = language
@@ -275,10 +270,9 @@ class InteractiveDirective(WeaverDirective):
             
         return [all_node]
 
-class SessionDirective(FileManagingDirective):
-    
+class SessionDirective(WeaverDirective, FileManagingDirective, BlockDisplayDirective):
     def __init__(self, context, name, language, *a, **b):
-        FileManaging.__init__(self, context, name, False, *a, **b)
+        WeaverDirective.__init__(self, context, name, False, *a, **b)
         self.language = language
         
     def handle(self, args, options, content):
@@ -290,12 +284,44 @@ class SessionDirective(FileManagingDirective):
                 'restart', 'noeval', 'redo', 'wait', 'noecho'
             ])
         commands = map(cmd, command_like_args)
-        source = self.name + '-input' + self.language.exension()
+        source = self.name + '-input' + self.language.extension()
         
         blocks = self.do_mods(source, commands, options, content)
         
+        # Docutils nodes to return
+        result = [ ]
+        
+        # 'wait' means they are building up a session but don't want
+        # to run it yet.
+        if 'wait' not in commands:
+            chunks = self.context.run_session(source, self.language)
+            building_input = ''
+            
+            for input, output in chunks:
+                building_input += input
+                
+                if output != None:
+                    input_node = self.wrap_in_code(
+                        self.render_input_string(building_input.strip(), options))
+                    output_node = self.render_output(output, options)
+                
+                    result += [input_node, output_node]
+                    building_input = ''
+                    
+            if len(building_input) > 0:
+                input_node = self.wrap_in_code(
+                    self.render_input_string(building_input.strip(), options))
+                result += [input_node]
+                
+            self.context.restart(source)
+            
+        else:
+            input_node = self.render_input(blocks, options, was_lines)
+            results.append(input_node, options)
+            
+        return result
+        
 class WriteAllDirective(WeaverDirective):
-    
     def __init__(self, context, name, *a, **b):
         WeaverDirective.__init__(self, context, name, False, *a, **b)
     

@@ -32,6 +32,10 @@ parser.add_argument('--print-css', dest='printcss', action='store_true', default
     help='Print CSS and exit')
 parser.add_argument('--clear-cache', dest='clearcache', action='store_true', default=False,
     help='Clear the cache before running (ensures clean run)')
+parser.add_argument('-i', '--inverted', dest='inverted', action='store_true', default=False,
+    help='rst is in the top-level comments of a  Python source file.')
+parser.add_argument('--stylesheet', dest='stylesheet', default=None,
+    help='Specify a path to a stylesheet (used in the same way docutils would use it)')
 
 args = parser.parse_args()
 
@@ -51,7 +55,9 @@ def run(path, source):
         css           = args.css,
         full          = not args.fragment,
         output_format = args.output_format,
-        clear_cache   = args.clearcache
+        clear_cache   = args.clearcache,
+        inverted      = args.inverted,
+        stylesheet    = args.stylesheet
     )
 
 def open_output(path):
@@ -62,10 +68,10 @@ def open_output(path):
 def print_to_outpath(inpath, content):
     if inpath == None:
         if args.outpath == '':
-            sys.stdout.write(content.encode('utf-8'))
+            sys.stdout.write(content)
         else:
             with open_output(args.outpath) as hl:
-                hl.write(content.encode('utf-8'))
+                hl.write(content)
     else:
         if args.outpath == '':
             ext = extensions.get(args.output_format, args.output_format)
@@ -74,7 +80,7 @@ def print_to_outpath(inpath, content):
             outpath = args.outpath
         
         with open_output(outpath) as hl:
-            hl.write(content.encode('utf-8'))
+            hl.write(content)
  
 if args.printcss:
     register_all_languages()

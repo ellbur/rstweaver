@@ -15,8 +15,9 @@ structure_css = '''
 .code {
     white-space: pre;
     font-family: monospace;
-    background-color: #fff;
-    border: 1px solid #eee;
+    background-color: #dec;
+    border: none;
+    border-radius: 10px;
     padding: 10px 10px 5px 3px;
     margin:  5px 0px 0px 0px;
     margin-left: 0px;
@@ -53,7 +54,7 @@ pre.literal-block {
 .c { color: #408080; font-style: italic } /* Comment */
 .err { border: 1px solid #FF0000 } /* Error */
 .k { color: #008000; font-weight: bold } /* Keyword */
-.o { color: #666666 } /* Operator */
+.o { color: #4444ee } /* Operator */
 .cm { color: #408080; font-style: italic } /* Comment.Multiline */
 .cp { color: #BC7A00 } /* Comment.Preproc */
 .c1 { color: #408080; font-style: italic } /* Comment.Single */
@@ -89,6 +90,7 @@ pre.literal-block {
 .nt { color: #008000; font-weight: bold } /* Name.Tag */
 .nv { color: #19177C } /* Name.Variable */
 .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.p { color: #11aa11 } /* Parenthesis */
 .w { color: #bbbbbb } /* Text.Whitespace */
 .mf { color: #666666 } /* Literal.Number.Float */
 .mh { color: #666666 } /* Literal.Number.Hex */

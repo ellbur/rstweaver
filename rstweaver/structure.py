@@ -21,7 +21,9 @@ class FileSetManager(object):
             
         self.actions = self.db['actions']
         self.file_set = FileSet()
+        self.sessions = dict()
         self.watches = [ ]
+        self.use_cache = True
     
     def run_cache(self, key, producer):
         for action in self.actions[key]:
@@ -63,11 +65,17 @@ class FileSetManager(object):
         
         return output
     
+    def with_no_cache(self, producer):
+        self.use_cache = False
+        res = producer()
+        self.use_cache = True
+        return res
+    
     def no_cache(self):
         self.no_cache_flag = True
     
     def add_watch(self):
-        watch = Watch(self.file_set.files)
+        watch = Watch(self.file_set.files, self.context.wd)
         self.watches.append(watch)
         return watch
     
@@ -124,6 +132,19 @@ class FileSetManager(object):
             lambda: language.run_interactive(lines, imports, self.context.wd)
         )
     
+    def run_session(self, source, language):
+        key = (source, language)
+        if key in self.sessions:
+            session = self.sessions[key]
+        else:
+            session = language.start_session(self.context.wd)
+            self.sessions[key] = session
+        
+        self.watch_input(source)
+        text = self.file_set.file(source).text()
+        
+        return session.run(text)
+    
     def recall(self, source_name, block_name):
         self.watch_input(source_name)
         return self.file_set.file(source_name).recall(block_name)
@@ -139,6 +160,8 @@ class FileSetManager(object):
         )
     
     def do_watched(self, proc):
+        if not self.use_cache: return proc()
+        
         self.write_all()
         
         wd = self.context.wd
@@ -151,22 +174,25 @@ class FileSetManager(object):
         outputs = [os.path.relpath(path, wd) for path in outputs]
         
         for file in inputs:
-            self.watch_input(file)
+            if not os.path.isdir(file): self.watch_input(file)
         for file in outputs:
-            self.watch_output_external(file)
+            if not os.path.isdir(file): self.watch_output_external(file)
         
         return output
 
 class Watch(object):
     
-    def __init__(self, start_files):
+    def __init__(self, start_files, wd):
         self.start_files = dict(start_files)
+        self.wd = wd
         
         self.inputs = set()
         self.outputs_internal = set()
         self.outputs_external = set()
     
     def add_input(self, name):
+        if os.path.isdir(self.wd+'/'+name): return
+        
         if name in self.start_files:
             file = self.start_files[name]
         else:
@@ -174,9 +200,13 @@ class Watch(object):
         self.inputs.add(file)
     
     def add_output_internal(self, name):
+        if os.path.isdir(self.wd+'/'+name): return
+        
         self.outputs_internal.add(name)
     
     def add_output_external(self, name):
+        if os.path.isdir(self.wd+'/'+name): return
+        
         self.outputs_external.add(name)
     
 class FileSet(object):

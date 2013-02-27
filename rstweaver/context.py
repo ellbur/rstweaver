@@ -8,7 +8,7 @@ from uuid import uuid4
 from utils import makepdir
 import operator
 from docutils.parsers.rst import directives as rst_directives
-from directives import NoninteractiveDirective, InteractiveDirective, WriteAllDirective
+from directives import NoninteractiveDirective, InteractiveDirective, SessionDirective, WriteAllDirective
 from structure import FileSetManager
 from docutils.parsers.rst import Directive, directives
 
@@ -66,6 +66,9 @@ class WeaverContext(object):
         
         if WeaverLanguage.interactive in language.directives:
             directives.append(self.interactive_directive(language))
+            
+        if WeaverLanguage.session in language.directives:
+            directives.append(self.session_directive(language))
         
         return directives
     
@@ -82,7 +85,8 @@ class WeaverContext(object):
                     'after':     directives.unchanged,
                     'before':    directives.unchanged,
                     'in':        directives.unchanged,
-                    'highlight': directives.unchanged
+                    'highlight': directives.unchanged,
+                    'file':      directives.unchanged
                 }
                 self.name = name
 
@@ -120,7 +124,8 @@ class WeaverContext(object):
                     'name':      directives.unchanged,
                     'after':     directives.unchanged,
                     'in':        directives.unchanged,
-                    'highlight': directives.unchanged
+                    'highlight': directives.unchanged,
+                    'nocache':   directives.unchanged
                 }
                 self.name = name
 
@@ -145,6 +150,9 @@ class WeaverContext(object):
     def run_cache(self, action, producer):
         return self.fsm.run_cache(action, producer)
     
+    def with_no_cache(self, producer):
+        return self.fsm.with_no_cache(producer)
+    
     def is_empty(self, source):
         return self.fsm.is_empty(source)
     
@@ -165,6 +173,9 @@ class WeaverContext(object):
         
     def run_interactive(self, imports, lines, language):
         return self.fsm.run_interactive(imports, lines, language)
+    
+    def run_session(self, name, language):
+        return self.fsm.run_session(name, language)
     
     def write_all(self):
         self.fsm.write_all()
